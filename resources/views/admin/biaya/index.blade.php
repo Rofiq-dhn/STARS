@@ -5,7 +5,7 @@
 @section('content')
     <!DOCTYPE html>
     <html lang="id">
-
+    <link rel="stylesheet" href="resources/css/admin.css">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
