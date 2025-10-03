@@ -14,27 +14,29 @@
 
         body {
             font-family: Arial, sans-serif;
-            display: flex;
-            min-height: 100vh;
+            background-color: #ecf0f1;
         }
 
         /* Sidebar */
         .sidebar {
-            width: 250px;
-            background-color: #2c3e50;
+            width: 250px; /* DIPERBAIKI: Titik koma, bukan koma */
+            background-color: #ff4343;
             color: white;
             padding: 20px;
             position: fixed;
             height: 100vh;
             overflow-y: auto;
+            z-index: 100;
         }
 
         .sidebar h2 {
             margin-bottom: 30px;
             text-align: center;
             font-size: 24px;
-            border-bottom: 2px solid #34495e;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2); /* DIPERBAIKI: Warna border lebih soft */
             padding-bottom: 15px;
+            color: #fff;
+            font-weight: bold;
         }
 
         .sidebar ul {
@@ -55,25 +57,65 @@
         }
 
         .sidebar ul li a:hover {
-            background-color: #34495e;
+            background-color: rgba(255, 255, 255, 0.15); /* DIPERBAIKI: Transparansi lebih baik */
         }
 
         .sidebar ul li a.active {
-            background-color: #3498db;
+            background-color: #c93636; /* DIPERBAIKI: Warna lebih kontras */
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0; /* DIPERBAIKI: Ditambahkan */
+            left: 250px; /* DIPERBAIKI: Sesuai lebar sidebar */
+            right: 0; /* DIPERBAIKI: Supaya full width */
+            height: 60px;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            z-index: 99;
+        }
+
+        .navbar-brand {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .navbar-user {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-info {
+            text-align: right;
+        }
+
+        .user-name {
+            display: block; /* DIPERBAIKI: Ditambahkan */
+            font-size: 14px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .user-role {
+            display: block; /* DIPERBAIKI: Ditambahkan */
+            font-size: 12px;
+            color: #7f8c8d;
         }
 
         /* Content Area */
         .content {
-            margin-left: 250px;
+            margin-left: 250px; /* DIPERBAIKI: Sesuai lebar sidebar, bukan 300px */
+            margin-top: 60px; /* DIPERBAIKI: Sesuai tinggi navbar */
             padding: 30px;
-            flex: 1;
+            min-height: calc(100vh - 60px);
             background-color: #ecf0f1;
-            min-height: 100vh;
-        }
-
-        .content h1 {
-            margin-bottom: 20px;
-            color: #2c3e50;
         }
 
         /* Alert Success */
@@ -89,31 +131,43 @@
 <body>
     <!-- Sidebar -->
     <div class="sidebar">
-        <h2>Admin Panel</h2>
+        <h2>Admin Sekolah</h2>
         <ul>
             <li>
                 <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
-                    Dashboard
+                    🏠 Beranda
                 </a>
             </li>
             <li>
                 <a href="{{ route('biaya.index') }}" class="{{ request()->routeIs('biaya.*') ? 'active' : '' }}">
-                    Data Biaya
+                    💰 Tambah Tagihan
                 </a>
             </li>
         </ul>
     </div>
 
-    <!-- Content Area -->
+    <!-- Navbar - DIPERBAIKI: Dipindahkan keluar dari sidebar -->
+    <div class="navbar">
+        <div class="navbar-brand">
+            <strong>STARS</strong><br>
+            <small style="font-size: 12px; font-weight: normal;">Sistem Tagihan Dan Pembayaran Sekolah</small>
+        </div>
+        <div class="navbar-user">
+            <div class="user-info">
+                <span class="user-name">{{ Auth::user()->name ?? 'Admin' }}</span>
+                <span class="user-role">Administrator</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Content Area - DIPERBAIKI: Struktur lebih sederhana -->
     <div class="content">
-        {{-- Alert Success --}}
         @if(session('success'))
             <div class="alert-success">
-                {{ session('success') }}
+                ✓ {{ session('success') }}
             </div>
         @endif
 
-        {{-- Content dari halaman lain --}}
         @yield('content')
     </div>
 </body>

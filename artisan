@@ -3,6 +3,7 @@
 
 use Illuminate\Foundation\Application;
 use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Input\InputInterface;
 
 define('LARAVEL_START', microtime(true));
 
