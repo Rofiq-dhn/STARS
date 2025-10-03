@@ -7,5 +7,6 @@
 </head>
 <body>
     <h1>Welcome to the Index Page</h1>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repudiandae, ex.</p>
 </body>
 </html>
