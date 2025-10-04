@@ -1,19 +1,36 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\BiayaController;
 
-// Redirect root ke dashboard admin
-Route::get('/', function () {
-    return redirect()->route('admin.dashboard');
-});
+// Login Routes
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [LoginController::class, 'login'])->name('login.post');
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-// Dashboard Admin
-Route::get('/admin/dashboard', function () {
-    return view('admin.dashboard');
-})->name('admin.dashboard');
+// Protected Routes - Admin
+Route::middleware(['auth'])->group(function () {
 
-// CRUD Biaya dengan prefix admin
-Route::prefix('admin')->group(function () {
-    Route::resource('biaya', BiayaController::class);
+    Route::get('/', function () {
+        if (Auth::user()->isAdmin()) {
+            return redirect()->route('admin.dashboard');
+        }
+        return redirect()->route('siswa.dashboard');
+    });
+
+    // Admin Dashboard
+    Route::get('/admin/dashboard', function () {
+        return view('admin.dashboard');
+    })->name('admin.dashboard');
+
+    // CRUD Biaya
+    Route::prefix('admin')->group(function () {
+        Route::resource('biaya', BiayaController::class);
+    });
+
+    // Siswa Dashboard (nanti dibuat)
+    Route::get('/siswa/dashboard', function () {
+        return view('siswa.dashboard');
+    })->name('siswa.dashboard');
 });

@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@yield('title', 'Admin Dashboard')</title>
     <style>
         * {
@@ -18,10 +17,9 @@
             min-height: 100vh;
         }
 
-        /* Sidebar */
         .sidebar {
             width: 250px;
-            background-color: #2c3e50;
+            background-color: #D32F2F;
             color: white;
             padding: 20px;
             position: fixed;
@@ -30,11 +28,17 @@
         }
 
         .sidebar h2 {
-            margin-bottom: 30px;
+            margin-bottom: 10px;
             text-align: center;
             font-size: 24px;
-            border-bottom: 2px solid #34495e;
-            padding-bottom: 15px;
+        }
+
+        .sidebar .user-info {
+            text-align: center;
+            padding: 15px 0;
+            border-bottom: 2px solid #B71C1C;
+            margin-bottom: 30px;
+            font-size: 14px;
         }
 
         .sidebar ul {
@@ -55,14 +59,35 @@
         }
 
         .sidebar ul li a:hover {
-            background-color: #34495e;
+            background-color: #B71C1C;
         }
 
         .sidebar ul li a.active {
-            background-color: #3498db;
+            background-color: #B71C1C;
         }
 
-        /* Content Area */
+        .logout-btn {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px solid #B71C1C;
+        }
+
+        .logout-btn form button {
+            width: 100%;
+            background-color: transparent;
+            border: 2px solid white;
+            color: white;
+            padding: 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .logout-btn form button:hover {
+            background-color: white;
+            color: #D32F2F;
+        }
+
         .content {
             margin-left: 250px;
             padding: 30px;
@@ -76,7 +101,6 @@
             color: #2c3e50;
         }
 
-        /* Alert Success */
         .alert-success {
             background-color: #2ecc71;
             color: white;
@@ -87,9 +111,13 @@
     </style>
 </head>
 <body>
-    <!-- Sidebar -->
     <div class="sidebar">
-        <h2>Admin Panel</h2>
+        <h2>STARS</h2>
+        <div class="user-info">
+            <strong>{{ Auth::user()->getNama() }}</strong><br>
+            <small>{{ Auth::user()->level === 'admin' ? 'Administrator' : 'Siswa' }}</small>
+        </div>
+
         <ul>
             <li>
                 <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
@@ -102,18 +130,22 @@
                 </a>
             </li>
         </ul>
+
+        <div class="logout-btn">
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit">Logout</button>
+            </form>
+        </div>
     </div>
 
-    <!-- Content Area -->
     <div class="content">
-        {{-- Alert Success --}}
         @if(session('success'))
             <div class="alert-success">
                 {{ session('success') }}
             </div>
         @endif
 
-        {{-- Content dari halaman lain --}}
         @yield('content')
     </div>
 </body>
