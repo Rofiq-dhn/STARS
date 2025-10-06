@@ -17,3 +17,4 @@ Route::get('/admin/dashboard', function () {
 Route::prefix('admin')->group(function () {
     Route::resource('biaya', BiayaController::class);
 });
+

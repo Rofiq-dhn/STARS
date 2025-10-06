@@ -1,120 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@yield('title', 'Admin Dashboard')</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            min-height: 100vh;
-        }
-
-        /* Sidebar */
-        .sidebar {
-            width: 250px;
-            background-color: #2c3e50;
-            color: white;
-            padding: 20px;
-            position: fixed;
-            height: 100vh;
-            overflow-y: auto;
-        }
-
-        .sidebar h2 {
-            margin-bottom: 30px;
-            text-align: center;
-            font-size: 24px;
-            border-bottom: 2px solid #34495e;
-            padding-bottom: 15px;
-        }
-
-        .sidebar ul {
-            list-style: none;
-        }
-
-        .sidebar ul li {
-            margin-bottom: 15px;
-        }
-
-        .sidebar ul li a {
-            color: white;
-            text-decoration: none;
-            display: block;
-            padding: 12px 15px;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-
-        .sidebar ul li a:hover {
-            background-color: #34495e;
-        }
-
-        .sidebar ul li a.active {
-            background-color: #3498db;
-        }
-
-        /* Content Area */
-        .content {
-            margin-left: 250px;
-            padding: 30px;
-            flex: 1;
-            background-color: #ecf0f1;
-            min-height: 100vh;
-        }
-
-        .content h1 {
-            margin-bottom: 20px;
-            color: #2c3e50;
-        }
-
-        /* Alert Success */
-        .alert-success {
-            background-color: #2ecc71;
-            color: white;
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
-    </style>
+    @vite(['resources/js/app.js'])
 </head>
+
 <body>
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <h2>Admin Panel</h2>
-        <ul>
-            <li>
-                <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
-                    Dashboard
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('biaya.index') }}" class="{{ request()->routeIs('biaya.*') ? 'active' : '' }}">
-                    Data Biaya
-                </a>
-            </li>
-        </ul>
-    </div>
-
-    <!-- Content Area -->
-    <div class="content">
-        {{-- Alert Success --}}
-        @if(session('success'))
-            <div class="alert-success">
-                {{ session('success') }}
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <div class="logo-icon">           
+                <svg width="200" height="200" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 4L2 9L12 14L22 9L12 4Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                    <path d="M2 9V15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>   
+                    <path d="M19 10.5V16C19 16 17 18 12 18C7 18 5 16 5 16V10.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>  
+                </div>
+                <div class="logo-text">
+                    <h1>Admin Sekolah</h1>
+                    <p>Sistem Tagihan dan Pembayaran Sekolah</p>
+                </div>
             </div>
-        @endif
 
-        {{-- Content dari halaman lain --}}
-        @yield('content')
+            <nav class="nav-menu">
+                <a href="{{ route('admin.dashboard') }}"
+                    class="nav-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                    </svg>
+                    Beranda
+                </a>
+                <a href="{{ route('biaya.index') }}"
+                    class="nav-item {{ request()->routeIs('biaya.*') ? 'active' : '' }}">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                    </svg>
+                    Tambah Tagihan
+                </a>
+                <a href="#" class="nav-item">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2">
+                                              <path
+                            d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                    </svg>
+                    Pengaturan
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="header-dashboard">
+                <div class="logo-nav">
+                <div class="logo-icon">
+                <img src="{{ asset('img/sidebar.png') }}" alt="Sidebar close">
+               
+            </div> 
+            <div class="logo-text-nav">
+                    <h1>STARS</h1>
+                    <p>Sistem Tagihan dan Pembayaran Sekolah</p>
+                </div>
+            </header>
+
+            @yield('content')
+        </main>
     </div>
 </body>
+
 </html>

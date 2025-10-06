@@ -1,3 +1,15 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source "../**/*.blade.php";
+@source "../**/*.js";
+@source "../**/*.vue";
+
+@theme {
+    --font-sans: 'Arial';
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -5,7 +17,6 @@
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f5f5f5;
     color: #333;
 }
@@ -15,16 +26,6 @@ body {
     min-height: 100vh;
 }
 
-/* Sidebar Styles */
-.sidebar {
-    width: 280px;
-    background: linear-gradient(180deg, #dc2626 0%, #b91c1c 100%);
-    color: white;
-    padding: 24px;
-    display: flex;
-    flex-direction: column;
-}
-
 .logo {
     display: flex;
     align-items: center;
@@ -32,10 +33,16 @@ body {
     margin-bottom: 40px;
 }
 
+.logo svg {
+    width: 32px;
+    height: 32px;
+    color: white;
+    background-color: none;
+}
+
 .logo-icon {
     width: 48px;
     height: 48px;
-    background-color: rgba(255, 255, 255, 0.2);
     border-radius: 8px;
     display: flex;
     align-items: center;
@@ -43,7 +50,7 @@ body {
 }
 
 .logo-text h1 {
-    font-size: 18px;
+    font-size: 25px;
     font-weight: 600;
     margin-bottom: 2px;
 }
@@ -84,6 +91,14 @@ body {
 .main-content {
     flex: 1;
     background-color: #f5f5f5;
+    width: 100%;
+}
+
+.main-content h2 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: #111827;
 }
 
 .header {
@@ -255,6 +270,38 @@ body {
     background-color: #fecaca;
 }
 
+/* Content Section */
+.content-section {
+    padding: 32px;
+}
+
+.dashboard-container {
+    background-color: white;
+    border-radius: 12px;
+    padding: 32px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.welcome-card {
+    background-color: #f9fafb;
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 24px;
+}
+
+.welcome-card h2 {
+    color: #111827;
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.welcome-card p {
+    color: #6b7280;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .container {
@@ -290,3 +337,51 @@ body {
         min-width: 600px;
     }
 }
+
+.header-dashboard {
+    padding: 20px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e5e7eb;
+    background-color: white;
+
+}
+
+.header-dashboard h1 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #111827;
+}
+
+.logo-nav {
+    display: flex;
+    gap: 12px;
+}
+
+.logo-text-nav h1 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.logo-text-nav p {
+    font-size: 12px;
+    opacity: 0.9;
+}
+
+.logo-icon {
+    width: 48px;
+    height: 48px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-icon:hover {
+    background-color: rgba(234, 0, 0, 0.415);
+    cursor: pointer;
+}
+
