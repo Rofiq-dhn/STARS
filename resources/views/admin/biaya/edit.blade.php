@@ -3,7 +3,15 @@
 @section('title', 'Edit Biaya')
 
 @section('content')
-    <div class="container">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+     <div class="container">
         <!-- Main Content -->
         <main class="main-content">
             <!-- Content Section -->
@@ -80,3 +88,5 @@
         </main>
     </div>
 @endsection
+</body>
+</html>
