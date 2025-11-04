@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('admins', function (Blueprint $table) {
             $table->id('id_admin');
             $table->string('nama', 255);
-            $table->char('nip', 18)->unique();  // NIP sebagai username
+            $table->char('nip', 18)->unique();
             $table->char('no_telepon', 12);
             $table->timestamps();
         });

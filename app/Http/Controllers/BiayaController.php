@@ -7,17 +7,20 @@ use Illuminate\Http\Request;
 
 class BiayaController extends Controller
 {
+    // Tampilkan semua data biaya
     public function index()
     {
         $biaya = Biaya::all();
-        return view('admin.biaya.index', compact('biaya'));  // UPDATED
+        return view('admin.biaya.index', compact('biaya'));
     }
 
+    // Tampilkan form tambah biaya
     public function create()
     {
-        return view('admin.biaya.create');  // UPDATED
+        return view('admin.biaya.create');
     }
 
+    // Simpan data biaya baru ke database
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -27,6 +30,7 @@ class BiayaController extends Controller
             'kelas' => 'nullable|string|max:4',
         ]);
 
+        // Auto uppercase kelas
         if (!empty($validated['kelas'])) {
             $validated['kelas'] = strtoupper($validated['kelas']);
         }
@@ -36,16 +40,13 @@ class BiayaController extends Controller
         return redirect()->route('biaya.index')->with('success', 'Biaya berhasil ditambahkan.');
     }
 
-    public function show(Biaya $biaya)
-    {
-        return view('admin.biaya.show', compact('biaya'));  // UPDATED
-    }
-
+    // Tampilkan form edit biaya
     public function edit(Biaya $biaya)
     {
-        return view('admin.biaya.edit', compact('biaya'));  // UPDATED
+        return view('admin.biaya.edit', compact('biaya'));
     }
 
+    // Update data biaya di database
     public function update(Request $request, Biaya $biaya)
     {
         $validated = $request->validate([
@@ -55,6 +56,7 @@ class BiayaController extends Controller
             'kelas' => 'nullable|string|max:4',
         ]);
 
+        // Auto uppercase kelas
         if (!empty($validated['kelas'])) {
             $validated['kelas'] = strtoupper($validated['kelas']);
         }
@@ -64,6 +66,7 @@ class BiayaController extends Controller
         return redirect()->route('biaya.index')->with('success', 'Biaya berhasil diupdate.');
     }
 
+    // Hapus data biaya dari database
     public function destroy(Biaya $biaya)
     {
         $biaya->delete();

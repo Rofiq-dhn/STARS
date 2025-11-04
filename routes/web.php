@@ -1,37 +1,27 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\LoginController;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\BiayaController;
+use App\Http\Controllers\SiswaController;  // Import SiswaController
 
-// Login Routes
-Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [LoginController::class, 'login'])->name('login.post');
-Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
-
-// Protected Routes - Admin
-Route::middleware(['auth'])->group(function () {
-
-    Route::get('/', function () {
-        if (Auth::user()->isAdmin()) {
-            return redirect()->route('admin.dashboard');
-        }
-        return redirect()->route('siswa.dashboard');
-    });
-
-    // Admin Dashboard
-    Route::get('/admin/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('admin.dashboard');
-
-    // CRUD Biaya
-    Route::prefix('admin')->group(function () {
-        Route::resource('biaya', BiayaController::class);
-    });
-
-    // Siswa Dashboard (nanti dibuat)
-    Route::get('/siswa/dashboard', function () {
-        return view('siswa.dashboard');
-    })->name('siswa.dashboard');
+// Route homepage - redirect ke dashboard admin (sementara)
+Route::get('/', function () {
+    return redirect()->route('admin.dashboard');
 });
+
+// Route dashboard admin
+Route::get('/admin/dashboard', function () {
+    return view('admin.dashboard');
+})->name('admin.dashboard');
+
+// CRUD Biaya (untuk admin)
+Route::prefix('admin')->group(function () {
+    Route::resource('biaya', BiayaController::class);
+});
+
+// Route untuk siswa
+// Route::get() = route dengan method GET
+// '/siswa/dashboard' = URL yang diakses
+// [SiswaController::class, 'dashboard'] = panggil method dashboard dari SiswaController
+// ->name('siswa.dashboard') = kasih nama route untuk dipanggil dengan route()
+Route::get('/siswa/dashboard', [SiswaController::class, 'dashboard'])->name('siswa.dashboard');

@@ -50,7 +50,6 @@
             display: block;
             margin-bottom: 8px;
             font-weight: bold;
-            color: #333;
         }
 
         .form-group input {
@@ -58,28 +57,12 @@
             padding: 12px;
             border: 1px solid #ddd;
             border-radius: 5px;
-            font-size: 14px;
-        }
-
-        .form-group input:focus {
-            outline: none;
-            border-color: #D32F2F;
         }
 
         .error {
             color: #D32F2F;
             font-size: 14px;
             margin-top: 5px;
-        }
-
-        .remember-me {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .remember-me input {
-            margin-right: 8px;
         }
 
         .btn-login {
@@ -91,7 +74,6 @@
             border-radius: 5px;
             font-size: 16px;
             cursor: pointer;
-            transition: background-color 0.3s;
         }
 
         .btn-login:hover {
@@ -109,7 +91,7 @@
 
             <div class="form-group">
                 <label for="username">NIP / NIS</label>
-                <input type="text" id="username" name="username" value="{{ old('username') }}" placeholder="Masukkan NIP atau NIS" required autofocus>
+                <input type="text" id="username" name="username" value="{{ old('username') }}" required autofocus>
                 @error('username')
                     <div class="error">{{ $message }}</div>
                 @enderror
@@ -117,15 +99,16 @@
 
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password" placeholder="Masukkan password" required>
+                <input type="password" id="password" name="password" required>
                 @error('password')
                     <div class="error">{{ $message }}</div>
                 @enderror
             </div>
 
-            <div class="remember-me">
-                <input type="checkbox" id="remember" name="remember">
-                <label for="remember">Ingat Saya</label>
+            <div style="margin-bottom: 20px;">
+                <label>
+                    <input type="checkbox" name="remember"> Ingat Saya
+                </label>
             </div>
 
             <button type="submit" class="btn-login">Login</button>
