@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -74,7 +73,6 @@
         }
     </style>
 </head>
-
 <body>
     <div class="sidebar">
         <h2>STARS Admin</h2>
@@ -84,8 +82,7 @@
 
         <ul>
             <li>
-                <a href="{{ route('admin.dashboard') }}"
-                    class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+                <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                     Dashboard
                 </a>
             </li>
@@ -94,19 +91,17 @@
                     Data Biaya
                 </a>
             </li>
+            {{-- MENU BARU: Data Pembayaran --}}
+            <li>
+                <a href="{{ route('pembayaran.index') }}" class="{{ request()->routeIs('pembayaran.*') ? 'active' : '' }}">
+                    Data Pembayaran
+                </a>
+            </li>
         </ul>
-
-        {{-- <form action="{{ route('logout') }}" method="POST" style="margin-top: 30px;">
-            @csrf
-            <button type="submit"
-                style="width: 100%; padding: 10px; background-color: transparent; border: 2px solid white; color: white; cursor: pointer; border-radius: 5px;">
-                Logout
-            </button>
-        </form> --}}
     </div>
 
     <div class="content">
-        @if (session('success'))
+        @if(session('success'))
             <div class="alert-success">
                 {{ session('success') }}
             </div>
@@ -115,5 +110,4 @@
         @yield('content')
     </div>
 </body>
-
 </html>
