@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>@yield('title', 'Admin Dashboard')</title>
+    <title>@yield('title', 'Admin Dashboard') - STARS</title>
     <style>
         * {
             margin: 0;
@@ -17,7 +16,6 @@
             background-color: #ecf0f1;
         }
 
-        /* Sidebar */
         .sidebar {
             width: 250px; /* DIPERBAIKI: Titik koma, bukan koma */
             background-color: #ff4343;
@@ -51,7 +49,7 @@
             color: white;
             text-decoration: none;
             display: block;
-            padding: 12px 15px;
+            padding: 12px;
             border-radius: 5px;
             transition: background-color 0.3s;
         }
@@ -60,6 +58,7 @@
             background-color: rgba(255, 255, 255, 0.15); /* DIPERBAIKI: Transparansi lebih baik */
         }
 
+        .sidebar ul li a:hover,
         .sidebar ul li a.active {
             background-color: #c93636; /* DIPERBAIKI: Warna lebih kontras */
         }
@@ -107,9 +106,10 @@
             display: block; /* DIPERBAIKI: Ditambahkan */
             font-size: 12px;
             color: #7f8c8d;
+            background-color: #B71C1C;
+/* >>>>>>> origin/backend */
         }
 
-        /* Content Area */
         .content {
             margin-left: 250px; /* DIPERBAIKI: Sesuai lebar sidebar, bukan 300px */
             margin-top: 60px; /* DIPERBAIKI: Sesuai tinggi navbar */
@@ -120,18 +120,27 @@
 
         /* Alert Success */
         .alert-success {
-            background-color: #2ecc71;
+            background-color: #4caf50;
             color: white;
             padding: 15px;
-            border-radius: 5px;
             margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        table {
+            background-color: white;
         }
     </style>
 </head>
 <body>
-    <!-- Sidebar -->
     <div class="sidebar">
-        <h2>Admin Sekolah</h2>
+        <h2>STARS Admin</h2>
+
+        {{-- Tampilkan nama admin yang login --}}
+        {{-- auth()->user()->admin->nama = ambil nama dari relasi admin --}}
+        <p><strong>{{ auth()->user()->admin->nama }}</strong></p>
+        <p style="font-size: 12px; margin-bottom: 20px;">Administrator</p>
+
         <ul>
             <li>
                 <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
@@ -143,7 +152,20 @@
                     💰 Tambah Tagihan
                 </a>
             </li>
+            <li>
+                <a href="{{ route('pembayaran.index') }}" class="{{ request()->routeIs('pembayaran.*') ? 'active' : '' }}">
+                    Data Pembayaran
+                </a>
+            </li>
         </ul>
+
+        {{-- Form Logout --}}
+        <form action="{{ route('logout') }}" method="POST" style="margin-top: 30px;">
+            @csrf
+            <button type="submit" style="width: 100%; padding: 10px; background-color: transparent; border: 2px solid white; color: white; cursor: pointer; border-radius: 5px;">
+                Logout
+            </button>
+        </form>
     </div>
 
     <!-- Navbar - DIPERBAIKI: Dipindahkan keluar dari sidebar -->
