@@ -77,7 +77,9 @@
     <div class="sidebar">
         <h2>STARS Admin</h2>
 
-        <p><strong>Admin</strong></p>
+        {{-- Tampilkan nama admin yang login --}}
+        {{-- auth()->user()->admin->nama = ambil nama dari relasi admin --}}
+        <p><strong>{{ auth()->user()->admin->nama }}</strong></p>
         <p style="font-size: 12px; margin-bottom: 20px;">Administrator</p>
 
         <ul>
@@ -91,13 +93,20 @@
                     Data Biaya
                 </a>
             </li>
-            {{-- MENU BARU: Data Pembayaran --}}
             <li>
                 <a href="{{ route('pembayaran.index') }}" class="{{ request()->routeIs('pembayaran.*') ? 'active' : '' }}">
                     Data Pembayaran
                 </a>
             </li>
         </ul>
+
+        {{-- Form Logout --}}
+        <form action="{{ route('logout') }}" method="POST" style="margin-top: 30px;">
+            @csrf
+            <button type="submit" style="width: 100%; padding: 10px; background-color: transparent; border: 2px solid white; color: white; cursor: pointer; border-radius: 5px;">
+                Logout
+            </button>
+        </form>
     </div>
 
     <div class="content">
