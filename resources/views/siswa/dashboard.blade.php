@@ -1,11 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Siswa - STARS</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Reset CSS */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
         * {
             margin: 0;
             padding: 0;
@@ -13,275 +16,286 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
+            font-family: 'Poppins', sans-serif;
+            background-color: #f9fafb;
         }
 
         /* ========================================= */
-        /* NAVBAR TOP */
+        /* NAVBAR STYLING */
         /* ========================================= */
-
         .navbar {
             background: white;
-            padding: 15px 50px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
 
-        /* Logo & Brand */
         .navbar-brand {
             display: flex;
             align-items: center;
-            gap: 15px;
-        }
-
-        .navbar-brand img {
-            width: 40px;
-            height: 40px;
+            gap: 0.75rem;
         }
 
         .navbar-brand-text h1 {
-            font-size: 18px;
-            color: #D32F2F;
-            font-weight: bold;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #DC2626;
+            line-height: 1;
+            margin: 0;
         }
 
         .navbar-brand-text p {
-            font-size: 11px;
-            color: #666;
+            font-size: 0.7rem;
+            color: #6B7280;
+            margin: 0;
+            margin-top: 2px;
         }
 
-        /* Menu Navigation */
         .navbar-menu {
             display: flex;
-            gap: 30px;
             list-style: none;
+            gap: 2rem;
+            align-items: center;
+            padding-right: 250px;
         }
 
-        .navbar-menu a {
+        .navbar-menu li a {
+            color: #4B5563;
             text-decoration: none;
-            color: #333;
-            font-size: 14px;
+            font-size: 0.875rem;
             font-weight: 500;
             transition: color 0.3s;
         }
 
-        .navbar-menu a:hover {
-            color: #D32F2F;
+        .navbar-menu li a:hover {
+            color: #DC2626;
         }
 
-        /* User Profile Icon */
         .navbar-user {
             width: 40px;
             height: 40px;
-            background: #D32F2F;
+            background: #DC2626;
+            color: white;
+            border: none;
             border-radius: 50%;
+            font-size: 1.25rem;
+            font-weight: bold;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-size: 18px;
             cursor: pointer;
             position: relative;
         }
 
-        /* Dropdown Menu */
-        .dropdown {
-            position: relative;
-        }
+        /* Remove the old dropdown styles and add these new ones */
 
-        .dropdown-menu {
-            display: none;
-            position: absolute;
-            top: 50px;
-            right: 0;
-            background: white;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            border-radius: 5px;
-            min-width: 200px;
-            z-index: 1000;
-        }
+.user-menu-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
 
-        .dropdown:hover .dropdown-menu {
+.user-menu-content {
+    position: absolute;
+    top: 80px;
+    right: 20px;
+    background: rgb(255, 255, 255);
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    min-width: 250px;
+    overflow: hidden;
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+        .user-menu-content a,
+        .user-menu-content button {
             display: block;
-        }
-
-        .dropdown-menu a,
-        .dropdown-menu button {
-            display: block;
-            padding: 12px 20px;
+            width: 100%;
+            padding: 0.75rem 1rem;
+            color: #374151;
             text-decoration: none;
-            color: #333;
-            font-size: 14px;
+            font-size: 0.875rem;
+            transition: background 0.2s;
             border: none;
             background: none;
-            width: 100%;
             text-align: left;
             cursor: pointer;
         }
 
-        .dropdown-menu a:hover,
-        .dropdown-menu button:hover {
-            background: #f5f5f5;
+        .user-menu-content a:hover,
+        .user-menu-content button:hover {
+            background: #ffffff;
         }
 
         /* ========================================= */
-        /* HERO SECTION (Background Image) */
+        /* HERO SECTION */
         /* ========================================= */
-
         .hero {
-            background: linear-gradient(rgba(211, 47, 47, 0.8), rgba(211, 47, 47, 0.8)),
-                        url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1200') center/cover;
-            height: 350px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: white;
+            background-image: url('{{ asset("img/SMKTELKOM.png") }}');
+            padding: 4rem 2rem;
             text-align: center;
-            padding: 20px;
+            color: white;
+            position: relative;
+            overflow: hidden;
         }
 
-        .hero h1 {
-            font-size: 48px;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(255,255,255,0.1)" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,138.7C960,139,1056,117,1152,101.3C1248,85,1344,75,1392,69.3L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+            background-size: cover;
+            opacity: 0.1;
         }
 
-        .hero p {
-            font-size: 16px;
-            max-width: 600px;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-
-        .hero .welcome-badge {
-            background: rgba(255,255,255,0.2);
-            padding: 8px 20px;
-            border-radius: 20px;
-            font-size: 14px;
+        .welcome-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1.5rem;
+            border-radius: 2rem;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
             backdrop-filter: blur(10px);
         }
 
-        /* ========================================= */
-        /* FITUR UTAMA SECTION */
-        /* ========================================= */
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin: 1rem 0;
+            position: relative;
+            z-index: 1;
+        }
 
+        .hero p {
+            font-size: 1rem;
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.95;
+            line-height: 1.6;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ========================================= */
+        /* FITUR SECTION */
+        /* ========================================= */
         .fitur-section {
             max-width: 1200px;
-            margin: -80px auto 50px;
-            padding: 0 20px;
+            margin: 4rem auto;
+            padding: 0 2rem;
         }
 
         .section-title {
             text-align: center;
-            margin-bottom: 40px;
-            padding-top: 20px;
+            margin-bottom: 3rem;
         }
 
         .section-title h2 {
-            font-size: 28px;
-            color: #333;
-            margin-bottom: 10px;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1F2937;
+            margin-bottom: 0.5rem;
         }
 
         .section-title p {
-            color: #666;
-            font-size: 14px;
+            color: #6B7280;
+            font-size: 1rem;
         }
 
-        /* Grid 3 kolom untuk card */
         .card-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 25px;
-            margin-bottom: 60px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
         }
 
-        /* Card Menu Pembayaran */
         .card {
             background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border-top: 4px solid #DC2626;
             text-align: center;
-            transition: transform 0.3s;
         }
 
         .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px rgba(0, 0, 0, 0.1);
         }
 
-        /* Icon */
         .card-icon {
-            width: 60px;
-            height: 60px;
-            margin: 0 auto 15px;
-            background: #ffebee;
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #FEE2E2, #FECACA);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 30px;
-        }
-
-        .card.ppdb .card-icon {
-            background: #ffebee;
-            color: #D32F2F;
-        }
-
-        .card.spp .card-icon {
-            background: #ffebee;
-            color: #D32F2F;
-        }
-
-        .card.daftar-ulang .card-icon {
-            background: #ffebee;
-            color: #D32F2F;
+            font-size: 2.5rem;
+            margin: 0 auto 1.5rem;
         }
 
         .card h3 {
-            font-size: 18px;
-            color: #333;
-            margin-bottom: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1F2937;
+            margin-bottom: 1rem;
         }
 
         .card p {
-            font-size: 13px;
-            color: #666;
-            line-height: 1.5;
-            margin-bottom: 20px;
-            min-height: 60px;
+            color: #6B7280;
+            font-size: 0.875rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
         }
 
-        /* Tombol Bayar */
         .btn-bayar {
-            display: block;
-            width: 100%;
-            padding: 12px;
-            background: #D32F2F;
+            display: inline-block;
+            background: linear-gradient(135deg, #DC2626, #B91C1C);
             color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 0.5rem;
             text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            font-size: 14px;
-            transition: background 0.3s;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(220, 38, 38, 0.2);
         }
 
         .btn-bayar:hover {
-            background: #B71C1C;
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(220, 38, 38, 0.3);
         }
 
         /* ========================================= */
-        /* LANGKAH PEMBAYARAN SECTION */
+        /* LANGKAH PEMBAYARAN */
         /* ========================================= */
-
         .langkah-section {
-            background: white;
-            padding: 50px 20px;
+            background: linear-gradient(135deg, #FEE2E2, #FECACA);
+            padding: 4rem 2rem;
+            margin: 4rem 0;
         }
 
         .langkah-container {
@@ -289,17 +303,18 @@
             margin: 0 auto;
         }
 
-        .langkah-section h2 {
+        .langkah-container h2 {
             text-align: center;
-            font-size: 28px;
-            color: #333;
-            margin-bottom: 50px;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1F2937;
+            margin-bottom: 3rem;
         }
 
         .langkah-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
         }
 
         .langkah-item {
@@ -309,38 +324,47 @@
         .langkah-number {
             width: 80px;
             height: 80px;
-            background: #D32F2F;
+            background: linear-gradient(135deg, #DC2626, #B91C1C);
             color: white;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 36px;
-            font-weight: bold;
-            margin: 0 auto 20px;
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 8px 16px rgba(220, 38, 38, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 8px 16px rgba(220, 38, 38, 0.3);
+            }
+            50% {
+                box-shadow: 0 8px 24px rgba(220, 38, 38, 0.5);
+            }
         }
 
         .langkah-item h4 {
-            font-size: 18px;
-            color: #333;
-            margin-bottom: 10px;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1F2937;
+            margin-bottom: 0.5rem;
         }
 
         .langkah-item p {
-            font-size: 14px;
-            color: #666;
+            color: #4B5563;
             line-height: 1.6;
         }
 
         /* ========================================= */
         /* FOOTER */
         /* ========================================= */
-
         .footer {
-            background: #333;
+            background: #1F2937;
             color: white;
-            padding: 30px 20px;
-            text-align: center;
+            padding: 2rem;
         }
 
         .footer-content {
@@ -349,59 +373,60 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
         }
 
         .footer-brand h3 {
-            font-size: 18px;
-            margin-bottom: 5px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
         }
 
         .footer-brand p {
-            font-size: 12px;
-            color: #999;
+            font-size: 0.875rem;
+            color: #9CA3AF;
         }
 
         .footer-links {
             display: flex;
-            gap: 20px;
+            gap: 2rem;
             list-style: none;
         }
 
         .footer-links a {
-            color: white;
+            color: #D1D5DB;
             text-decoration: none;
-            font-size: 14px;
+            font-size: 0.875rem;
+            transition: color 0.3s;
         }
 
         .footer-links a:hover {
-            color: #D32F2F;
-        }
-
-        /* ========================================= */
-        /* ALERT SUCCESS */
-        /* ========================================= */
-
-        .alert-success {
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 15px 20px;
-            background: #4caf50;
-            color: white;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            color: #DC2626;
         }
 
         /* ========================================= */
         /* RESPONSIVE */
         /* ========================================= */
-
         @media (max-width: 768px) {
             .navbar {
-                padding: 15px 20px;
+                flex-direction: column;
+                gap: 1rem;
             }
 
             .navbar-menu {
-                display: none;
+                gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .section-title h2,
+            .langkah-container h2 {
+                font-size: 2rem;
             }
 
             .card-grid,
@@ -409,13 +434,13 @@
                 grid-template-columns: 1fr;
             }
 
-            .hero h1 {
-                font-size: 32px;
-            }
-
             .footer-content {
                 flex-direction: column;
-                gap: 20px;
+                text-align: center;
+            }
+
+            .footer-links {
+                justify-content: center;
             }
         }
     </style>
@@ -424,44 +449,50 @@
     {{-- ========================================= --}}
     {{-- NAVBAR TOP --}}
     {{-- ========================================= --}}
-
     <nav class="navbar">
-        {{-- Logo & Brand --}}
-        <div class="navbar-brand">
-            {{-- Icon bisa diganti dengan logo sekolah --}}
-            <div style="width: 40px; height: 40px; background: #D32F2F; border-radius: 5px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">S</div>
-            <div class="navbar-brand-text">
-                <h1>STARS</h1>
-                <p>Sistem Tagihan Dan Pembayaran Sekolah</p>
-            </div>
+    <!-- Logo & Brand -->
+    <div class="navbar-brand">
+        <div style="width: 40px; height: 40px; background: #D32F2F; border-radius: 5px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">S</div>
+        <div class="navbar-brand-text">
+            <h1>STARS</h1>
+            <p>Sistem Tagihan Dan Pembayaran Sekolah</p>
         </div>
+    </div>
 
-        {{-- Menu Navigation --}}
-        <ul class="navbar-menu">
-            <li><a href="{{ route('siswa.dashboard') }}">Beranda</a></li>
-            <li><a href="#">Layanan</a></li>
-            <li><a href="#">Tutorial</a></li>
-            <li><a href="#">Kontak</a></li>
-        </ul>
+    <!-- Menu Navigation -->
+    <ul class="navbar-menu">
+        <li><a href="{{ route('siswa.dashboard') }}">Beranda</a></li>
+        <li><a href="#">Layanan</a></li>
+        <li><a href="#">Tutorial</a></li>
+        <li><a href="#">Kontak</a></li>
+    </ul>
 
-        {{-- User Profile Dropdown --}}
-        <div class="dropdown">
-            <div class="navbar-user">
-                {{-- Icon user (initial nama) --}}
-                {{ substr(auth()->user()->siswa->nama, 0, 1) }}
-            </div>
+    <!-- User Profile Button -->
+    <div style="display: flex; align-items: center; gap: 1rem;">
+        <button class="navbar-user" id="userMenuBtn" title="{{ auth()->user()->siswa->nama }}">
+            {{ substr(auth()->user()->siswa->nama, 0, 1) }}
+        </button>
 
-            {{-- Dropdown Menu --}}
-            <div class="dropdown-menu">
-                <a href="#"><strong>{{ auth()->user()->siswa->nama }}</strong></a>
-                <a href="#">NIS: {{ auth()->user()->siswa->nis }}</a>
-                <hr style="margin: 0; border: none; border-top: 1px solid #eee;">
-                <a href="#">⚙️ Pengaturan</a>
+        <!-- User Menu Modal -->
+        <div id="userMenu" class="user-menu-modal" style="display: none;">
+            <div class="user-menu-content">
+                <div style="padding: 1rem; border-bottom: 1px solid #e5e7eb;">
+                    <p style="margin: 0; font-weight: 600; color: #1f2937;">{{ auth()->user()->siswa->nama }}</p>
+                    <p style="margin: 0.25rem 0 0 0; font-size: 0.875rem; color: #6b7280;">NIS: {{ auth()->user()->siswa->nis }}</p>
+                </div>
+
+                <a href="#" style="display: block; padding: 0.75rem 1rem; color: #374151; text-decoration: none; font-size: 0.875rem; transition: background 0.2s;" onmouseover="this.style.background='#f3f4f6'" onmouseout="this.style.background='transparent'">
+                    ⚙️ Pengaturan
+                </a>
+
                 <form action="{{ route('logout') }}" method="POST" style="margin: 0;">
                     @csrf
-                    <button type="submit">🚪 Logout</button>
+                    <button type="submit" style="display: block; width: 100%; padding: 0.75rem 1rem; color: #374151; background: none; border: none; text-align: left; font-size: 0.875rem; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='#f3f4f6'" onmouseout="this.style.background='transparent'">
+                        🚪 Logout
+                    </button>
                 </form>
             </div>
+        </div>
         </div>
     </nav>
 
@@ -480,8 +511,8 @@
     {{-- ========================================= --}}
 
     <section class="hero">
-        <span class="welcome-badge">❤️ Halo User, Selamat Datang ❤️</span>
-        <h1>Selamat Datang User</h1>
+        <span class="welcome-badge">❤️ Halo, {{ auth()->user()->siswa->nama }} Selamat Datang ❤️</span>
+        <h1>Selamat Datang<br>{{ auth()->user()->siswa->nama }}</h1>
         <p>
             Platform pembayaran digital untuk PPDB, SPP, dan Daftar Ulang siswa.
             Proses cepat, aman, dan terintegrasi dengan sistem sekolah.
@@ -552,21 +583,21 @@
                 {{-- Step 1 --}}
                 <div class="langkah-item">
                     <div class="langkah-number">1</div>
-                    <h4>Step</h4>
+                    <h4>Pilih Pembayaran</h4>
                     <p>Pilih jenis pembayaran yang ingin dibayar</p>
                 </div>
 
                 {{-- Step 2 --}}
                 <div class="langkah-item">
                     <div class="langkah-number">2</div>
-                    <h4>Step</h4>
+                    <h4>Transfer & Upload</h4>
                     <p>Transfer ke rekening sekolah dan upload bukti</p>
                 </div>
 
                 {{-- Step 3 --}}
                 <div class="langkah-item">
                     <div class="langkah-number">3</div>
-                    <h4>Step</h4>
+                    <h4>Verifikasi</h4>
                     <p>Tunggu verifikasi admin dan download kwitansi</p>
                 </div>
             </div>
@@ -591,5 +622,29 @@
             </ul>
         </div>
     </footer>
+    <script>
+    const userMenuBtn = document.getElementById('userMenuBtn');
+    const userMenu = document.getElementById('userMenu');
+
+    // Toggle menu
+    userMenuBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        userMenu.style.display = userMenu.style.display === 'none' ? 'block' : 'none';
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!userMenu.contains(e.target) && e.target !== userMenuBtn) {
+            userMenu.style.display = 'none';
+        }
+    });
+
+    // Close menu when clicking inside (on links/buttons)
+    userMenu.addEventListener('click', (e) => {
+        if (e.target.tagName === 'A' || e.target.tagName === 'BUTTON') {
+            userMenu.style.display = 'none';
+        }
+    });
+    </script>
 </body>
 </html>
