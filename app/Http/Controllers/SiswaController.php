@@ -399,9 +399,18 @@ class SiswaController extends Controller
         // UPLOAD FILE BUKTI PEMBAYARAN
         // ============================================
 
-        $file = $request->file('bukti_pembayaran');
-        $filename = 'bukti_' . time() . '.' . $file->getClientOriginalExtension();
-        $file->storeAs('public/bukti_pembayaran', $filename);
+      $file = $request->file('bukti_pembayaran');
+$filename = 'bukti_' . time() . '.' . $file->getClientOriginalExtension();
+
+// Simpan file dan ambil path-nya
+$path = $file->storeAs('public/bukti_pembayaran', $filename);
+
+// Optional: Log untuk debugging
+\Log::info('File uploaded:', [
+    'filename' => $filename,
+    'path' => $path,
+    'full_path' => storage_path('app/public/bukti_pembayaran/' . $filename)
+]);
 
         // ============================================
         // SIMPAN PEMBAYARAN PER BULAN
