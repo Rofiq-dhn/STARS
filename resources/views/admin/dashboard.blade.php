@@ -5,12 +5,7 @@
 @section('content')
 <!-- dashboard -->
 <style>
-    .dashboard-container {
-        max-width: 1200px;
-    }
-
     .dashboard-header {
-        background: white;
         padding: 24px;
         border-radius: 8px;
         margin-bottom: 24px;

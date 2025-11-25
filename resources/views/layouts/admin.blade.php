@@ -155,7 +155,7 @@
             left: 280px;
             right: 0;
             height: 70px;
-            background-color: white;
+            background-color: #B30000;
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
             display: flex;
             align-items: center;
@@ -173,7 +173,6 @@
         .navbar-brand-icon {
             width: 40px;
             height: 40px;
-            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
             border-radius: 8px;
             display: flex;
             align-items: center;
@@ -186,7 +185,7 @@
         .navbar-brand-text strong {
             font-size: 18px;
             font-weight: 700;
-            color: #2c3e50;
+            color: #ffffff;
             display: block;
             line-height: 1.2;
         }
@@ -194,7 +193,7 @@
         .navbar-brand-text small {
             font-size: 11px;
             font-weight: 400;
-            color: #7f8c8d;
+            color: #ffffff;
         }
 
         .navbar-user {
@@ -361,19 +360,27 @@
     <!-- Navbar -->
     <div class="navbar">
         <div class="navbar-brand">
-            <div class="navbar-brand-icon">F</div>
+            <div class="navbar-brand-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="40" height="40">
+                    <!-- Background -->
+                    <rect width="256" height="256" fill="none"/>
+
+                    <!-- Kotak putih rounded (container) -->
+                    <rect x="35" y="35" width="186" height="186" rx="20" ry="20" fill="#ffffff"/>
+
+                    <!-- Panel kiri (abu-abu gelap) -->
+                    <rect x="50" y="50" width="46" height="156" fill="#B30000"/>
+
+                    <!-- Panel kanan (abu-abu gelap) -->
+                    <rect x="110" y="50" width="96" height="156" fill="#B30000"/>
+
+                    <!-- Panah chevron kiri (putih) di panel kanan -->
+                    <polyline points="165,100 145,128 165,156" fill="none" stroke="#ffffff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
             <div class="navbar-brand-text">
                 <strong>STARS</strong>
                 <small>Sistem Tagihan Dan Pembayaran Sekolah</small>
-            </div>
-        </div>
-        <div class="navbar-user">
-            <div class="user-info">
-                <span class="user-name">{{ Auth::user()->name ?? 'Admin' }}</span>
-                <span class="user-role">Administrator</span>
-            </div>
-            <div class="user-avatar">
-                {{ strtoupper(substr(Auth::user()->name ?? 'A', 0, 1)) }}
             </div>
         </div>
     </div>
