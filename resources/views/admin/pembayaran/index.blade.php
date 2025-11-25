@@ -59,7 +59,7 @@
                         <td>{{ $item->bulan }}</td>
 
                         {{-- Tahun pembayaran --}}
-                        <td>{{ $item->tahun }}</td>
+                        <td>{{ $item->tahun_ajaran }}</td>
 
                         {{-- Nominal yang dibayar dengan format Rupiah --}}
                         <td>Rp {{ number_format($item->nominal_dibayar, 0, ',', '.') }}</td>
