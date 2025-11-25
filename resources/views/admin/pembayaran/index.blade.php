@@ -221,8 +221,8 @@
                                 {{-- Bulan pembayaran --}}
                                 <td>{{ $item->bulan }}</td>
 
-                                {{-- Tahun pembayaran --}}
-                                <td>{{ $item->tahun }}</td>
+                        {{-- Tahun pembayaran --}}
+                        <td>{{ $item->tahun_ajaran }}</td>
 
                                 {{-- Nominal --}}
                                 <td>Rp {{ number_format($item->nominal_dibayar, 0, ',', '.') }}</td>

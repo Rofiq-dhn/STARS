@@ -534,7 +534,7 @@
         <ul class="navbar-menu">
             <li><a href="{{ route('siswa.dashboard') }}">Beranda</a></li>
             <li><a href="#">Layanan</a></li>
-            <li><a href="#">Tutorial</a></li>
+            <li><a href="#tutorial">Tutorial</a></li>
             <li><a href="#">Kontak</a></li>
         </ul>
 
@@ -681,7 +681,7 @@
     {{-- ========================================= --}}
     {{-- LANGKAH PEMBAYARAN --}}
     {{-- ========================================= --}}
-    <section class="langkah-section">
+    <section class="langkah-section" id="tutorial">
         <div class="langkah-container">
             <h2>Langkah Membayar?</h2>
 

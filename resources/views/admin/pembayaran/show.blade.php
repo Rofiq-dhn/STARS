@@ -9,9 +9,8 @@
     </p>
 
 
-       <a href="{{ route('pembayaran.index') }}"
-        style="display: inline-block; padding: 10px 20px; background-color: #9e9e9e; color: white; text-decoration: none; border-radius: 5px; margin-bottom: 20px;"
-    >
+    <a href="{{ route('pembayaran.index') }}"
+        style="display: inline-block; padding: 10px 20px; background-color: #9e9e9e; color: white; text-decoration: none; border-radius: 5px; margin-bottom: 20px;">
         ← Kembali ke Daftar Pembayaran
     </a>
 
@@ -78,7 +77,8 @@
                 </tr>
                 <tr>
                     <td style="padding: 10px 0;"><strong>Sisa Pembayaran</strong></td>
-                    <td style="padding: 10px 0; color: {{ $pembayaran->sisa_pembayaran > 0 ? '#f44336' : '#4caf50' }}; font-weight: bold;">
+                    <td
+                        style="padding: 10px 0; color: {{ $pembayaran->sisa_pembayaran > 0 ? '#f44336' : '#4caf50' }}; font-weight: bold;">
                         : Rp {{ number_format($pembayaran->sisa_pembayaran, 0, ',', '.') }}
                     </td>
                 </tr>
@@ -89,7 +89,8 @@
                 <tr>
                     <td style="padding: 10px 0;"><strong>Status</strong></td>
                     <td style="padding: 10px 0;">
-                        <span style="
+                        <span
+                            style="
                             padding: 5px 15px;
                             border-radius: 5px;
                             color: white;
@@ -102,30 +103,28 @@
                 </tr>
             </table>
 
-            @if($pembayaran->status == 'belum lunas')
+            @if ($pembayaran->status == 'belum lunas')
                 <div style="margin-top: 30px; padding-top: 20px; border-top: 2px solid #ddd;">
                     <h3 style="margin-bottom: 15px;">Aksi Verifikasi</h3>
 
-                    <form action="{{ route('pembayaran.verifikasi', $pembayaran->id_pembayaran) }}" method="POST" style="display: inline;">
+                    <form action="{{ route('pembayaran.verifikasi', $pembayaran->id_pembayaran) }}" method="POST"
+                        style="display: inline;">
                         @csrf
                         @method('PUT')
-                        <button
-                            type="submit"
+                        <button type="submit"
                             onclick="return confirm('Verifikasi pembayaran ini sebagai LUNAS? Kwitansi akan otomatis digenerate.')"
-                            style="padding: 12px 30px; background-color: #4caf50; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; margin-right: 10px; font-weight: bold;"
-                        >
+                            style="padding: 12px 30px; background-color: #4caf50; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; margin-right: 10px; font-weight: bold;">
                             ✅ Verifikasi Lunas
                         </button>
                     </form>
 
-                    <form action="{{ route('pembayaran.tolak', $pembayaran->id_pembayaran) }}" method="POST" style="display: inline;">
+                    <form action="{{ route('pembayaran.tolak', $pembayaran->id_pembayaran) }}" method="POST"
+                        style="display: inline;">
                         @csrf
                         @method('DELETE')
-                        <button
-                            type="submit"
+                        <button type="submit"
                             onclick="return confirm('Tolak pembayaran ini? Data dan file akan DIHAPUS PERMANEN!')"
-                            style="padding: 12px 30px; background-color: #f44336; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; font-weight: bold;"
-                        >
+                            style="padding: 12px 30px; background-color: #f44336; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; font-weight: bold;">
                             ❌ Tolak Pembayaran
                         </button>
                     </form>
@@ -144,34 +143,26 @@
                 $extension = strtolower(pathinfo($pembayaran->bukti_pembayaran, PATHINFO_EXTENSION));
             @endphp
 
-            @if(in_array($extension, ['jpg', 'jpeg', 'png']))
+            @if (in_array($extension, ['jpg', 'jpeg', 'png']))
                 {{-- Preview Gambar --}}
-                <img
-                    src="{{ asset('storage/bukti_pembayaran/' . $pembayaran->bukti_pembayaran) }}"
-                    alt="Bukti Transfer"
-                    style="width: 100%; height: auto; border-radius: 5px; border: 2px solid #ddd; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"
-                >
+                <img src="{{ asset('storage/bukti_pembayaran/' . $pembayaran->bukti_pembayaran) }}" alt="Bukti Transfer"
+                    style="width: 100%; height: auto; border-radius: 5px; border: 2px solid #ddd; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
 
                 <div style="margin-top: 15px; padding: 10px; background: #f5f5f5; border-radius: 5px;">
                     <small style="color: #666;">
                         <strong>Nama File:</strong> {{ $pembayaran->bukti_pembayaran }}
                     </small>
                 </div>
-
             @elseif($extension == 'pdf')
                 {{-- Preview PDF --}}
-                <embed
-                    src="{{ asset('storage/bukti_pembayaran/' . $pembayaran->bukti_pembayaran) }}"
-                    type="application/pdf"
-                    style="width: 100%; height: 700px; border: 2px solid #ddd; border-radius: 5px;"
-                >
+                <embed src="{{ asset('storage/bukti_pembayaran/' . $pembayaran->bukti_pembayaran) }}"
+                    type="application/pdf" style="width: 100%; height: 700px; border: 2px solid #ddd; border-radius: 5px;">
 
                 <div style="margin-top: 15px; padding: 10px; background: #f5f5f5; border-radius: 5px;">
                     <small style="color: #666;">
                         <strong>Nama File:</strong> {{ $pembayaran->bukti_pembayaran }}
                     </small>
                 </div>
-
             @else
                 {{-- Format tidak dikenali --}}
                 <div style="padding: 40px; text-align: center; color: #999; border: 2px dashed #ddd; border-radius: 5px;">
@@ -185,20 +176,16 @@
 
             {{-- Tombol Download --}}
 
-               <a href="{{ asset('storage/bukti_pembayaran/' . $pembayaran->bukti_pembayaran) }}"
-                download
-                style="display: block; margin-top: 20px; padding: 12px; background-color: #2196F3; color: white; text-align: center; text-decoration: none; border-radius: 5px; font-weight: bold;"
-            >
+            <a href="{{ asset('storage/bukti_pembayaran/' . $pembayaran->bukti_pembayaran) }}" download
+                style="display: block; margin-top: 20px; padding: 12px; background-color: #2196F3; color: white; text-align: center; text-decoration: none; border-radius: 5px; font-weight: bold;">
                 📥 Download Bukti Transfer
             </a>
 
             {{-- Tombol Buka di Tab Baru --}}
 
-               <a href="{{ asset('storage/bukti_pembayaran/' . $pembayaran->bukti_pembayaran) }}"
-                target="_blank"
+            <a href="{{ asset('storage/bukti_pembayaran/' . $pembayaran->bukti_pembayaran) }}" target="_blank"
                 rel="noopener noreferrer"
-                style="display: block; margin-top: 10px; padding: 12px; background-color: #ff9800; color: white; text-align: center; text-decoration: none; border-radius: 5px; font-weight: bold;"
-            >
+                style="display: block; margin-top: 10px; padding: 12px; background-color: #ff9800; color: white; text-align: center; text-decoration: none; border-radius: 5px; font-weight: bold;">
                 🔗 Buka di Tab Baru
             </a>
         </div>
