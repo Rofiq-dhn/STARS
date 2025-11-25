@@ -210,4 +210,35 @@ Route::middleware(['auth'])->group(function () {
      * Parameter: {id} = id_pembayaran
      */
     Route::get('/siswa/kwitansi/{id}', [PembayaranController::class, 'downloadKwitansi'])->name('pembayaran.download-kwitansi');
+
+});
+
+Route::get('/test-upload', function() {
+    try {
+        // Buat file dummy
+        $content = 'Test upload file';
+        $filename = 'test_' . time() . '.txt';
+
+        // Simpan dengan Storage facade
+        Storage::disk('public')->put('bukti_pembayaran/' . $filename, $content);
+
+        // Cek hasil
+        $path = storage_path('app/public/bukti_pembayaran/' . $filename);
+
+        return [
+            'status' => 'success',
+            'filename' => $filename,
+            'path' => $path,
+            'file_exists' => file_exists($path),
+            'file_size' => file_exists($path) ? filesize($path) : 0,
+            'folder_writable' => is_writable(storage_path('app/public/bukti_pembayaran')),
+            'folder_path' => storage_path('app/public/bukti_pembayaran'),
+        ];
+    } catch (\Exception $e) {
+        return [
+            'status' => 'error',
+            'message' => $e->getMessage(),
+            'trace' => $e->getTraceAsString(),
+        ];
+    }
 });

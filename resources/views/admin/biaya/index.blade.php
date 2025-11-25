@@ -3,7 +3,8 @@
 @section('title', 'Data Biaya')
 
 @section('content')
-    <h1>Data Biaya</h1>
+    <!DOCTYPE html>
+    <html lang="id">
 
     <a href="{{ route('biaya.create') }}">+ Tambah Biaya</a>
 

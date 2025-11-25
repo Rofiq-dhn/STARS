@@ -3,7 +3,8 @@
 @section('title', 'Tambah Biaya')
 
 @section('content')
-    <h1>Tambah Biaya</h1>
+    <!DOCTYPE html>
+    <html lang="id">
 
     <form action="{{ route('biaya.store') }}" method="POST" style="max-width: 500px;">
         @csrf

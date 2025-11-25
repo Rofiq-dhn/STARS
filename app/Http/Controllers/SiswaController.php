@@ -325,7 +325,7 @@ class SiswaController extends Controller
         // Parameter 1: folder tujuan ('public/bukti_pembayaran')
         // Parameter 2: nama file ($filename)
         // File akan disimpan di storage/app/public/bukti_pembayaran/
-        $file->storeAs('public/bukti_pembayaran', $filename);
+        $file->storeAs('bukti_pembayaran', $filename);
 
         // ============================================
         // SIMPAN DATA PEMBAYARAN KE DATABASE
@@ -367,33 +367,19 @@ class SiswaController extends Controller
      * - Kalau pilih >1 bulan → hanya Lunas
      */
     public function storeSPP(Request $request)
-    {
-        // ============================================
-        // VALIDASI INPUT
-        // ============================================
+{
+    $validated = $request->validate([
+        'id_biaya' => 'required|exists:biayas,id_biaya',
+        'tahun_ajaran' => 'required|string',
+        'bulan' => 'required|array|min:1',
+        'bulan.*' => 'string',
+        'tipe_bayar' => 'required|in:lunas,cicilan',
+        'nominal_dibayar' => 'required|numeric|min:1',
+        'bukti_pembayaran' => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048',
+    ]);
 
-        $validated = $request->validate([
-            'id_biaya' => 'required|exists:biayas,id_biaya',
-            'tahun_ajaran' => 'required|string',
-
-            // bulan harus array (karena bisa pilih multiple)
-            // min:1 = minimal pilih 1 bulan
-            'bulan' => 'required|array|min:1',
-
-            // setiap item di array bulan harus string
-            'bulan.*' => 'string',
-
-            'tipe_bayar' => 'required|in:lunas,cicilan',
-            'nominal_dibayar' => 'required|numeric|min:1',
-            'bukti_pembayaran' => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048',
-        ]);
-
-        // ============================================
-        // AMBIL DATA SISWA & BIAYA
-        // ============================================
-
-        $siswa = auth()->user()->siswa;
-        $biaya = Biaya::findOrFail($validated['id_biaya']);
+    $siswa = auth()->user()->siswa;
+    $biaya = Biaya::findOrFail($validated['id_biaya']);
 
         // ============================================
         // UPLOAD FILE BUKTI PEMBAYARAN
@@ -412,56 +398,37 @@ $path = $file->storeAs('public/bukti_pembayaran', $filename);
     'full_path' => storage_path('app/public/bukti_pembayaran/' . $filename)
 ]);
 
-        // ============================================
-        // SIMPAN PEMBAYARAN PER BULAN
-        // ============================================
-
-        // Loop semua bulan yang dipilih
-        // foreach = perulangan untuk array
-        foreach ($validated['bulan'] as $bulan) {
-
-            // ============================================
-            // HITUNG SISA & STATUS
-            // ============================================
-
-            // Kalau bayar lunas
-            if ($validated['tipe_bayar'] == 'lunas') {
-                $sisa = 0;
-                $status = 'belum lunas';  // Nunggu verifikasi admin
-                $cicilan_ke = 1;
-                $total_cicilan = 1;
-            }
-            // Kalau bayar cicilan
-            else {
-                $cicilan_ke = 1;
-                $total_cicilan = 2;
-                $sisa = $biaya->biaya - $validated['nominal_dibayar'];
-                $status = $sisa <= 0 ? 'belum lunas' : 'belum lunas';
-            }
-
-            // ============================================
-            // INSERT DATA PEMBAYARAN
-            // ============================================
-
-            Pembayaran::create([
-                'id_biaya' => $validated['id_biaya'],
-                'id_siswa' => $siswa->id_siswa,
-                'bulan' => $bulan,                                   // Bulan yang dipilih
-                'tahun_ajaran' => $validated['tahun_ajaran'],
-                'nominal_dibayar' => $validated['nominal_dibayar'],
-                'sisa_pembayaran' => $sisa,
-                'status' => $status,
-                'bukti_pembayaran' => $filename,                     // Semua bulan pakai file yang sama
-                'kwitansi' => null,
-                'cicilan_ke' => $cicilan_ke,
-                'total_cicilan' => $total_cicilan,
-            ]);
+    // ============================================
+    // SIMPAN PEMBAYARAN
+    // ============================================
+    foreach ($validated['bulan'] as $bulan) {
+        if ($validated['tipe_bayar'] == 'lunas') {
+            $sisa = 0;
+            $status = 'belum lunas';
+            $cicilan_ke = 1;
+            $total_cicilan = 1;
+        } else {
+            $cicilan_ke = 1;
+            $total_cicilan = 2;
+            $sisa = $biaya->biaya - $validated['nominal_dibayar'];
+            $status = $sisa <= 0 ? 'belum lunas' : 'belum lunas';
         }
 
-        // ============================================
-        // REDIRECT DENGAN PESAN SUKSES
-        // ============================================
-
-        return redirect()->route('siswa.dashboard')->with('success', 'Pembayaran SPP berhasil diupload. Menunggu verifikasi admin.');
+        Pembayaran::create([
+            'id_biaya' => $validated['id_biaya'],
+            'id_siswa' => $siswa->id_siswa,
+            'bulan' => $bulan,
+            'tahun_ajaran' => $validated['tahun_ajaran'],
+            'nominal_dibayar' => $validated['nominal_dibayar'],
+            'sisa_pembayaran' => $sisa,
+            'status' => $status,
+            'bukti_pembayaran' => $filename,
+            'kwitansi' => null,
+            'cicilan_ke' => $cicilan_ke,
+            'total_cicilan' => $total_cicilan,
+        ]);
     }
+
+    return redirect()->route('siswa.dashboard')->with('success', 'Pembayaran SPP berhasil diupload. Menunggu verifikasi admin.');
+}
 }

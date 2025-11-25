@@ -22,6 +22,8 @@ class PembayaranSeeder extends Seeder
             'bukti_pembayaran' => null,       // Belum ada bukti (nanti diupload siswa)
             'kwitansi' => null,               // Belum ada kwitansi (nanti digenerate admin)
             'tahun' => '2025',                // Tahun pembayaran
+            'cicilan_ke' => null,             // Bukan cicilan
+            'total_cicilan' => null           // Bukan cicilan
         ]);
 
         // Pembayaran 2: SPP Februari - Belum Lunas
@@ -35,19 +37,8 @@ class PembayaranSeeder extends Seeder
             'bukti_pembayaran' => null,
             'kwitansi' => null,
             'tahun' => '2025',
-        ]);
-
-        // Pembayaran 3: PPDB - Lunas
-        Pembayaran::create([
-            'id_biaya' => 2,                  // ID biaya PPDB (harus sudah ada)
-            'id_siswa' => 1,
-            'bulan' => '-',                   // PPDB tidak pakai bulan
-            'nominal_dibayar' => '2000000',
-            'sisa_pembayaran' => '0',
-            'status' => 'lunas',
-            'bukti_pembayaran' => null,
-            'kwitansi' => null,
-            'tahun' => '2025',
+            'cicilan_ke' => 1,               // Cicilan pertama
+            'total_cicilan' => 1            // Total cicilan 3 kali
         ]);
     }
 }
