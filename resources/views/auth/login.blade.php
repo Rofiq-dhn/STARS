@@ -1,71 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - STARS</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Open+Sans:wght@400;600&family=Poppins:wght@400&display=swap"
-        rel="stylesheet">
+    @vite(['resources/css/login.css'])
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-
-        .font-opensans {
-            font-family: 'Open Sans', sans-serif;
-        }
-
-        .font-poppins {
-            font-family: 'Poppins', sans-serif;
-        }
-
-        /* Background dengan gambar S pattern */
+         /* Background dengan gambar S pattern */
         .bg-container {
-            background-image: url('{{ asset('img/bg.png') }}');
+            background-image: url( "{{ asset('img/bg.png') }}" );
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
             background-repeat: no-repeat;
-        }
-
-        /* Dissolve/Fade-in Animation */
-        @keyframes dissolveIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        .dissolve-in {
-            animation: dissolveIn 1s ease-in-out forwards;
-        }
-
-        /* Background decoration animation */
-        .bg-decoration {
-            animation: dissolveIn 1.5s ease-in-out forwards;
-        }
-
-        /* Content animation */
-        .login-content {
-            animation: dissolveIn 1.2s ease-in-out forwards;
-        }
-
-        .illustration-image {
-            animation: dissolveIn 1.3s ease-in-out forwards;
+            max-height: 100vh;
         }
     </style>
 </head>
 
 <body class="overflow-x-hidden">
+    <x-login-alert />
 
     <!-- Background Container -->
     <div class="bg-container w-full min-h-screen relative flex items-center justify-center p-4">
