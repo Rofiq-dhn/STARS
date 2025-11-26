@@ -21,9 +21,9 @@ class PembayaranSeeder extends Seeder
             'status' => 'lunas',              // Status lunas
             'bukti_pembayaran' => null,       // Belum ada bukti (nanti diupload siswa)
             'kwitansi' => null,               // Belum ada kwitansi (nanti digenerate admin)
-            'tahun' => '2025',                // Tahun pembayaran
-            'cicilan_ke' => null,             // Bukan cicilan
-            'total_cicilan' => null           // Bukan cicilan
+            'tahun_ajaran' => '2025',                // Tahun pembayaran
+            'cicilan_ke' => 1,             // Bukan cicilan
+            'total_cicilan' => 1           // Bukan cicilan
         ]);
 
         // Pembayaran 2: SPP Februari - Belum Lunas
@@ -36,7 +36,7 @@ class PembayaranSeeder extends Seeder
             'status' => 'belum lunas',        // Status belum lunas
             'bukti_pembayaran' => null,
             'kwitansi' => null,
-            'tahun' => '2025',
+            'tahun_ajaran' => '2025',
             'cicilan_ke' => 1,               // Cicilan pertama
             'total_cicilan' => 1            // Total cicilan 3 kali
         ]);
