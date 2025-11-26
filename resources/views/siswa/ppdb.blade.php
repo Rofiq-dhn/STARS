@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -33,7 +34,7 @@
             padding: 15px;
             background: white;
             border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
         .btn-back {
@@ -65,7 +66,7 @@
             background: white;
             padding: 30px;
             border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
         }
 
@@ -300,6 +301,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         {{-- Header dengan tombol kembali --}}
@@ -316,30 +318,31 @@
                 🎓 Pembayaran PPDB
             </div>
             <p class="card-description">
-                Pembayaran untuk calon siswa yang sedang tahap PPDB 2024/2025. Pastikan semua tahap telah selesai melakukan pembayaran.
+                Pembayaran untuk calon siswa yang sedang tahap PPDB 2024/2025. Pastikan semua tahap telah selesai
+                melakukan pembayaran.
             </p>
 
             <div class="info-grid">
                 {{-- Detail Pembayaran --}}
                 <div class="info-section">
                     <h3>Detail Pembayaran</h3>
-                    @if($biaya)
-                    <div class="info-item">
-                        <label>Detail Pembayaran</label>
-                        <strong>Rp {{ number_format($biaya->biaya * 0.25, 0, ',', '.') }}</strong>
-                    </div>
-                    <div class="info-item">
-                        <label>Biaya Seragam</label>
-                        <strong>Rp {{ number_format($biaya->biaya * 0.45, 0, ',', '.') }}</strong>
-                    </div>
-                    <div class="info-item">
-                        <label>Biaya Buku</label>
-                        <strong>Rp {{ number_format($biaya->biaya * 0.30, 0, ',', '.') }}</strong>
-                    </div>
-                    <div class="info-item total">
-                        <label><strong>Detail Pembayaran</strong></label>
-                        <strong>Rp {{ number_format($biaya->biaya, 0, ',', '.') }}</strong>
-                    </div>
+                    @if ($biaya)
+                        <div class="info-item">
+                            <label>Detail Pembayaran</label>
+                            <strong>Rp {{ number_format($biaya->biaya * 0.25, 0, ',', '.') }}</strong>
+                        </div>
+                        <div class="info-item">
+                            <label>Biaya Seragam</label>
+                            <strong>Rp {{ number_format($biaya->biaya * 0.45, 0, ',', '.') }}</strong>
+                        </div>
+                        <div class="info-item">
+                            <label>Biaya Buku</label>
+                            <strong>Rp {{ number_format($biaya->biaya * 0.3, 0, ',', '.') }}</strong>
+                        </div>
+                        <div class="info-item total">
+                            <label><strong>Detail Pembayaran</strong></label>
+                            <strong>Rp {{ number_format($biaya->biaya, 0, ',', '.') }}</strong>
+                        </div>
                     @endif
                 </div>
 
@@ -431,7 +434,8 @@
                         <div class="dropzone-hint">Maksimal 10MB</div>
                     </div>
 
-                    <input type="file" name="bukti_pembayaran" id="fileInput" accept="image/*,application/pdf" required onchange="handleFileSelect(this)">
+                    <input type="file" name="bukti_pembayaran" id="fileInput" accept=".jpg,.jpeg,.png,.pdf" required
+                        onchange="handleFileSelect(this)">
 
                     <div class="file-preview" id="filePreview">
                         <span id="fileName"></span>
@@ -446,57 +450,59 @@
         </form>
 
         {{-- History Pembayaran --}}
-        @if($pembayaran->count() > 0)
+        @if ($pembayaran->count() > 0)
             <div class="card" style="margin-top: 20px;">
                 <h3 style="margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #ddd;">
                     📋 History Pembayaran PPDB
-                h3>
+                    h3>
 
-                <table border="1" cellpadding="10" style="width: 100%; border-collapse: collapse;">
-                    <thead>
-                        <tr style="background-color: #D32F2F; color: white;">
-                            <th>No</th>
-                            <th>Tanggal</th>
-                            <th>Nominal</th>
-                            <th>Sisa</th>
-                            <th>Cicilan</th>
-                            <th>Status</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($pembayaran as $item)
-                            <tr>
-                                <td style="text-align: center;">{{ $loop->iteration }}</td>
-                                <td>{{ $item->created_at->format('d/m/Y H:i') }}</td>
-                                <td>Rp {{ number_format($item->nominal_dibayar, 0, ',', '.') }}</td>
-                                <td>Rp {{ number_format($item->sisa_pembayaran, 0, ',', '.') }}</td>
-                                <td style="text-align: center;">{{ $item->cicilan_ke }} / {{ $item->total_cicilan }}</td>
-                                <td style="text-align: center;">
-                                    <span style="
+                    <table border="1" cellpadding="10" style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr style="background-color: #D32F2F; color: white;">
+                                <th>No</th>
+                                <th>Tanggal</th>
+                                <th>Nominal</th>
+                                <th>Sisa</th>
+                                <th>Cicilan</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($pembayaran as $item)
+                                <tr>
+                                    <td style="text-align: center;">{{ $loop->iteration }}</td>
+                                    <td>{{ $item->created_at->format('d/m/Y H:i') }}</td>
+                                    <td>Rp {{ number_format($item->nominal_dibayar, 0, ',', '.') }}</td>
+                                    <td>Rp {{ number_format($item->sisa_pembayaran, 0, ',', '.') }}</td>
+                                    <td style="text-align: center;">{{ $item->cicilan_ke }} /
+                                        {{ $item->total_cicilan }}</td>
+                                    <td style="text-align: center;">
+                                        <span
+                                            style="
                                         padding: 5px 10px;
                                         border-radius: 12px;
                                         font-size: 12px;
                                         color: white;
                                         background-color: {{ $item->status == 'lunas' ? '#4caf50' : '#ff9800' }};
                                     ">
-                                        {{ ucfirst($item->status) }}
-                                    </span>
-                                </td>
-                                <td style="text-align: center;">
-                                    @if($item->status == 'lunas' && $item->kwitansi)
-                                        <a href="{{ route('pembayaran.download-kwitansi', $item->id_pembayaran) }}"
-                                           style="padding: 6px 12px; background-color: #4caf50; color: white; text-decoration: none; border-radius: 5px; display: inline-block; font-size: 12px;">
-                                            📄 Download
-                                        </a>
-                                    @else
-                                        <span style="color: #999; font-size: 12px;">Menunggu verifikasi</span>
-                                    @endif
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                                            {{ ucfirst($item->status) }}
+                                        </span>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        @if ($item->status == 'lunas' && $item->kwitansi)
+                                            <a href="{{ route('pembayaran.download-kwitansi', $item->id_pembayaran) }}"
+                                                style="padding: 6px 12px; background-color: #4caf50; color: white; text-decoration: none; border-radius: 5px; display: inline-block; font-size: 12px;">
+                                                📄 Download
+                                            </a>
+                                        @else
+                                            <span style="color: #999; font-size: 12px;">Menunggu verifikasi</span>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
             </div>
         @endif
     </div>
@@ -580,4 +586,5 @@
         });
     </script>
 </body>
+
 </html>

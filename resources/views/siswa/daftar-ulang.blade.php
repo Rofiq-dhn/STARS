@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,7 +31,7 @@
             padding: 15px;
             background: white;
             border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
         .btn-back {
@@ -61,7 +62,7 @@
             background: white;
             padding: 30px;
             border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
         }
 
@@ -292,6 +293,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         {{-- Header --}}
@@ -308,7 +310,8 @@
                 📝 Pembayaran Daftar Ulang
             </div>
             <p class="card-description">
-                Pembayaran daftar ulang untuk melanjutkan pendidikan ke tingkat yang lebih tinggi. Siswa wajib melakukan daftar ulang sebelum tahun ajaran baru dimulai.
+                Pembayaran daftar ulang untuk melanjutkan pendidikan ke tingkat yang lebih tinggi. Siswa wajib melakukan
+                daftar ulang sebelum tahun ajaran baru dimulai.
             </p>
 
             <div class="info-grid">
@@ -330,7 +333,7 @@
                     <div class="info-item">
                         <label>Kelas Tujuan</label>
                         @php
-                            $kelasTujuan = ((int)$siswa->kelas_siswa) + 1;
+                            $kelasTujuan = ((int) $siswa->kelas_siswa) + 1;
                         @endphp
                         <strong>{{ $kelasTujuan }} {{ $siswa->jurusan }}</strong>
                     </div>
@@ -339,30 +342,31 @@
                 {{-- Detail Pembayaran --}}
                 <div class="info-section">
                     <h3>Detail Pembayaran</h3>
-                    @if($biaya)
-                    <div class="info-item">
-                        <label>Biaya Daftar ulang</label>
-                        <strong>Rp {{ number_format($biaya->biaya * 0.25, 0, ',', '.') }}</strong>
-                    </div>
-                    <div class="info-item">
-                        <label>Dana pembangunan</label>
-                        <strong>Rp {{ number_format($biaya->biaya * 0.45, 0, ',', '.') }}</strong>
-                    </div>
-                    <div class="info-item">
-                        <label>Biaya Kegiatan</label>
-                        <strong>Rp {{ number_format($biaya->biaya * 0.30, 0, ',', '.') }}</strong>
-                    </div>
-                    <div class="info-item total">
-                        <label><strong>Detail Pembayaran</strong></label>
-                        <strong>Rp {{ number_format($biaya->biaya, 0, ',', '.') }}</strong>
-                    </div>
+                    @if ($biaya)
+                        <div class="info-item">
+                            <label>Biaya Daftar ulang</label>
+                            <strong>Rp {{ number_format($biaya->biaya * 0.25, 0, ',', '.') }}</strong>
+                        </div>
+                        <div class="info-item">
+                            <label>Dana pembangunan</label>
+                            <strong>Rp {{ number_format($biaya->biaya * 0.45, 0, ',', '.') }}</strong>
+                        </div>
+                        <div class="info-item">
+                            <label>Biaya Kegiatan</label>
+                            <strong>Rp {{ number_format($biaya->biaya * 0.3, 0, ',', '.') }}</strong>
+                        </div>
+                        <div class="info-item total">
+                            <label><strong>Detail Pembayaran</strong></label>
+                            <strong>Rp {{ number_format($biaya->biaya, 0, ',', '.') }}</strong>
+                        </div>
                     @endif
                 </div>
             </div>
         </div>
 
         {{-- Form --}}
-        <form action="{{ route('siswa.daftar-ulang.store') }}" method="POST" enctype="multipart/form-data" id="formPembayaran">
+        <form action="{{ route('siswa.daftar-ulang.store') }}" method="POST" enctype="multipart/form-data"
+            id="formPembayaran">
             @csrf
             <input type="hidden" name="id_biaya" value="{{ $biaya->id_biaya }}">
             <input type="hidden" name="tahun_ajaran" value="{{ $tahunAjaran }}">
@@ -423,7 +427,8 @@
                         <div class="dropzone-hint">Maksimal 10MB</div>
                     </div>
 
-                    <input type="file" name="bukti_pembayaran" id="fileInput" accept="image/*,application/pdf" required onchange="handleFileSelect(this)">
+                    <input type="file" name="bukti_pembayaran" id="fileInput" accept=".jpg,.jpeg,.png,.pdf" required
+                        onchange="handleFileSelect(this)">
 
                     <div class="file-preview" id="filePreview">
                         <span id="fileName"></span>
@@ -438,7 +443,7 @@
         </form>
 
         {{-- History Pembayaran --}}
-        @if($pembayaran->count() > 0)
+        @if ($pembayaran->count() > 0)
             <div class="card" style="margin-top: 20px;">
                 <h3 style="margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #ddd;">
                     📋 History Pembayaran Daftar Ulang
@@ -457,15 +462,17 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($pembayaran as $item)
+                        @foreach ($pembayaran as $item)
                             <tr>
                                 <td style="text-align: center;">{{ $loop->iteration }}</td>
                                 <td>{{ $item->created_at->format('d/m/Y H:i') }}</td>
                                 <td>Rp {{ number_format($item->nominal_dibayar, 0, ',', '.') }}</td>
                                 <td>Rp {{ number_format($item->sisa_pembayaran, 0, ',', '.') }}</td>
-                                <td style="text-align: center;">{{ $item->cicilan_ke }} / {{ $item->total_cicilan }}</td>
+                                <td style="text-align: center;">{{ $item->cicilan_ke }} / {{ $item->total_cicilan }}
+                                </td>
                                 <td style="text-align: center;">
-                                    <span style="
+                                    <span
+                                        style="
                                         padding: 5px 10px;
                                         border-radius: 12px;
                                         font-size: 12px;
@@ -476,9 +483,9 @@
                                     </span>
                                 </td>
                                 <td style="text-align: center;">
-                                    @if($item->status == 'lunas' && $item->kwitansi)
+                                    @if ($item->status == 'lunas' && $item->kwitansi)
                                         <a href="{{ route('pembayaran.download-kwitansi', $item->id_pembayaran) }}"
-                                           style="padding: 6px 12px; background-color: #4caf50; color: white; text-decoration: none; border-radius: 5px; display: inline-block; font-size: 12px;">
+                                            style="padding: 6px 12px; background-color: #4caf50; color: white; text-decoration: none; border-radius: 5px; display: inline-block; font-size: 12px;">
                                             📄 Download
                                         </a>
                                     @else
@@ -571,4 +578,5 @@
         });
     </script>
 </body>
+
 </html>

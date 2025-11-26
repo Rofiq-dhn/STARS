@@ -145,7 +145,7 @@
             color: white;
         }
 
-        /* Pilih Bulan */
+        /* Pilih Bulan - Radio Button Style */
         .bulan-section {
             margin-bottom: 25px;
         }
@@ -186,9 +186,12 @@
             background: #f5f5f5;
         }
 
+        /* Hilangkan radio button */
+
         .bulan-card h4 {
             font-size: 15px;
             margin-bottom: 5px;
+            padding-right: 30px;
         }
 
         .bulan-card p {
@@ -203,38 +206,7 @@
             margin-top: 5px;
         }
 
-        .bulan-card input[type="checkbox"] {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-        }
-
-        /* Total Pembayaran */
-        .total-section {
-            background: #fff5f5;
-            padding: 20px;
-            border-radius: 8px;
-            border-left: 4px solid #D32F2F;
-            margin-bottom: 25px;
-        }
-
-        .total-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
-            font-size: 14px;
-        }
-
-        .total-row.final {
-            font-size: 18px;
-            font-weight: bold;
-            color: #D32F2F;
-            padding-top: 15px;
-            margin-top: 15px;
-            border-top: 2px solid #ffcdd2;
-        }
-
-        /* Opsi & Upload sama seperti PPDB */
+        /* Opsi Pembayaran */
         .opsi-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -259,15 +231,6 @@
             background: #ffebee;
         }
 
-        .opsi-card.disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .opsi-card input[type="radio"] {
-            margin-bottom: 10px;
-        }
-
         .opsi-card h4 {
             font-size: 15px;
             margin-bottom: 5px;
@@ -285,6 +248,7 @@
             color: #333;
         }
 
+        /* Upload Section */
         .upload-section {
             background: #fff5f5;
             border: 2px solid #ffcdd2;
@@ -404,19 +368,8 @@
             cursor: not-allowed;
         }
 
-        input[type="file"],
-        input[type="checkbox"] {
+        input[type="file"] {
             display: none;
-        }
-
-        .alert-warning {
-            background: #fff3cd;
-            border: 1px solid #ffc107;
-            border-radius: 5px;
-            padding: 15px;
-            margin-bottom: 20px;
-            color: #856404;
-            font-size: 14px;
         }
     </style>
 </head>
@@ -451,31 +404,16 @@
                 {{-- Status Pembayaran --}}
                 <div class="status-section">
                     <h3>Status Pembayaran</h3>
-                    {{-- Scroll container untuk semua bulan --}}
                     <div class="status-scroll">
                         @foreach($bulanList as $index => $bulan)
-                            {{-- Tentukan tahun untuk tiap bulan --}}
                             @php
-                                // Juli-Desember = tahun pertama (2025)
-                                // Januari-Juni = tahun kedua (2026)
                                 $tahunBulan = $index < 6 ? '2025' : '2026';
-
-                                // Cari data pembayaran untuk bulan ini
                                 $pembayaranBulan = $pembayaran->where('bulan', $bulan)->first();
                             @endphp
                             <div class="status-item {{ $statusBulan[$bulan] == 'lunas' ? 'lunas' : '' }}">
                                 <div>
                                     <label style="font-weight: bold;">{{ $bulan }} {{ $tahunBulan }}</label>
-
-                                    {{-- Kalau lunas, tampilkan tombol download --}}
-                                    @if($statusBulan[$bulan] == 'lunas' && $pembayaranBulan && $pembayaranBulan->kwitansi)
-                                        <a href="{{ route('pembayaran.download-kwitansi', $pembayaranBulan->id_pembayaran) }}"
-                                           style="display: block; font-size: 11px; color: #2196F3; margin-top: 3px; text-decoration: none;">
-                                            📄 Download Kwitansi
-                                        </a>
-                                    @endif
                                 </div>
-
                                 <span class="status-badge {{ $statusBulan[$bulan] == 'lunas' ? 'lunas' : 'belum' }}">
                                     {{ $statusBulan[$bulan] == 'lunas' ? 'Lunas' : 'Belum Lunas' }}
                                 </span>
@@ -491,6 +429,7 @@
             @csrf
             <input type="hidden" name="id_biaya" value="{{ $biaya->id_biaya }}">
             <input type="hidden" name="tahun_ajaran" value="{{ $tahunAjaran }}">
+            <input type="hidden" name="bulan" id="bulanTerpilih">
 
             {{-- Card Pilih Bulan --}}
             <div class="card">
@@ -502,34 +441,20 @@
                     @foreach($bulanList as $index => $bulan)
                         @php
                             $isLunas = $statusBulan[$bulan] == 'lunas';
-
-                            // Tentukan tahun untuk tiap bulan
-                            // Juli-Desember = tahun pertama (2025)
-                            // Januari-Juni = tahun kedua (2026)
                             $tahunBulan = $index < 6 ? '2025' : '2026';
-
-                            // Hitung batas pembayaran (2 bulan setelahnya)
-                            $indexBatas = $index + 2; // +2 bulan
-
-                            // Kalau index batas >= 12, wrap ke tahun berikutnya
+                            $indexBatas = $index + 2;
                             if ($indexBatas >= 12) {
                                 $indexBatas = $indexBatas - 12;
                                 $tahunBatas = $index < 6 ? '2026' : '2027';
                             } else {
-                                // Tentukan tahun batas berdasarkan index batas
                                 $tahunBatas = $indexBatas < 6 ? '2025' : '2026';
                             }
-
-                            // Ambil nama bulan batas
                             $bulanBatas = $bulanList[$indexBatas];
-
-                            // Format batas tanggal
                             $batasTanggal = "10 " . $bulanBatas . " " . $tahunBatas;
                         @endphp
                         <div class="bulan-card {{ $isLunas ? 'disabled' : '' }}"
                              id="bulan_{{ $bulan }}"
-                             onclick="{{ $isLunas ? '' : 'toggleBulan(this, \'' . $bulan . '\')' }}">
-                            <input type="checkbox" name="bulan[]" value="{{ $bulan }}" id="check_{{ $bulan }}" {{ $isLunas ? 'disabled' : '' }}>
+                             onclick="{{ $isLunas ? '' : 'pilihBulan(\'' . $bulan . '\')' }}">
                             <h4>{{ $bulan }} {{ $tahunBulan }}</h4>
                             <p>{{ $isLunas ? '✓ Sudah Lunas' : 'Batas tanggal ' . $batasTanggal }}</p>
                             @if(!$isLunas)
@@ -538,21 +463,6 @@
                         </div>
                     @endforeach
                 </div>
-
-                {{-- Total Section --}}
-                <div class="total-section" id="totalSection" style="display: none;">
-                    <h4 style="margin-bottom: 15px;">Total pembayaran</h4>
-                    <div id="totalList"></div>
-                    <div class="total-row final">
-                        <span>Total</span>
-                        <span id="totalFinal">Rp 0</span>
-                    </div>
-                </div>
-            </div>
-
-            {{-- Warning untuk multiple bulan --}}
-            <div class="alert-warning" id="warningMultiple" style="display: none;">
-                ⚠️ <strong>Perhatian:</strong> Anda memilih lebih dari 1 bulan. Pembayaran hanya bisa Lunas (tidak bisa cicil).
             </div>
 
             {{-- Card Opsi Pembayaran --}}
@@ -563,21 +473,20 @@
 
                 <div class="opsi-grid">
                     <div class="opsi-card" onclick="pilihOpsi('lunas')" id="cardLunas">
-                        <input type="radio" name="tipe_bayar" value="lunas" id="opsiLunas">
                         <h4>Lunas</h4>
                         <p>Bayar sekaligus</p>
-                        <div class="price" id="hargaLunas">Rp 0</div>
+                        <div class="price">Rp {{ number_format($biaya->biaya, 0, ',', '.') }}</div>
                     </div>
 
                     <div class="opsi-card" onclick="pilihOpsi('cicilan')" id="cardCicilan">
-                        <input type="radio" name="tipe_bayar" value="cicilan" id="opsiCicilan">
                         <h4>Cicil</h4>
-                        <p>Cicil dua Kali bayar</p>
-                        <div class="price" id="hargaCicilan">Rp 0/bulan</div>
+                        <p>Cicil dua kali bayar</p>
+                        <div class="price">Rp {{ number_format($biaya->biaya / 2, 0, ',', '.') }}/bayar</div>
                     </div>
                 </div>
 
                 <input type="hidden" name="nominal_dibayar" id="nominalDibayar">
+                <input type="hidden" name="tipe_bayar" id="tipeBayar">
             </div>
 
             {{-- Card Upload --}}
@@ -605,7 +514,7 @@
                         <div class="dropzone-hint">Maksimal 10MB</div>
                     </div>
 
-                    <input type="file" name="bukti_pembayaran" id="fileInput" accept="image/*,application/pdf" onchange="handleFileSelect(this)">
+                    <input type="file" name="bukti_pembayaran" id="fileInput" accept=".jpg,.jpeg,.png,.pdf" onchange="handleFileSelect(this)">
 
                     <div class="file-preview" id="filePreview">
                         <span id="fileName"></span>
@@ -618,142 +527,48 @@
                 </button>
             </div>
         </form>
-
-        {{-- History Pembayaran SPP --}}
-        @if($pembayaran->count() > 0)
-            <div class="card" style="margin-top: 20px;">
-                <h3 style="margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #ddd;">
-                    📋 History Pembayaran SPP
-                </h3>
-
-                <table border="1" cellpadding="10" style="width: 100%; border-collapse: collapse;">
-                    <thead>
-                        <tr style="background-color: #2196F3; color: white;">
-                            <th>No</th>
-                            <th>Bulan</th>
-                            <th>Tanggal</th>
-                            <th>Nominal</th>
-                            <th>Sisa</th>
-                            <th>Cicilan</th>
-                            <th>Status</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($pembayaran->sortBy('created_at') as $item)
-                            <tr>
-                                <td style="text-align: center;">{{ $loop->iteration }}</td>
-                                <td>{{ $item->bulan }}</td>
-                                <td>{{ $item->created_at->format('d/m/Y H:i') }}</td>
-                                <td>Rp {{ number_format($item->nominal_dibayar, 0, ',', '.') }}</td>
-                                <td>Rp {{ number_format($item->sisa_pembayaran, 0, ',', '.') }}</td>
-                                <td style="text-align: center;">{{ $item->cicilan_ke }} / {{ $item->total_cicilan }}</td>
-                                <td style="text-align: center;">
-                                    <span style="
-                                        padding: 5px 10px;
-                                        border-radius: 12px;
-                                        font-size: 12px;
-                                        color: white;
-                                        background-color: {{ $item->status == 'lunas' ? '#4caf50' : '#ff9800' }};
-                                    ">
-                                        {{ ucfirst($item->status) }}
-                                    </span>
-                                </td>
-                                <td style="text-align: center;">
-                                    @if($item->status == 'lunas' && $item->kwitansi)
-                                        <a href="{{ route('pembayaran.download-kwitansi', $item->id_pembayaran) }}"
-                                           style="padding: 6px 12px; background-color: #4caf50; color: white; text-decoration: none; border-radius: 5px; display: inline-block; font-size: 12px;">
-                                            📄 Download
-                                        </a>
-                                    @else
-                                        <span style="color: #999; font-size: 12px;">Menunggu verifikasi</span>
-                                    @endif
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        @endif
     </div>
 
     <script>
         const biayaPerBulan = {{ $biaya->biaya }};
-        let bulanDipilih = [];
+        let bulanDipilih = null;
 
-        function toggleBulan(element, bulan) {
-            const checkbox = document.getElementById('check_' + bulan);
-            checkbox.checked = !checkbox.checked;
+        function pilihBulan(bulan) {
+            // Reset semua card
+            document.querySelectorAll('.bulan-card:not(.disabled)').forEach(card => {
+                card.classList.remove('active');
+            });
 
-            if (checkbox.checked) {
-                element.classList.add('active');
-                bulanDipilih.push(bulan);
-            } else {
-                element.classList.remove('active');
-                bulanDipilih = bulanDipilih.filter(b => b !== bulan);
-            }
+            // Aktifkan yang dipilih
+            const card = document.getElementById('bulan_' + bulan);
+            card.classList.add('active');
+            bulanDipilih = bulan;
 
-            updateTotal();
-        }
+            // Set hidden input
+            document.getElementById('bulanTerpilih').value = bulan;
 
-        function updateTotal() {
-            const jumlah = bulanDipilih.length;
-            const total = jumlah * biayaPerBulan;
+            // Tampilkan card opsi & upload
+            document.getElementById('opsiCard').style.display = 'block';
+            document.getElementById('uploadCard').style.display = 'block';
 
-            if (jumlah > 0) {
-                document.getElementById('totalSection').style.display = 'block';
-                document.getElementById('opsiCard').style.display = 'block';
-                document.getElementById('uploadCard').style.display = 'block';
-
-                let listHTML = '';
-                bulanDipilih.forEach(b => {
-                    listHTML += `<div class="total-row"><span>Spp ${b}</span><span>Rp ${formatRupiah(biayaPerBulan)}</span></div>`;
-                });
-                document.getElementById('totalList').innerHTML = listHTML;
-                document.getElementById('totalFinal').textContent = 'Rp ' + formatRupiah(total);
-
-                document.getElementById('hargaLunas').textContent = 'Rp ' + formatRupiah(total);
-                document.getElementById('hargaCicilan').textContent = 'Rp ' + formatRupiah(total / 2) + '/bayar';
-
-                // Logic cicilan
-                const cardCicilan = document.getElementById('cardCicilan');
-                const opsiCicilan = document.getElementById('opsiCicilan');
-                if (jumlah > 1) {
-                    document.getElementById('warningMultiple').style.display = 'block';
-                    cardCicilan.classList.add('disabled');
-                    opsiCicilan.disabled = true;
-                    document.getElementById('opsiLunas').checked = true;
-                    pilihOpsi('lunas');
-                } else {
-                    document.getElementById('warningMultiple').style.display = 'none';
-                    cardCicilan.classList.remove('disabled');
-                    opsiCicilan.disabled = false;
-                }
-            } else {
-                document.getElementById('totalSection').style.display = 'none';
-                document.getElementById('opsiCard').style.display = 'none';
-                document.getElementById('uploadCard').style.display = 'none';
-                document.getElementById('warningMultiple').style.display = 'none';
-            }
+            checkFormValidity();
         }
 
         function pilihOpsi(opsi) {
             const cardLunas = document.getElementById('cardLunas');
             const cardCicilan = document.getElementById('cardCicilan');
-            const total = bulanDipilih.length * biayaPerBulan;
 
             cardLunas.classList.remove('active');
             cardCicilan.classList.remove('active');
 
             if (opsi === 'lunas') {
-                document.getElementById('opsiLunas').checked = true;
                 cardLunas.classList.add('active');
-                document.getElementById('nominalDibayar').value = total;
+                document.getElementById('tipeBayar').value = 'lunas';
+                document.getElementById('nominalDibayar').value = biayaPerBulan;
             } else {
-                if (bulanDipilih.length > 1) return;
-                document.getElementById('opsiCicilan').checked = true;
                 cardCicilan.classList.add('active');
-                document.getElementById('nominalDibayar').value = total / 2;
+                document.getElementById('tipeBayar').value = 'cicilan';
+                document.getElementById('nominalDibayar').value = biayaPerBulan / 2;
             }
 
             checkFormValidity();
@@ -777,15 +592,34 @@
         }
 
         function checkFormValidity() {
-            const opsiDipilih = document.querySelector('input[name="tipe_bayar"]:checked');
+            const bulanTerpilih = document.getElementById('bulanTerpilih').value;
+            const tipeBayar = document.getElementById('tipeBayar').value;
             const fileDipilih = document.getElementById('fileInput').files.length > 0;
 
-            document.getElementById('btnSubmit').disabled = !(opsiDipilih && fileDipilih && bulanDipilih.length > 0);
+            document.getElementById('btnSubmit').disabled = !(bulanTerpilih && tipeBayar && fileDipilih);
         }
 
-        function formatRupiah(angka) {
-            return new Intl.NumberFormat('id-ID').format(angka);
-        }
+        // Drag and drop
+        const dropzone = document.getElementById('dropzone');
+
+        dropzone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropzone.style.borderColor = '#D32F2F';
+        });
+
+        dropzone.addEventListener('dragleave', () => {
+            dropzone.style.borderColor = '#ddd';
+        });
+
+        dropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropzone.style.borderColor = '#ddd';
+            const file = e.dataTransfer.files[0];
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(file);
+            document.getElementById('fileInput').files = dataTransfer.files;
+            handleFileSelect(document.getElementById('fileInput'));
+        });
     </script>
 </body>
 </html>

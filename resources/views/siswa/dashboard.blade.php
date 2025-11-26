@@ -531,12 +531,13 @@
         </div>
 
         <!-- Menu Navigation -->
-        <ul class="navbar-menu">
-            <li><a href="{{ route('siswa.dashboard') }}">Beranda</a></li>
-            <li><a href="#">Layanan</a></li>
-            <li><a href="#tutorial">Tutorial</a></li>
-            <li><a href="#">Kontak</a></li>
-        </ul>
+        <!-- SESUDAH -->
+    <ul class="navbar-menu">
+        <li><a href="{{ route('siswa.dashboard') }}" class="active">Beranda</a></li>
+        <li><a href="{{ route('siswa.histori') }}">Histori</a></li>
+        <li><a href="#tutorial">Tutorial</a></li>
+        <li><a href="#">Kontak</a></li>
+    </ul>
 
         <!-- User Profile Button -->
         <div style="display: flex; align-items: center; gap: 1rem;">
