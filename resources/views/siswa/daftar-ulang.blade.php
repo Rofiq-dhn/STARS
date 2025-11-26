@@ -12,198 +12,273 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f5f5f5;
-            padding: 20px;
+            padding: 0;
+            min-height: 100vh;
         }
 
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .header {
+        /* Header dengan background merah */
+        .top-header {
+            background-color: #333333;
+            padding: 15px 270px;
+            color: white;
             display: flex;
             align-items: center;
             gap: 15px;
-            margin-bottom: 30px;
-            padding: 15px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
         }
 
         .btn-back {
-            width: 40px;
-            height: 40px;
-            background: #f5f5f5;
             border: none;
-            border-radius: 50%;
+            color: white;
+            width: 80px;
+            height: 35px;
+            border-radius: 8px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
+            font-size: 18px;
             text-decoration: none;
-            color: #333;
+            transition: background 0.3s;
+            padding-bottom: 4px;
         }
 
-        .header-title {
+        .breadcrumb {
+            color: rgba(255,255,255,0.8);
+            font-size: 14px;
             display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 16px;
-            color: #D32F2F;
-            font-weight: bold;
         }
 
+        .breadcrumb-separator {
+            margin: 0 8px;
+        }
+
+        /* Container */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 25px 20px;
+        }
+
+        /* Card */
         .card {
             background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
             margin-bottom: 20px;
         }
 
-        .card-title {
+        .card-header {
             display: flex;
             align-items: center;
             gap: 10px;
-            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .card-icon {
+            width: 28px;
+            height: 28px;
+            background: #FEE;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
             color: #333;
-            margin-bottom: 15px;
-            font-weight: bold;
         }
 
         .card-description {
             font-size: 13px;
             color: #666;
             line-height: 1.6;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
+        /* Info Grid - 2 kolom */
         .info-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 30px;
         }
 
-        .info-section h3 {
+        .info-section-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #f5f5f5;
+        }
+
+        .info-row {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            padding: 10px 0;
+            border-bottom: 1px solid #f5f5f5;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            font-size: 12px;
+            color: #999;
+        }
+
+        .info-value {
+            font-size: 14px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .info-row.total .info-label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .info-row.total .info-value {
+            color: #D32F2F;
             font-size: 16px;
+            font-weight: 700;
+        }
+
+        /* Payment Options */
+        .payment-options-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 15px;
+            font-weight: 600;
             color: #333;
             margin-bottom: 15px;
         }
 
-        .info-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #f0f0f0;
-        }
-
-        .info-item label {
-            font-size: 14px;
-            color: #666;
-        }
-
-        .info-item strong {
-            font-size: 14px;
-            color: #333;
-        }
-
-        .info-item.total strong {
-            color: #D32F2F;
-            font-size: 16px;
-        }
-
-        .opsi-grid {
+        .options-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 15px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
-        .opsi-card {
-            border: 2px solid #e0e0e0;
-            padding: 20px;
-            border-radius: 8px;
+        .option-card {
+            border: 2px solid #e5e5e5;
+            padding: 18px;
+            border-radius: 10px;
             cursor: pointer;
             transition: all 0.3s;
+            position: relative;
         }
 
-        .opsi-card:hover {
+        .option-card:hover {
             border-color: #D32F2F;
+            background: #FFFBFB;
         }
 
-        .opsi-card.active {
+        .option-card.active {
             border-color: #D32F2F;
-            background: #ffebee;
+            background: #FFF5F5;
         }
 
-        .opsi-card input[type="radio"] {
-            margin-bottom: 10px;
+        .option-card input[type="radio"] {
+            position: absolute;
+            opacity: 0;
         }
 
-        .opsi-card h4 {
+        .option-title {
             font-size: 15px;
-            margin-bottom: 5px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
         }
 
-        .opsi-card p {
-            font-size: 13px;
-            color: #666;
+        .option-desc {
+            font-size: 12px;
+            color: #999;
             margin-bottom: 10px;
         }
 
-        .opsi-card .price {
-            font-size: 18px;
-            font-weight: bold;
+        .option-price {
+            font-size: 17px;
+            font-weight: 700;
             color: #333;
         }
 
+        /* Upload Section */
         .upload-section {
-            background: #fff5f5;
-            border: 2px solid #ffcdd2;
-            border-radius: 8px;
-            padding: 25px;
+            background: #FFF5F5;
+            border: 2px solid #FFCDD2;
+            border-radius: 12px;
+            padding: 20px;
         }
 
         .upload-header {
             display: flex;
             align-items: center;
             gap: 10px;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
 
-        .upload-header h4 {
-            font-size: 16px;
+        .upload-icon {
+            width: 32px;
+            height: 32px;
+            background: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .upload-title {
+            font-size: 15px;
+            font-weight: 600;
             color: #D32F2F;
         }
 
-        .bank-info {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
+        .upload-subtitle {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .bank-info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 18px;
             padding-bottom: 15px;
-            border-bottom: 1px solid #ffcdd2;
+            border-bottom: 1px solid #FFCDD2;
         }
 
         .bank-item {
-            font-size: 13px;
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
         }
 
-        .bank-item label {
+        .bank-label {
+            font-size: 11px;
             color: #999;
-            display: block;
-            margin-bottom: 3px;
         }
 
-        .bank-item strong {
+        .bank-value {
+            font-size: 13px;
             color: #333;
+            font-weight: 600;
         }
 
-        .upload-label {
-            font-size: 14px;
+        .upload-label-text {
+            font-size: 13px;
             color: #666;
             margin-bottom: 10px;
             display: block;
@@ -211,8 +286,8 @@
 
         .dropzone {
             border: 2px dashed #ddd;
-            border-radius: 8px;
-            padding: 40px;
+            border-radius: 10px;
+            padding: 35px 20px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s;
@@ -221,91 +296,158 @@
 
         .dropzone:hover {
             border-color: #D32F2F;
-            background: #fff5f5;
+            background: #FFFBFB;
         }
 
         .dropzone-icon {
-            font-size: 40px;
-            margin-bottom: 10px;
+            font-size: 36px;
+            margin-bottom: 8px;
         }
 
         .dropzone-text {
-            font-size: 14px;
+            font-size: 13px;
             color: #666;
+            margin-bottom: 4px;
         }
 
         .dropzone-hint {
-            font-size: 12px;
+            font-size: 11px;
             color: #999;
-            margin-top: 5px;
         }
 
         .file-preview {
             display: none;
-            margin-top: 15px;
-            padding: 15px;
+            margin-top: 12px;
+            padding: 12px 15px;
             background: white;
             border: 1px solid #ddd;
             border-radius: 8px;
+            align-items: center;
+            justify-content: space-between;
         }
 
         .file-preview.show {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+        }
+
+        .file-name {
+            font-size: 13px;
+            color: #333;
+            flex: 1;
         }
 
         .btn-remove {
             background: #f44336;
             color: white;
             border: none;
-            padding: 5px 15px;
-            border-radius: 5px;
+            padding: 6px 14px;
+            border-radius: 6px;
             cursor: pointer;
-            font-size: 12px;
+            font-size: 11px;
+            font-weight: 500;
         }
 
-        .btn-submit {
-            width: 100%;
-            padding: 15px;
-            background: #D32F2F;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
+        .btn-remove:hover {
+            background: #d32f2f;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr 150px;
+            gap: 12px;
             margin-top: 20px;
         }
 
-        .btn-submit:hover {
-            background: #B71C1C;
+        .btn-submit {
+            padding: 14px;
+            background: linear-gradient(135deg, #D32F2F 0%, #B71C1C 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-submit:hover:not(:disabled) {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(211, 47, 47, 0.3);
         }
 
         .btn-submit:disabled {
             background: #ccc;
             cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-reset {
+            padding: 14px;
+            background: white;
+            color: #666;
+            border: 2px solid #e5e5e5;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-reset:hover {
+            border-color: #D32F2F;
+            color: #D32F2F;
         }
 
         input[type="file"] {
             display: none;
         }
+
+        @media (max-width: 768px) {
+            .info-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .bank-info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .action-buttons {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        {{-- Header --}}
-        <div class="header">
-            <a href="{{ route('siswa.dashboard') }}" class="btn-back">←</a>
-            <div class="header-title">
-                📝 Pembayaran Daftar Ulang
+    {{-- Header dengan background merah --}}
+    <div class="top-header">
+        <a href="{{ route('siswa.dashboard') }}" class="btn-back">←Kembali</a>
+        <div>
+            <div class="breadcrumb">
+                <span class="breadcrumb-separator">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="red">
+                        <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+                    </svg>
+                </span> <p>Pembayaran Daftar Ulang</p>
             </div>
         </div>
+    </div>
 
-        {{-- Card Info --}}
+    <div class="container">
+        {{-- Card Info Pembayaran --}}
         <div class="card">
-            <div class="card-title">
-                📝 Pembayaran Daftar Ulang
+            <div class="card-header">
+                <div class="card-icon">📝</div>
+                <div class="card-title">Pembayaran Daftar Ulang</div>
             </div>
             <p class="card-description">
                 Pembayaran daftar ulang untuk melanjutkan pendidikan ke tingkat yang lebih tinggi. Siswa wajib melakukan daftar ulang sebelum tahun ajaran baru dimulai.
@@ -314,108 +456,110 @@
             <div class="info-grid">
                 {{-- Data Siswa --}}
                 <div class="info-section">
-                    <h3>Data Siswa</h3>
-                    <div class="info-item">
-                        <label>Nama Siswa</label>
-                        <strong>{{ $siswa->nama }}</strong>
+                    <div class="info-section-title">Data Siswa</div>
+                    <div class="info-row">
+                        <span class="info-label">Nama Lengkap</span>
+                        <span class="info-value">{{ $siswa->nama }}</span>
                     </div>
-                    <div class="info-item">
-                        <label>NISN</label>
-                        <strong>{{ $siswa->nis }}</strong>
+                    <div class="info-row">
+                        <span class="info-label">NISN</span>
+                        <span class="info-value">{{ $siswa->nis }}</span>
                     </div>
-                    <div class="info-item">
-                        <label>Kelas Saat Ini</label>
-                        <strong>{{ $siswa->kelas_siswa }} {{ $siswa->jurusan }}</strong>
+                    <div class="info-row">
+                        <span class="info-label">Kelas Saat Ini</span>
+                        <span class="info-value">{{ $siswa->kelas_siswa }} {{ $siswa->jurusan }}</span>
                     </div>
-                    <div class="info-item">
-                        <label>Kelas Tujuan</label>
+                    <div class="info-row">
+                        <span class="info-label">Kelas Tujuan</span>
                         @php
                             $kelasTujuan = ((int)$siswa->kelas_siswa) + 1;
                         @endphp
-                        <strong>{{ $kelasTujuan }} {{ $siswa->jurusan }}</strong>
+                        <span class="info-value">{{ $kelasTujuan }} {{ $siswa->jurusan }}</span>
                     </div>
                 </div>
 
                 {{-- Detail Pembayaran --}}
                 <div class="info-section">
-                    <h3>Detail Pembayaran</h3>
+                    <div class="info-section-title">Detail Pembayaran</div>
                     @if($biaya)
-                    <div class="info-item">
-                        <label>Biaya Daftar ulang</label>
-                        <strong>Rp {{ number_format($biaya->biaya * 0.25, 0, ',', '.') }}</strong>
+                    <div class="info-row">
+                        <span class="info-label">Biaya Daftar ulang</span>
+                        <span class="info-value">Rp {{ number_format($biaya->biaya * 0.25, 0, ',', '.') }}</span>
                     </div>
-                    <div class="info-item">
-                        <label>Dana pembangunan</label>
-                        <strong>Rp {{ number_format($biaya->biaya * 0.45, 0, ',', '.') }}</strong>
+                    <div class="info-row">
+                        <span class="info-label">Dana pembangunan</span>
+                        <span class="info-value">Rp {{ number_format($biaya->biaya * 0.45, 0, ',', '.') }}</span>
                     </div>
-                    <div class="info-item">
-                        <label>Biaya Kegiatan</label>
-                        <strong>Rp {{ number_format($biaya->biaya * 0.30, 0, ',', '.') }}</strong>
+                    <div class="info-row">
+                        <span class="info-label">Biaya Kegiatan</span>
+                        <span class="info-value">Rp {{ number_format($biaya->biaya * 0.30, 0, ',', '.') }}</span>
                     </div>
-                    <div class="info-item total">
-                        <label><strong>Detail Pembayaran</strong></label>
-                        <strong>Rp {{ number_format($biaya->biaya, 0, ',', '.') }}</strong>
+                    <div class="info-row total">
+                        <span class="info-label">Detail Pembayaran</span>
+                        <span class="info-value">Rp {{ number_format($biaya->biaya, 0, ',', '.') }}</span>
                     </div>
                     @endif
                 </div>
             </div>
         </div>
 
-        {{-- Form --}}
+        {{-- Form Pembayaran --}}
         <form action="{{ route('siswa.daftar-ulang.store') }}" method="POST" enctype="multipart/form-data" id="formPembayaran">
             @csrf
             <input type="hidden" name="id_biaya" value="{{ $biaya->id_biaya }}">
             <input type="hidden" name="tahun_ajaran" value="{{ $tahunAjaran }}">
+            <input type="hidden" name="nominal_dibayar" id="nominalDibayar" value="">
 
-            {{-- Opsi --}}
+            {{-- Card Opsi Pembayaran --}}
             <div class="card">
-                <div class="card-title">
-                    💳 Opsi Pembayaran
+                <div class="payment-options-title">
+                    <span>💳</span>
+                    <span>Opsi Pembayaran</span>
                 </div>
 
-                <div class="opsi-grid">
-                    <div class="opsi-card" onclick="pilihOpsi('lunas')" id="cardLunas">
+                <div class="options-grid">
+                    {{-- Lunas --}}
+                    <div class="option-card" onclick="pilihOpsi('lunas')" id="cardLunas">
                         <input type="radio" name="tipe_bayar" value="lunas" id="opsiLunas" required>
-                        <h4>Lunas</h4>
-                        <p>Bayar sekaligus</p>
-                        <div class="price">Rp {{ number_format($biaya->biaya, 0, ',', '.') }}</div>
+                        <div class="option-title">Lunas</div>
+                        <div class="option-desc">Bayar Sekaligus</div>
+                        <div class="option-price">Rp {{ number_format($biaya->biaya, 0, ',', '.') }}</div>
                     </div>
 
-                    <div class="opsi-card" onclick="pilihOpsi('cicilan')" id="cardCicilan">
+                    {{-- Cicil --}}
+                    <div class="option-card" onclick="pilihOpsi('cicilan')" id="cardCicilan">
                         <input type="radio" name="tipe_bayar" value="cicilan" id="opsiCicilan" required>
-                        <h4>Cicil</h4>
-                        <p>Cicil dua Kali bayar</p>
-                        <div class="price">Rp {{ number_format($biaya->biaya / 2, 0, ',', '.') }}/bulan</div>
+                        <div class="option-title">Cicil</div>
+                        <div class="option-desc">Cicil dua Kali bayar</div>
+                        <div class="option-price">Rp {{ number_format($biaya->biaya / 2, 0, ',', '.') }}/bulan</div>
                     </div>
                 </div>
-
-                <input type="hidden" name="nominal_dibayar" id="nominalDibayar" value="">
             </div>
 
-            {{-- Upload --}}
+            {{-- Card Upload Bukti --}}
             <div class="card">
                 <div class="upload-section">
                     <div class="upload-header">
-                        <span style="font-size: 24px;">💳</span>
-                        <h4>Kirim Bukti Transfer</h4>
+                        <div class="upload-icon">💳</div>
+                        <div class="upload-title">Kirim Bukti Transfer</div>
                     </div>
 
-                    <p style="font-size: 13px; color: #666; margin-bottom: 15px;">
+                    <p class="upload-subtitle">
                         Transfer ke rekening sekolah dan upload bukti
                     </p>
 
-                    <div class="bank-info">
+                    <div class="bank-info-grid">
                         <div class="bank-item">
-                            <label>Bank BNI</label>
-                            <strong>1234567890</strong>
+                            <span class="bank-label">Bank BNI</span>
+                            <span class="bank-value">1234567890</span>
                         </div>
                         <div class="bank-item">
-                            <label>Atas Nama</label>
-                            <strong>SMK Telkom Banjarbaru</strong>
+                            <span class="bank-label">Atas Nama</span>
+                            <span class="bank-value">SMK Telkom Banjarbaru</span>
                         </div>
                     </div>
 
-                    <label class="upload-label">Upload Bukti Pembayaran</label>
+                    <label class="upload-label-text">Upload Bukti Pembayaran</label>
 
                     <div class="dropzone" id="dropzone" onclick="document.getElementById('fileInput').click()">
                         <div class="dropzone-icon">⬇️</div>
@@ -426,71 +570,20 @@
                     <input type="file" name="bukti_pembayaran" id="fileInput" accept="image/*,application/pdf" required onchange="handleFileSelect(this)">
 
                     <div class="file-preview" id="filePreview">
-                        <span id="fileName"></span>
+                        <span class="file-name" id="fileName"></span>
                         <button type="button" class="btn-remove" onclick="removeFile()">Hapus</button>
                     </div>
                 </div>
 
-                <button type="submit" class="btn-submit" id="btnSubmit" disabled>
-                    Kirim Pembayaran
-                </button>
+                <div class="action-buttons">
+                    <button type="submit" class="btn-submit" id="btnSubmit" disabled>
+                        <span>💳</span>
+                        <span>Bayar</span>
+                    </button>
+                    <button type="button" class="btn-reset" onclick="resetForm()">Reset</button>
+                </div>
             </div>
         </form>
-
-        {{-- History Pembayaran --}}
-        @if($pembayaran->count() > 0)
-            <div class="card" style="margin-top: 20px;">
-                <h3 style="margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #ddd;">
-                    📋 History Pembayaran Daftar Ulang
-                </h3>
-
-                <table border="1" cellpadding="10" style="width: 100%; border-collapse: collapse;">
-                    <thead>
-                        <tr style="background-color: #7B1FA2; color: white;">
-                            <th>No</th>
-                            <th>Tanggal</th>
-                            <th>Nominal</th>
-                            <th>Sisa</th>
-                            <th>Cicilan</th>
-                            <th>Status</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($pembayaran as $item)
-                            <tr>
-                                <td style="text-align: center;">{{ $loop->iteration }}</td>
-                                <td>{{ $item->created_at->format('d/m/Y H:i') }}</td>
-                                <td>Rp {{ number_format($item->nominal_dibayar, 0, ',', '.') }}</td>
-                                <td>Rp {{ number_format($item->sisa_pembayaran, 0, ',', '.') }}</td>
-                                <td style="text-align: center;">{{ $item->cicilan_ke }} / {{ $item->total_cicilan }}</td>
-                                <td style="text-align: center;">
-                                    <span style="
-                                        padding: 5px 10px;
-                                        border-radius: 12px;
-                                        font-size: 12px;
-                                        color: white;
-                                        background-color: {{ $item->status == 'lunas' ? '#4caf50' : '#ff9800' }};
-                                    ">
-                                        {{ ucfirst($item->status) }}
-                                    </span>
-                                </td>
-                                <td style="text-align: center;">
-                                    @if($item->status == 'lunas' && $item->kwitansi)
-                                        <a href="{{ route('pembayaran.download-kwitansi', $item->id_pembayaran) }}"
-                                           style="padding: 6px 12px; background-color: #4caf50; color: white; text-decoration: none; border-radius: 5px; display: inline-block; font-size: 12px;">
-                                            📄 Download
-                                        </a>
-                                    @else
-                                        <span style="color: #999; font-size: 12px;">Menunggu verifikasi</span>
-                                    @endif
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        @endif
     </div>
 
     <script>
@@ -537,15 +630,20 @@
             checkFormValidity();
         }
 
+        function resetForm() {
+            document.getElementById('formPembayaran').reset();
+            document.getElementById('cardLunas').classList.remove('active');
+            document.getElementById('cardCicilan').classList.remove('active');
+            removeFile();
+            nominalInput.value = '';
+            btnSubmit.disabled = true;
+        }
+
         function checkFormValidity() {
             const opsiDipilih = document.querySelector('input[name="tipe_bayar"]:checked');
             const fileDipilih = document.getElementById('fileInput').files.length > 0;
 
-            if (opsiDipilih && fileDipilih) {
-                btnSubmit.disabled = false;
-            } else {
-                btnSubmit.disabled = true;
-            }
+            btnSubmit.disabled = !(opsiDipilih && fileDipilih);
         }
 
         // Drag and drop
@@ -554,20 +652,25 @@
         dropzone.addEventListener('dragover', (e) => {
             e.preventDefault();
             dropzone.style.borderColor = '#D32F2F';
+            dropzone.style.background = '#FFFBFB';
         });
 
         dropzone.addEventListener('dragleave', () => {
             dropzone.style.borderColor = '#ddd';
+            dropzone.style.background = 'white';
         });
 
         dropzone.addEventListener('drop', (e) => {
             e.preventDefault();
             dropzone.style.borderColor = '#ddd';
+            dropzone.style.background = 'white';
             const file = e.dataTransfer.files[0];
-            const dataTransfer = new DataTransfer();
-            dataTransfer.items.add(file);
-            document.getElementById('fileInput').files = dataTransfer.files;
-            handleFileSelect(document.getElementById('fileInput'));
+            if (file) {
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(file);
+                document.getElementById('fileInput').files = dataTransfer.files;
+                handleFileSelect(document.getElementById('fileInput'));
+            }
         });
     </script>
 </body>
