@@ -18,7 +18,7 @@
 
         /* Sidebar Styles */
         .sidebar {
-            top : 0;
+            top: 0;
             width: 280px;
             background: linear-gradient(180deg, #3d3d3d 0%, #2b2b2b 100%);
             color: white;
@@ -27,6 +27,11 @@
             overflow-y: auto;
             z-index: 100;
             box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, width 0.3s ease;
+        }
+
+        .sidebar.collapsed {
+            transform: translateX(-280px);
         }
 
         .sidebar-header {
@@ -36,19 +41,20 @@
 
         .logo-container {
             display: flex;
-            align-items: center;
+            justify-content: center;
+            align-items: flex-end;
             gap: 12px;
             margin-bottom: 20px;
         }
 
         .logo-icon {
-            width: 48px;
-            height: 48px;
-            background-color: #dc2626;
+            width: 58px;
+            height: 58px;
             border-radius: 8px;
+            padding-top: 15px;
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-end;
             font-size: 24px;
         }
 
@@ -68,7 +74,7 @@
         /* Navigation Menu */
         .sidebar-nav {
             padding: 20px 16px;
-            padding-bottom: 100px; /* Beri ruang untuk logout button */
+            padding-bottom: 100px;
         }
 
         .sidebar ul {
@@ -118,6 +124,12 @@
             width: 280px;
             padding: 20px 16px;
             background: linear-gradient(to top, #2b2b2b 80%, transparent 100%);
+            transition: width 0.3s ease;
+        }
+
+        .sidebar.collapsed .logout-container {
+            width: 0;
+            opacity: 0;
         }
 
         .logout-container form {
@@ -155,13 +167,39 @@
             left: 280px;
             right: 0;
             height: 70px;
-            background-color: white;
+            background-color: #B30000;
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 0 32px;
             z-index: 99;
+            transition: left 0.3s ease;
+        }
+
+        .navbar.expanded {
+            left: 0;
+        }
+
+        /* Toggle Button */
+        .toggle-sidebar-btn {
+            background-color: transparent;
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            font-size: 20px;
+        }
+
+        .toggle-sidebar-btn:hover {
+            background-color: rgba(255,255,255,0.3);
+            transform: scale(1.05);
         }
 
         .navbar-brand {
@@ -173,7 +211,6 @@
         .navbar-brand-icon {
             width: 40px;
             height: 40px;
-            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
             border-radius: 8px;
             display: flex;
             align-items: center;
@@ -186,7 +223,7 @@
         .navbar-brand-text strong {
             font-size: 18px;
             font-weight: 700;
-            color: #2c3e50;
+            color: #ffffff;
             display: block;
             line-height: 1.2;
         }
@@ -194,7 +231,7 @@
         .navbar-brand-text small {
             font-size: 11px;
             font-weight: 400;
-            color: #7f8c8d;
+            color: #ffffff;
         }
 
         .navbar-user {
@@ -240,6 +277,11 @@
             padding: 32px;
             min-height: calc(100vh - 70px);
             background-color: #f5f5f5;
+            transition: margin-left 0.3s ease;
+        }
+
+        .content.expanded {
+            margin-left: 0;
         }
 
         /* Alert Success */
@@ -314,10 +356,16 @@
     </style>
 </head>
 <body>
-    <div class="sidebar">
+    <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <div class="logo-container">
-                <div class="logo-icon">🎓</div>
+                <div class="logo-icon">
+                    <svg width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 4L2 9L12 14L22 9L12 4Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                        <path d="M2 9V15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M19 10.5V16C19 16 17 18 12 18C7 18 5 16 5 16V10.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
                 <div class="logo-text">
                     <h2>Admin Sekolah</h2>
                     <p class="logo-subtitle">Sistem Tagihan Sekolah</p>
@@ -348,9 +396,9 @@
         </div>
 
         <div class="logout-container">
-            <form action="{{ route('logout') }}" method="POST">
+            <form id="logout-form" action="{{ route('logout') }}" method="POST">
                 @csrf
-                <button type="submit">
+                <button type="button" onclick="handleLogout()">
                     <span>🚪</span>
                     <span>Keluar</span>
                 </button>
@@ -359,34 +407,57 @@
     </div>
 
     <!-- Navbar -->
-    <div class="navbar">
-        <div class="navbar-brand">
-            <div class="navbar-brand-icon">F</div>
-            <div class="navbar-brand-text">
-                <strong>STARS</strong>
-                <small>Sistem Tagihan Dan Pembayaran Sekolah</small>
-            </div>
-        </div>
-        <div class="navbar-user">
-            <div class="user-info">
-                <span class="user-name">{{ Auth::user()->name ?? 'Admin' }}</span>
-                <span class="user-role">Administrator</span>
-            </div>
-            <div class="user-avatar">
-                {{ strtoupper(substr(Auth::user()->name ?? 'A', 0, 1)) }}
+    <div class="navbar" id="navbar">
+        <div style="display: flex; align-items: center; gap: 16px;">
+            <button class="toggle-sidebar-btn" onclick="toggleSidebar()" id="toggleBtn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="40" height="40">
+                    <rect width="256" height="256" fill="none"/>
+                    <rect x="35" y="35" width="186" height="186" rx="20" ry="20" fill="#ffffff"/>
+                    <rect x="50" y="50" width="46" height="156" fill="#B30000"/>
+                    <rect x="110" y="50" width="96" height="156" fill="#B30000"/>
+                    <polyline points="165,100 145,128 165,156" fill="none" stroke="#ffffff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+            <div class="navbar-brand">
+
+                <div class="navbar-brand-text">
+                    <strong>STARS</strong>
+                    <small>Sistem Tagihan Dan Pembayaran Sekolah</small>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- Content Area -->
-    <div class="content">
-        @if(session('success'))
-            <div class="alert-success">
-                {{ session('success') }}
-            </div>
-        @endif
-
+    <div class="content" id="content">
+        <x-custom-alert/>
+        <x-logout-alert/>
         @yield('content')
     </div>
 </body>
+<script>
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const navbar = document.getElementById('navbar');
+        const content = document.getElementById('content');
+        const toggleBtn = document.getElementById('toggleBtn');
+
+        sidebar.classList.toggle('collapsed');
+        navbar.classList.toggle('expanded');
+        content.classList.toggle('expanded');
+
+        // Ubah icon toggle button
+        if (sidebar.classList.contains('collapsed')) {
+            toggleBtn.innerHTML =
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="40" height="40"><rect width="256" height="256" fill="none"/><rect x="35" y="35" width="186" height="186" rx="20" ry="20" fill="#ffffff"/><rect x="110" y="50" width="96" height="156" fill="#B30000"/><rect x="50" y="50" width="46" height="156" fill="#B30000"/><polyline points="91,100 111,128 91,156" fill="none" stroke="#ffffff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+        } else {
+            toggleBtn.innerHTML =
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="40" height="40"><rect width="256" height="256" fill="none"/><rect x="35" y="35" width="186" height="186" rx="20" ry="20" fill="#ffffff"/><rect x="50" y="50" width="46" height="156" fill="#B30000"/><rect x="110" y="50" width="96" height="156" fill="#B30000"/><polyline points="165,100 145,128 165,156" fill="none" stroke="#ffffff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+        }
+    }
+
+    function handleLogout() {
+        showLogoutAlert();
+    }
+</script>
 </html>
