@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Biaya;
 use App\Models\Pembayaran;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+
 
 class SiswaController extends Controller
 {
@@ -18,47 +20,47 @@ class SiswaController extends Controller
      * 2. SPP
      * 3. Daftar Ulang
      */
-   public function dashboard()
-{
-    // Ambil user yang login
-    $user = auth()->user();
+    public function dashboard()
+    {
+        // Ambil user yang login
+        $user = auth()->user();
 
-    // Cek apakah user punya relasi siswa
-    if (!$user->siswa) {
-        // Kalau tidak ada relasi, redirect dengan error
-        return redirect()->route('login')->with('error', 'Data siswa tidak ditemukan. Hubungi admin.');
+        // Cek apakah user punya relasi siswa
+        if (!$user->siswa) {
+            // Kalau tidak ada relasi, redirect dengan error
+            return redirect()->route('login')->with('error', 'Data siswa tidak ditemukan. Hubungi admin.');
+        }
+
+        $siswa = $user->siswa;
+
+        // Hitung tahun ajaran
+        $bulanSekarang = date('n');
+        if ($bulanSekarang >= 7) {
+            $tahunAjaran = date('Y') . '/' . (date('Y') + 1);
+        } else {
+            $tahunAjaran = (date('Y') - 1) . '/' . date('Y');
+        }
+
+        // Ambil biaya PPDB
+        $biayaPPDB = Biaya::where('kategori', 'PPDB')
+            ->where('tahun', $tahunAjaran)
+            ->whereNull('kelas')
+            ->first();
+
+        // Ambil biaya SPP sesuai kelas siswa
+        $biayaSPP = Biaya::where('kategori', 'SPP')
+            ->where('tahun', $tahunAjaran)
+            ->where('kelas', $siswa->kelas_siswa)
+            ->first();
+
+        // Ambil biaya Daftar Ulang
+        $biayaDaftarUlang = Biaya::where('kategori', 'DAFTAR ULANG')
+            ->where('tahun', $tahunAjaran)
+            ->whereNull('kelas')
+            ->first();
+
+        return view('siswa.dashboard', compact('siswa', 'tahunAjaran', 'biayaPPDB', 'biayaSPP', 'biayaDaftarUlang'));
     }
-
-    $siswa = $user->siswa;
-
-    // Hitung tahun ajaran
-    $bulanSekarang = date('n');
-    if ($bulanSekarang >= 7) {
-        $tahunAjaran = date('Y') . '/' . (date('Y') + 1);
-    } else {
-        $tahunAjaran = (date('Y') - 1) . '/' . date('Y');
-    }
-
-    // Ambil biaya PPDB
-    $biayaPPDB = Biaya::where('kategori', 'PPDB')
-                     ->where('tahun', $tahunAjaran)
-                     ->whereNull('kelas')
-                     ->first();
-
-    // Ambil biaya SPP sesuai kelas siswa
-    $biayaSPP = Biaya::where('kategori', 'SPP')
-                    ->where('tahun', $tahunAjaran)
-                    ->where('kelas', $siswa->kelas_siswa)
-                    ->first();
-
-    // Ambil biaya Daftar Ulang
-    $biayaDaftarUlang = Biaya::where('kategori', 'DAFTAR ULANG')
-                             ->where('tahun', $tahunAjaran)
-                             ->whereNull('kelas')
-                             ->first();
-
-    return view('siswa.dashboard', compact('siswa', 'tahunAjaran', 'biayaPPDB', 'biayaSPP', 'biayaDaftarUlang'));
-}
 
     // ============================================
     // HALAMAN PEMBAYARAN PPDB
@@ -87,16 +89,16 @@ class SiswaController extends Controller
         // Ambil data biaya PPDB
         // firstOrFail() = ambil data pertama, kalau tidak ada throw error 404
         $biaya = Biaya::where('kategori', 'PPDB')
-                     ->where('tahun', $tahunAjaran)
-                     ->whereNull('kelas')
-                     ->firstOrFail();
+            ->where('tahun', $tahunAjaran)
+            ->whereNull('kelas')
+            ->firstOrFail();
 
         // Ambil history pembayaran PPDB siswa ini
         // get() = ambil semua data yang match (return collection)
         $pembayaran = Pembayaran::where('id_siswa', $siswa->id_siswa)
-                                ->where('id_biaya', $biaya->id_biaya)
-                                ->where('tahun_ajaran', $tahunAjaran)
-                                ->get();
+            ->where('id_biaya', $biaya->id_biaya)
+            ->where('tahun_ajaran', $tahunAjaran)
+            ->get();
 
         // Kirim data ke view
         return view('siswa.ppdb', compact('siswa', 'biaya', 'pembayaran', 'tahunAjaran'));
@@ -128,9 +130,9 @@ class SiswaController extends Controller
 
         // Ambil data biaya SPP sesuai kelas siswa
         $biaya = Biaya::where('kategori', 'SPP')
-                     ->where('tahun', $tahunAjaran)
-                     ->where('kelas', $siswa->kelas_siswa)
-                     ->firstOrFail();
+            ->where('tahun', $tahunAjaran)
+            ->where('kelas', $siswa->kelas_siswa)
+            ->firstOrFail();
 
         // ============================================
         // DAFTAR BULAN (Juli - Juni)
@@ -159,9 +161,9 @@ class SiswaController extends Controller
 
         // Ambil semua pembayaran SPP siswa ini untuk tahun ajaran ini
         $pembayaran = Pembayaran::where('id_siswa', $siswa->id_siswa)
-                                ->where('id_biaya', $biaya->id_biaya)
-                                ->where('tahun_ajaran', $tahunAjaran)
-                                ->get();
+            ->where('id_biaya', $biaya->id_biaya)
+            ->where('tahun_ajaran', $tahunAjaran)
+            ->get();
 
         // ============================================
         // BUAT ARRAY STATUS PER BULAN
@@ -220,15 +222,15 @@ class SiswaController extends Controller
 
         // Ambil data biaya Daftar Ulang
         $biaya = Biaya::where('kategori', 'DAFTAR ULANG')
-                     ->where('tahun', $tahunAjaran)
-                     ->whereNull('kelas')
-                     ->firstOrFail();
+            ->where('tahun', $tahunAjaran)
+            ->whereNull('kelas')
+            ->firstOrFail();
 
         // Ambil history pembayaran Daftar Ulang siswa ini
         $pembayaran = Pembayaran::where('id_siswa', $siswa->id_siswa)
-                                ->where('id_biaya', $biaya->id_biaya)
-                                ->where('tahun_ajaran', $tahunAjaran)
-                                ->get();
+            ->where('id_biaya', $biaya->id_biaya)
+            ->where('tahun_ajaran', $tahunAjaran)
+            ->get();
 
         // Kirim data ke view
         return view('siswa.daftar-ulang', compact('siswa', 'biaya', 'pembayaran', 'tahunAjaran'));
@@ -247,180 +249,116 @@ class SiswaController extends Controller
      */
     public function storePPDBDaftarUlang(Request $request)
     {
-        // ============================================
-        // VALIDASI INPUT
-        // ============================================
+        try {
+            // ✅ Ubah dari 2048 (2MB) jadi 10240 (10MB)
+            $validated = $request->validate([
+                'id_biaya' => 'required|exists:biayas,id_biaya',
+                'tahun_ajaran' => 'required|string',
+                'tipe_bayar' => 'required|in:lunas,cicilan',
+                'nominal_dibayar' => 'required|numeric|min:1',
+                'bukti_pembayaran' => 'required|file|mimes:jpg,jpeg,png,pdf|max:10240', // ✅ UBAH JADI 10MB
+            ]);
 
-        // $request->validate() = validasi input dari form
-        // Kalau ada yang error, otomatis redirect balik ke form dengan error message
-        $validated = $request->validate([
-            // id_biaya harus ada dan harus exist di tabel biayas
-            'id_biaya' => 'required|exists:biayas,id_biaya',
+            $siswa = auth()->user()->siswa;
+            $biaya = Biaya::findOrFail($validated['id_biaya']);
 
-            // tahun_ajaran harus ada dan berupa string
-            'tahun_ajaran' => 'required|string',
+            // Hitung cicilan
+            if ($validated['tipe_bayar'] == 'lunas') {
+                $sisa = 0;
+                $status = 'belum lunas';
+                $cicilan_ke = 1;
+                $total_cicilan = 1;
+            } else {
+                $cicilan_ke = 1;
+                $total_cicilan = 2;
+                $sisa = $biaya->biaya - $validated['nominal_dibayar'];
+                $status = 'belum lunas';
+            }
 
-            // tipe_bayar harus ada dan hanya boleh 'lunas' atau 'cicilan'
-            'tipe_bayar' => 'required|in:lunas,cicilan',
+            // Upload file
+            $file = $request->file('bukti_pembayaran');
+            $filename = 'bukti_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
 
-            // nominal_dibayar harus ada, berupa angka, minimal 1
-            'nominal_dibayar' => 'required|numeric|min:1',
+            // Pastikan folder ada
+            $folderPath = storage_path('app/public/bukti_pembayaran');
+            if (!file_exists($folderPath)) {
+                mkdir($folderPath, 0775, true);
+            }
 
-            // bukti_pembayaran harus ada, berupa file, format jpg/jpeg/png/pdf, max 2MB
-            'bukti_pembayaran' => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048',
-        ]);
+            // Simpan file - LANGSUNG PAKAI Storage facade
+            Storage::disk('public')->putFileAs('bukti_pembayaran', $file, $filename);
 
-        // ============================================
-        // AMBIL DATA SISWA & BIAYA
-        // ============================================
+            // Verifikasi file tersimpan
+            if (!Storage::disk('public')->exists('bukti_pembayaran/' . $filename)) {
+                throw new \Exception('File gagal disimpan ke storage');
+            }
 
-        // Ambil data siswa yang login
-        $siswa = auth()->user()->siswa;
+            // Simpan ke database
+            Pembayaran::create([
+                'id_biaya' => $validated['id_biaya'],
+                'id_siswa' => $siswa->id_siswa,
+                'bulan' => null,
+                'tahun_ajaran' => $validated['tahun_ajaran'],
+                'nominal_dibayar' => $validated['nominal_dibayar'],
+                'sisa_pembayaran' => $sisa,
+                'status' => $status,
+                'bukti_pembayaran' => $filename,
+                'kwitansi' => null,
+                'cicilan_ke' => $cicilan_ke,
+                'total_cicilan' => $total_cicilan,
+            ]);
 
-        // Ambil data biaya berdasarkan id_biaya dari form
-        // findOrFail() = cari berdasarkan primary key, kalau tidak ada throw 404
-        $biaya = Biaya::findOrFail($validated['id_biaya']);
-
-        // ============================================
-        // HITUNG SISA & STATUS BERDASARKAN TIPE BAYAR
-        // ============================================
-
-        // Kalau pilih 'lunas' = bayar penuh
-        if ($validated['tipe_bayar'] == 'lunas') {
-            $sisa = 0;                    // Tidak ada sisa
-            $status = 'belum lunas';      // Status masih belum lunas (nunggu verifikasi admin)
-            $cicilan_ke = 1;              // Cicilan ke-1 (sekaligus terakhir)
-            $total_cicilan = 1;           // Total cuma 1x bayar
+            return redirect()->route('siswa.dashboard')
+                ->with('success', 'Pembayaran berhasil diupload. Menunggu verifikasi admin.');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // Error validasi (termasuk ukuran file)
+            return back()
+                ->withErrors($e->errors())
+                ->withInput()
+                ->with('error', 'Validasi gagal. Periksa file yang diupload (max 10MB).');
+        } catch (\Exception $e) {
+            \Log::error('Error in storePPDBDaftarUlang: ' . $e->getMessage());
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
-        // Kalau pilih 'cicilan' = bayar 2x
-        else {
-            $cicilan_ke = 1;              // Ini cicilan pertama
-            $total_cicilan = 2;           // Total ada 2x cicilan
-
-            // Hitung sisa = total biaya - nominal yang dibayar
-            $sisa = $biaya->biaya - $validated['nominal_dibayar'];
-
-            // Kalau sisa <= 0, berarti sudah lunas
-            // Kalau sisa > 0, berarti belum lunas
-            $status = $sisa <= 0 ? 'belum lunas' : 'belum lunas';
-        }
-
-        // ============================================
-        // UPLOAD FILE BUKTI PEMBAYARAN
-        // ============================================
-
-        // $request->file() = ambil file yang diupload
-        $file = $request->file('bukti_pembayaran');
-
-        // Generate nama file unik
-        // 'bukti_' = prefix
-        // time() = timestamp sekarang (contoh: 1706345678)
-        // '.' = separator
-        // getClientOriginalExtension() = ambil ekstensi file (jpg, png, pdf)
-        // Contoh hasil: bukti_1706345678.jpg
-        $filename = 'bukti_' . time() . '.' . $file->getClientOriginalExtension();
-
-        // Simpan file ke storage
-        // storeAs() = simpan file dengan nama custom
-        // Parameter 1: folder tujuan ('public/bukti_pembayaran')
-        // Parameter 2: nama file ($filename)
-        // File akan disimpan di storage/app/public/bukti_pembayaran/
-        $file->storeAs('bukti_pembayaran', $filename);
-
-        // ============================================
-        // SIMPAN DATA PEMBAYARAN KE DATABASE
-        // ============================================
-
-        // Pembayaran::create() = insert data baru ke tabel pembayarans
-        Pembayaran::create([
-            'id_biaya' => $validated['id_biaya'],                // ID biaya
-            'id_siswa' => $siswa->id_siswa,                      // ID siswa yang login
-            'bulan' => null,                                     // PPDB/Daftar Ulang tidak pakai bulan
-            'tahun_ajaran' => $validated['tahun_ajaran'],        // Tahun ajaran
-            'nominal_dibayar' => $validated['nominal_dibayar'],  // Nominal yang dibayar
-            'sisa_pembayaran' => $sisa,                          // Sisa pembayaran
-            'status' => $status,                                 // Status (belum lunas)
-            'bukti_pembayaran' => $filename,                     // Nama file bukti
-            'kwitansi' => null,                                  // Kwitansi belum digenerate
-            'cicilan_ke' => $cicilan_ke,                         // Cicilan ke berapa
-            'total_cicilan' => $total_cicilan,                   // Total cicilan
-        ]);
-
-        // ============================================
-        // REDIRECT DENGAN PESAN SUKSES
-        // ============================================
-
-        // redirect()->route() = redirect ke route tertentu
-        // ->with() = kirim flash message (session sekali pakai)
-        return redirect()->route('siswa.dashboard')->with('success', 'Pembayaran berhasil diupload. Menunggu verifikasi admin.');
     }
 
     // ============================================
     // STORE PEMBAYARAN SPP
     // ============================================
 
-    /**
-     * Proses submit pembayaran SPP
-     * Logic berbeda karena:
-     * - Ada pilihan bulan (bisa multiple)
-     * - Kalau pilih 1 bulan → bisa Lunas/Cicilan
-     * - Kalau pilih >1 bulan → hanya Lunas
-     */
-    public function storeSPP(Request $request)
+   public function storeSPP(Request $request)
 {
-    $validated = $request->validate([
-        'id_biaya' => 'required|exists:biayas,id_biaya',
-        'tahun_ajaran' => 'required|string',
-        'bulan' => 'required|array|min:1',
-        'bulan.*' => 'string',
-        'tipe_bayar' => 'required|in:lunas,cicilan',
-        'nominal_dibayar' => 'required|numeric|min:1',
-        'bukti_pembayaran' => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048',
-    ]);
-
-    $siswa = auth()->user()->siswa;
-    $biaya = Biaya::findOrFail($validated['id_biaya']);
-
-    // ============================================
-    // UPLOAD FILE DENGAN ERROR HANDLING
-    // ============================================
-    $file = $request->file('bukti_pembayaran');
-    $filename = 'bukti_' . time() . '.' . $file->getClientOriginalExtension();
-
     try {
-        // METHOD 1: Pakai storeAs
-        $path = $file->storeAs('bukti_pembayaran', $filename);
-
-        // Verifikasi file tersimpan
-        $fullPath = storage_path('app/public/bukti_pembayaran/' . $filename);
-
-        if (!file_exists($fullPath)) {
-            // Kalau file tidak ada, log error
-            \Log::error('File upload gagal!', [
-                'filename' => $filename,
-                'path' => $path,
-                'full_path' => $fullPath,
-                'file_exists' => false,
-            ]);
-
-            return redirect()->back()->with('error', 'Upload file gagal. Silakan coba lagi.');
-        }
-
-        // Log sukses
-        \Log::info('File upload berhasil!', [
-            'filename' => $filename,
-            'size' => filesize($fullPath),
+        $validated = $request->validate([
+            'id_biaya' => 'required|exists:biayas,id_biaya',
+            'tahun_ajaran' => 'required|string',
+            'bulan' => 'required|string', // ✅ UBAH: dari array jadi string
+            'tipe_bayar' => 'required|in:lunas,cicilan',
+            'nominal_dibayar' => 'required|numeric|min:1',
+            'bukti_pembayaran' => 'required|file|mimes:jpg,jpeg,png,pdf|max:10240',
         ]);
 
-    } catch (\Exception $e) {
-        \Log::error('Upload error: ' . $e->getMessage());
-        return redirect()->back()->with('error', 'Terjadi error saat upload: ' . $e->getMessage());
-    }
+        $siswa = auth()->user()->siswa;
+        $biaya = Biaya::findOrFail($validated['id_biaya']);
 
-    // ============================================
-    // SIMPAN PEMBAYARAN
-    // ============================================
-    foreach ($validated['bulan'] as $bulan) {
+        // Upload file
+        $file = $request->file('bukti_pembayaran');
+        $filename = 'bukti_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+
+        // Pastikan folder ada
+        $folderPath = storage_path('app/public/bukti_pembayaran');
+        if (!file_exists($folderPath)) {
+            mkdir($folderPath, 0775, true);
+        }
+
+        // Simpan file
+        Storage::disk('public')->putFileAs('bukti_pembayaran', $file, $filename);
+
+        if (!Storage::disk('public')->exists('bukti_pembayaran/' . $filename)) {
+            throw new \Exception('File gagal disimpan ke storage');
+        }
+
+        // Hitung cicilan berdasarkan tipe bayar
         if ($validated['tipe_bayar'] == 'lunas') {
             $sisa = 0;
             $status = 'belum lunas';
@@ -430,13 +368,14 @@ class SiswaController extends Controller
             $cicilan_ke = 1;
             $total_cicilan = 2;
             $sisa = $biaya->biaya - $validated['nominal_dibayar'];
-            $status = $sisa <= 0 ? 'belum lunas' : 'belum lunas';
+            $status = 'belum lunas';
         }
 
+        // Simpan pembayaran untuk 1 bulan saja
         Pembayaran::create([
             'id_biaya' => $validated['id_biaya'],
             'id_siswa' => $siswa->id_siswa,
-            'bulan' => $bulan,
+            'bulan' => $validated['bulan'], // ✅ Langsung ambil string bulan
             'tahun_ajaran' => $validated['tahun_ajaran'],
             'nominal_dibayar' => $validated['nominal_dibayar'],
             'sisa_pembayaran' => $sisa,
@@ -446,8 +385,36 @@ class SiswaController extends Controller
             'cicilan_ke' => $cicilan_ke,
             'total_cicilan' => $total_cicilan,
         ]);
-    }
 
-    return redirect()->route('siswa.dashboard')->with('success', 'Pembayaran SPP berhasil diupload. Menunggu verifikasi admin.');
+        return redirect()->route('siswa.dashboard')
+            ->with('success', 'Pembayaran SPP berhasil diupload. Menunggu verifikasi admin.');
+
+    } catch (\Illuminate\Validation\ValidationException $e) {
+        return back()
+            ->withErrors($e->errors())
+            ->withInput()
+            ->with('error', 'Validasi gagal. Periksa file yang diupload (max 10MB).');
+
+    } catch (\Exception $e) {
+        \Log::error('Error in storeSPP: ' . $e->getMessage());
+        return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+    }
 }
+
+    /**
+     * Halaman Histori Pembayaran
+     * Menampilkan semua riwayat pembayaran siswa
+     */
+    public function histori()
+    {
+        $siswa = auth()->user()->siswa;
+
+        // Ambil semua pembayaran siswa ini, diurutkan dari terbaru
+        $pembayaran = Pembayaran::where('id_siswa', $siswa->id_siswa)
+            ->with(['biaya']) // Eager load relasi biaya
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('siswa.histori', compact('siswa', 'pembayaran'));
+    }
 }

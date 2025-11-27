@@ -25,7 +25,7 @@
         /* ========================================= */
         .navbar {
             background: white;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
             padding: 0.75rem 2rem;
             display: flex;
             justify-content: space-between;
@@ -51,13 +51,11 @@
             font-weight: 700;
             color: #DC2626;
             line-height: 1.2;
-            margin: 0;
         }
 
         .navbar-brand-text p {
             font-size: 0.65rem;
             color: #6B7280;
-            margin: 0;
         }
 
         .navbar-menu {
@@ -96,14 +94,7 @@
             color: #DC2626;
         }
 
-        .navbar-menu li a:hover::after {
-            width: 100%;
-        }
-
-        .navbar-menu li a.active {
-            color: #DC2626;
-        }
-
+        .navbar-menu li a:hover::after,
         .navbar-menu li a.active::after {
             width: 100%;
         }
@@ -111,7 +102,7 @@
         .navbar-user {
             width: 40px;
             height: 40px;
-            background: #DC2626;
+            background: #eb3737;
             color: white;
             border: none;
             border-radius: 50%;
@@ -122,8 +113,17 @@
             justify-content: center;
             cursor: pointer;
             position: relative;
+            transition: 0.2s;
         }
 
+        .navbar-user:hover {
+            background: #b91c1c;
+            transform: scale(1.05);
+        }
+
+        /* ========================================= */
+        /* USER MENU */
+        /* ========================================= */
         .user-menu-modal {
             position: fixed;
             top: 0;
@@ -138,7 +138,7 @@
             position: absolute;
             top: 80px;
             right: 20px;
-            background: rgb(255, 255, 255);
+            background: white;
             border-radius: 0.5rem;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
             min-width: 250px;
@@ -161,76 +161,128 @@
         /* FOOTER */
         /* ========================================= */
         .footer {
-            background: #333333;
+            background: #2d2d2d;
             color: white;
-            padding: 1rem;
+            padding: 30px 20px;
         }
 
-        .footer-content {
+        .footer-container {
             max-width: 1200px;
-            margin: 0 auto;
+            margin: auto;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
             flex-wrap: wrap;
-            gap: 2rem;
+            justify-content: space-between;
+            align-items: start;
+            gap: 20px;
         }
 
-        .footer-brand h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
+        .footer-brand h2 {
+            margin: 0;
+            font-size: 22px;
+            font-weight: bold;
         }
 
         .footer-brand p {
-            font-size: 0.8rem;
-            color: #CBD5E0;
-        }
-
-        .footer-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
+            margin: 2px 0 0;
+            color: #cccccc;
+            font-size: 14px;
         }
 
         .footer-links a {
-            color: #E2E8F0;
+            margin-left: 20px;
+            color: #cccccc;
             text-decoration: none;
-            font-size: 0.85rem;
-            transition: color 0.3s;
+            font-size: 14px;
+            transition: 0.2s ease;
         }
 
         .footer-links a:hover {
-            color: #DC2626;
+            color: white;
         }
 
-        /* Smooth scroll behavior */
+        .footer-line {
+            border-top: 1px solid #444;
+            margin-top: 25px;
+        }
+
+        .footer-copy {
+            margin-top: 10px;
+            text-align: center;
+            color: #aaaaaa;
+            font-size: 12px;
+        }
+
+        /* Smooth scroll */
         html {
             scroll-behavior: smooth;
         }
 
+        /* ========================================= */
+        /* RESPONSIVE FOR MOBILE */
+        /* ========================================= */
+        @media (max-width: 900px) {
+            .navbar-menu {
+                gap: 1.5rem;
+            }
+        }
+
         @media (max-width: 768px) {
+            /* Navbar jadi stacked */
             .navbar {
                 flex-direction: column;
-                gap: 1rem;
-                padding: 1rem;
+                gap: 0.8rem;
+                padding: 0.9rem;
             }
 
+            /* Menu turun ke bawah logo */
             .navbar-menu {
                 position: static;
                 transform: none;
                 gap: 1rem;
                 flex-wrap: wrap;
                 justify-content: center;
+                width: 100%;
+                padding-top: 0.5rem;
             }
 
-            .footer-content {
+            .navbar-menu li a {
+                font-size: 0.85rem;
+            }
+
+            /* User button pindah ke kanan bawah */
+            .navbar-user {
+                position: absolute;
+                top: 15px;
+                right: 15px;
+            }
+
+            /* Footer */
+            .footer-container {
                 flex-direction: column;
                 text-align: center;
+                gap: 25px;
             }
 
             .footer-links {
+                display: flex;
+                flex-wrap: wrap;
                 justify-content: center;
+                gap: 15px;
+                margin-left: 0 !important;
+            }
+
+            .footer-links a {
+                margin: 0;
+                font-size: 13px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .navbar-brand-text h1 {
+                font-size: 0.9rem;
+            }
+            .navbar-brand-text p {
+                font-size: 0.55rem;
             }
         }
     </style>
@@ -253,8 +305,8 @@
 
         <ul class="navbar-menu">
             <li><a href="{{ route('siswa.dashboard') }}">Beranda</a></li>
-            <li><a href="">Histori</a></li>
-            <li><a href="#tutorial">Tutorial</a></li>
+            <li><a href="{{ route('siswa.histori') }}">Histori</a></li>
+            <li><a href="dashboard#tutorial">Langkah</a></li>
             <li><a href="#footer">Kontak</a></li>
         </ul>
 
@@ -294,7 +346,7 @@
                         </button>
                     </div>
 
-                    <form action="{{ route('logout') }}" method="POST" style="margin: 0;">
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="margin: 0;">
                         @csrf
                         <button type="button" onclick="handleLogout()" style="display: flex; align-items: center; justify-content: center; width: calc(100% - 2rem); margin: 1rem; padding: 0.875rem 1rem; color: white; background: #ef4444; border: none; border-radius: 8px; font-size: 0.9375rem; font-weight: 600; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='#dc2626'" onmouseout="this.style.background='#ef4444'">
                             Logout
@@ -309,21 +361,24 @@
     @yield('content')
 
     {{-- FOOTER --}}
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-brand">
-                <h3>STARS</h3>
-                <p>Sistem Tagihan Dan Pembayaran Sekolah</p>
-            </div>
+   <footer id="footer" class="footer">
+    <div class="footer-container">
 
-            <ul id="footer" class="footer-links">
-                <li><a href="#">Privasi</a></li>
-                <li><a href="#">Kontak</a></li>
-                <li><a href="#">Bantuan</a></li>
-            </ul>
+        <div class="footer-brand">
+            <h2>STARS</h2>
+            <p>Sistem Tagihan Dan Pembayaran Sekolah</p>
         </div>
-    </footer>
 
+        <div class="footer-links">
+            <a href="#">Privasi</a>
+            <a href="#">Kontak</a>
+            <a href="#">Bantuan</a>
+        </div>
+
+    </div>
+    <div class="footer-line"></div>
+    <p class="footer-copy">© 2025 STARS. All rights reserved.</p>
+</footer>
     <script>
         const userMenuBtn = document.getElementById('userMenuBtn');
         const userMenu = document.getElementById('userMenu');

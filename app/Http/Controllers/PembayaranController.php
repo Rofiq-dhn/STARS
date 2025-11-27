@@ -79,6 +79,15 @@ class PembayaranController extends Controller
         return redirect()->route('pembayaran.index')->with('success', 'Pembayaran berhasil ditolak dan dihapus.');
     }
 
+        // Hapus data pembayaran yang sudah lunas
+        public function destroy($id)
+    {
+        $pembayaran = Pembayaran::findOrFail($id);
+        $pembayaran->delete();
+        
+        return redirect()->route('pembayaran.index')
+            ->with('success', 'Data pembayaran berhasil dihapus');
+    }
     /**
      * Method untuk download kwitansi PDF
      * Dipanggil saat siswa klik "Download Kwitansi"

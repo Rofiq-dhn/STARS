@@ -6,168 +6,11 @@
 
 {{-- Mulai section content --}}
 @section('content')
-    <style>
-        .pembayaran-container {
-            min-height: 100vh;
-            background-color: #f3f4f6;
-            padding: 2rem;
-        }
-
-        .pembayaran-header {
-            margin-bottom: 1.5rem;
-        }
-
-        .pembayaran-header h1 {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #111827;
-            margin: 0 0 0.25rem 0;
-        }
-
-        .pembayaran-header p {
-            color: #6b7280;
-            font-size: 0.95rem;
-            margin: 0;
-        }
-
-        .card {
-            background-color: white;
-            border-radius: 0.75rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            overflow: hidden;
-        }
-
-        .card-header {
-            padding: 1.25rem 2rem;
-            border-bottom: 1px solid #e5e7eb;
-        }
-
-        .card-header h2 {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #111827;
-            margin: 0;
-        }
-
-        .table-container {
-            overflow-x: auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        thead {
-            background-color: #808080;
-            color: white;
-        }
-
-        thead th {
-            padding: 1rem 1.5rem;
-            text-align: left;
-            font-weight: 600;
-            font-size: 0.95rem;
-            white-space: nowrap;
-        }
-
-        tbody tr {
-            border-bottom: 1px solid #e5e7eb;
-            transition: background-color 0.2s;
-        }
-
-        tbody tr:hover {
-            background-color: #f9fafb;
-        }
-
-        tbody td {
-            padding: 1.25rem 1.5rem;
-            color: #1f2937;
-            font-size: 0.95rem;
-        }
-
-        .status-badge {
-            display: inline-block;
-            padding: 0.375rem 0.875rem;
-            border-radius: 0.375rem;
-            font-size: 0.875rem;
-            font-weight: 500;
-            text-align: center;
-            min-width: 80px;
-        }
-
-        .status-lunas {
-            background-color: #10b981;
-            color: white;
-        }
-
-        .status-belum {
-            background-color: #f59e0b;
-            color: white;
-        }
-
-        .action-buttons {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .btn-icon {
-            padding: 0.5rem;
-            border-radius: 0.375rem;
-            border: none;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-        }
-
-        .btn-detail {
-            background-color: #3b82f6;
-            color: white;
-        }
-
-        .btn-detail:hover {
-            background-color: #2563eb;
-        }
-
-        .btn-verifikasi {
-            background-color: #ef4444;
-            color: white;
-        }
-
-        .btn-verifikasi:hover {
-            background-color: #dc2626;
-        }
-
-        .btn-tolak {
-            background-color: #e5e7eb;
-            color: #6b7280;
-        }
-
-        .btn-tolak:hover {
-            background-color: #d1d5db;
-        }
-
-        .btn-icon svg {
-            width: 1.25rem;
-            height: 1.25rem;
-        }
-
-        .empty-state {
-            padding: 4rem 2rem;
-            text-align: center;
-            color: #6b7280;
-        }
-
-        .empty-state p {
-            font-size: 1rem;
-            margin: 0;
-        }
-    </style>
-
+    @vite('resources/css/admin/data-pembayaran.css')
+    
+    {{-- Include Alert Modal Component --}}
+    @include('components.modal-alert')
+    
     <div class="pembayaran-container">
         {{-- Header Section --}}
         <div class="pembayaran-header">
@@ -221,8 +64,8 @@
                                 {{-- Bulan pembayaran --}}
                                 <td>{{ $item->bulan }}</td>
 
-                        {{-- Tahun pembayaran --}}
-                        <td>{{ $item->tahun_ajaran }}</td>
+                                {{-- Tahun pembayaran --}}
+                                <td>{{ $item->tahun_ajaran }}</td>
 
                                 {{-- Nominal --}}
                                 <td>Rp {{ number_format($item->nominal_dibayar, 0, ',', '.') }}</td>
@@ -240,38 +83,23 @@
                                         {{-- Tombol Detail --}}
                                         <a href="{{ route('pembayaran.show', $item->id_pembayaran) }}"
                                            class="btn-icon btn-detail"
-                                           title="Lihat Detail">
+                                           title="Lihat Detail" alt="Lihat Detail">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                             </svg>
                                         </a>
 
-                                        {{-- Tombol Verifikasi --}}
-                                        @if ($item->status == 'belum lunas')
-                                            <form action="{{ route('pembayaran.verifikasi', $item->id_pembayaran) }}"
-                                                  method="POST"
-                                                  style="display: inline; margin: 0;">
-                                                @csrf
-                                                @method('PUT')
-                                                <button type="submit"
-                                                        onclick="return confirm('Verifikasi pembayaran ini sebagai LUNAS?')"
-                                                        class="btn-icon btn-verifikasi"
-                                                        title="Verifikasi">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                                    </svg>
-                                                </button>
-                                            </form>
-
+                                            @if ( $item->status != 'lunas' )
                                             {{-- Tombol Tolak --}}
-                                            <form action="{{ route('pembayaran.tolak', $item->id_pembayaran) }}"
+                                            <form id="form-tolak-{{ $item->id_pembayaran }}"
+                                                  action="{{ route('pembayaran.tolak', $item->id_pembayaran) }}"
                                                   method="POST"
                                                   style="display: inline; margin: 0;">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit"
-                                                        onclick="return confirm('Tolak pembayaran ini? Data akan dihapus!')"
+                                                <button type="button"
+                                                        onclick="showAlertModal('tolak', 'Tolak Pembayaran Ini?', 'Apakah Anda yakin ingin menolak pembayaran ini? Data akan dihapus secara permanen!', document.getElementById('form-tolak-{{ $item->id_pembayaran }}'))"
                                                         class="btn-icon btn-tolak"
                                                         title="Tolak">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -279,7 +107,25 @@
                                                     </svg>
                                                 </button>
                                             </form>
-                                        @endif
+                                            
+                                            @else
+                                            {{-- Tombol Hapus untuk status lunas --}}
+                                            <form id="form-delete-{{ $item->id_pembayaran }}"
+                                                  action="{{ route('pembayaran.destroy', $item->id_pembayaran) }}"
+                                                  method="POST"
+                                                  style="display: inline; margin: 0;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="button"
+                                                        onclick="showAlertModal('delete', 'Hapus Histori Pembayaran?', 'Apakah Anda yakin ingin menghapus data pembayaran ini? Data akan dihapus secara permanen!', document.getElementById('form-delete-{{ $item->id_pembayaran }}'))"
+                                                        class="btn-icon btn-delete"
+                                                        title="Hapus">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                    </svg>
+                                                </button>
+                                            </form>
+                                            @endif
                                     </div>
                                 </td>
                             </tr>

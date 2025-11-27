@@ -27,16 +27,21 @@ class LoginController extends Controller
         if (Auth::attempt($credentials, $request->filled('remember'))) {
             $request->session()->regenerate();
 
-            // Redirect berdasarkan role
+            // Tentukan redirect URL berdasarkan role
+            $redirectUrl = '/';
+            
             if (Auth::user()->isAdmin()) {
-                return redirect()->intended(route('admin.dashboard'));
+                $redirectUrl = route('admin.dashboard');
+            } elseif (Auth::user()->isSiswa()) {
+                $redirectUrl = route('siswa.dashboard');
             }
 
-            if (Auth::user()->isSiswa()) {
-                return redirect()->intended(route('siswa.dashboard'));
-            }
-
-            return redirect()->intended('/');
+            // Return back dengan session untuk menampilkan alert
+            return back()->with([
+                'login_success' => true,
+                'redirect_url' => $redirectUrl,
+                'user_name' => Auth::user()->name ?? Auth::user()->username
+            ]);
         }
 
         // Login gagal

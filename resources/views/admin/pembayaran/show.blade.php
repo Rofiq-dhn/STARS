@@ -3,191 +3,241 @@
 @section('title', 'Detail Pembayaran')
 
 @section('content')
-    <h1 style="margin-bottom: 10px;">Detail Pembayaran</h1>
-    <p style="color: #666; margin-bottom: 20px;">
-        Verifikasi pembayaran dari siswa. Pastikan bukti transfer valid sebelum melakukan verifikasi.
-    </p>
-
-
-    <a href="{{ route('pembayaran.index') }}"
-        style="display: inline-block; padding: 10px 20px; background-color: #9e9e9e; color: white; text-decoration: none; border-radius: 5px; margin-bottom: 20px;">
-        ← Kembali ke Daftar Pembayaran
-    </a>
-
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-
-        {{-- KOLOM KIRI: INFO PEMBAYARAN --}}
-        <div style="background: white; padding: 20px; border-radius: 8px;">
-            <h2 style="margin-bottom: 20px; border-bottom: 2px solid #ddd; padding-bottom: 10px;">
-                📋 Informasi Pembayaran
-            </h2>
-
-            <table style="width: 100%;">
-                <tr>
-                    <td style="padding: 10px 0; width: 180px;"><strong>Tanggal Upload</strong></td>
-                    <td style="padding: 10px 0;">: {{ $pembayaran->created_at->format('d F Y, H:i') }} WIB</td>
-                </tr>
-                <tr>
-                    <td colspan="2" style="padding: 10px 0;">
-                        <hr style="border: none; border-top: 1px solid #eee;">
-                    </td>
-                </tr>
-                <tr>
-                    <td style="padding: 10px 0;"><strong>Nama Siswa</strong></td>
-                    <td style="padding: 10px 0;">: {{ $pembayaran->siswa->nama }}</td>
-                </tr>
-                <tr>
-                    <td style="padding: 10px 0;"><strong>NIS</strong></td>
-                    <td style="padding: 10px 0;">: {{ $pembayaran->siswa->nis }}</td>
-                </tr>
-                <tr>
-                    <td style="padding: 10px 0;"><strong>Kelas</strong></td>
-                    <td style="padding: 10px 0;">: {{ $pembayaran->siswa->kelas_siswa }}</td>
-                </tr>
-                <tr>
-                    <td style="padding: 10px 0;"><strong>Jurusan</strong></td>
-                    <td style="padding: 10px 0;">: {{ $pembayaran->siswa->jurusan }}</td>
-                </tr>
-                <tr>
-                    <td colspan="2" style="padding: 10px 0;">
-                        <hr style="border: none; border-top: 1px solid #eee;">
-                    </td>
-                </tr>
-                <tr>
-                    <td style="padding: 10px 0;"><strong>Kategori Biaya</strong></td>
-                    <td style="padding: 10px 0;">: {{ $pembayaran->biaya->kategori }}</td>
-                </tr>
-                <tr>
-                    <td style="padding: 10px 0;"><strong>Bulan</strong></td>
-                    <td style="padding: 10px 0;">: {{ $pembayaran->bulan ?? '-' }}</td>
-                </tr>
-                <tr>
-                    <td style="padding: 10px 0;"><strong>Tahun Ajaran</strong></td>
-                    <td style="padding: 10px 0;">: {{ $pembayaran->tahun_ajaran }}</td>
-                </tr>
-                <tr>
-                    <td style="padding: 10px 0;"><strong>Total Biaya</strong></td>
-                    <td style="padding: 10px 0;">: Rp {{ number_format($pembayaran->biaya->biaya, 0, ',', '.') }}</td>
-                </tr>
-                <tr>
-                    <td style="padding: 10px 0;"><strong>Nominal Dibayar</strong></td>
-                    <td style="padding: 10px 0; color: #4caf50; font-weight: bold;">
-                        : Rp {{ number_format($pembayaran->nominal_dibayar, 0, ',', '.') }}
-                    </td>
-                </tr>
-                <tr>
-                    <td style="padding: 10px 0;"><strong>Sisa Pembayaran</strong></td>
-                    <td
-                        style="padding: 10px 0; color: {{ $pembayaran->sisa_pembayaran > 0 ? '#f44336' : '#4caf50' }}; font-weight: bold;">
-                        : Rp {{ number_format($pembayaran->sisa_pembayaran, 0, ',', '.') }}
-                    </td>
-                </tr>
-                <tr>
-                    <td style="padding: 10px 0;"><strong>Cicilan</strong></td>
-                    <td style="padding: 10px 0;">: {{ $pembayaran->cicilan_ke }} / {{ $pembayaran->total_cicilan }}</td>
-                </tr>
-                <tr>
-                    <td style="padding: 10px 0;"><strong>Status</strong></td>
-                    <td style="padding: 10px 0;">
-                        <span
-                            style="
-                            padding: 5px 15px;
-                            border-radius: 5px;
-                            color: white;
-                            background-color: {{ $pembayaran->status == 'lunas' ? '#4caf50' : '#ff9800' }};
-                            display: inline-block;
-                        ">
-                            {{ strtoupper($pembayaran->status) }}
-                        </span>
-                    </td>
-                </tr>
-            </table>
-
-            @if ($pembayaran->status == 'belum lunas')
-                <div style="margin-top: 30px; padding-top: 20px; border-top: 2px solid #ddd;">
-                    <h3 style="margin-bottom: 15px;">Aksi Verifikasi</h3>
-
-                    <form action="{{ route('pembayaran.verifikasi', $pembayaran->id_pembayaran) }}" method="POST"
-                        style="display: inline;">
-                        @csrf
-                        @method('PUT')
-                        <button type="submit"
-                            onclick="return confirm('Verifikasi pembayaran ini sebagai LUNAS? Kwitansi akan otomatis digenerate.')"
-                            style="padding: 12px 30px; background-color: #4caf50; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; margin-right: 10px; font-weight: bold;">
-                            ✅ Verifikasi Lunas
-                        </button>
-                    </form>
-
-                    <form action="{{ route('pembayaran.tolak', $pembayaran->id_pembayaran) }}" method="POST"
-                        style="display: inline;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit"
-                            onclick="return confirm('Tolak pembayaran ini? Data dan file akan DIHAPUS PERMANEN!')"
-                            style="padding: 12px 30px; background-color: #f44336; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; font-weight: bold;">
-                            ❌ Tolak Pembayaran
-                        </button>
-                    </form>
-                </div>
-            @endif
+    @vite('resources/css/admin/detail.css')
+    <x-verification-alert />
+    <div class="container-detail">
+        <div class="header-section">
+            <h1>Data Pembayaran</h1>
+            <p>Verifikasi pembayaran yang diupload oleh siswa</p>
+            <a href="{{ route('pembayaran.index') }}" class="btn-back">
+                ← Kembali Ke Daftar Pembayaran
+            </a>
         </div>
 
-        {{-- KOLOM KANAN: BUKTI TRANSFER --}}
-        <div style="background: white; padding: 20px; border-radius: 8px;">
-            <h2 style="margin-bottom: 20px; border-bottom: 2px solid #ddd; padding-bottom: 10px;">
-                📎 Bukti Transfer
-            </h2>
-
-            @php
-                // Ambil ekstensi file
-                $extension = strtolower(pathinfo($pembayaran->bukti_pembayaran, PATHINFO_EXTENSION));
-            @endphp
-
-            @if (in_array($extension, ['jpg', 'jpeg', 'png']))
-                {{-- Preview Gambar --}}
-                <img src="{{ asset('storage/bukti_pembayaran/' . $pembayaran->bukti_pembayaran) }}" alt="Bukti Transfer"
-                    style="width: 100%; height: auto; border-radius: 5px; border: 2px solid #ddd; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-
-                <div style="margin-top: 15px; padding: 10px; background: #f5f5f5; border-radius: 5px;">
-                    <small style="color: #666;">
-                        <strong>Nama File:</strong> {{ $pembayaran->bukti_pembayaran }}
-                    </small>
+        <div class="grid-container">
+            {{-- KOLOM KIRI: DATA TAGIHAN --}}
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-header-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24"
+                            fill="red">
+                            <path
+                                d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z" />
+                        </svg></span>
+                    <h2>Data Tagihan</h2>
                 </div>
-            @elseif($extension == 'pdf')
-                {{-- Preview PDF --}}
-                <embed src="{{ asset('storage/bukti_pembayaran/' . $pembayaran->bukti_pembayaran) }}"
-                    type="application/pdf" style="width: 100%; height: 700px; border: 2px solid #ddd; border-radius: 5px;">
 
-                <div style="margin-top: 15px; padding: 10px; background: #f5f5f5; border-radius: 5px;">
-                    <small style="color: #666;">
-                        <strong>Nama File:</strong> {{ $pembayaran->bukti_pembayaran }}
-                    </small>
+                <table class="info-table">
+                    <tr>
+                        <td style="font-weight:600;">Tanggal Upload</td>
+                        <td style="font-weight: 600;">: {{ $pembayaran->created_at->format('d F Y, H:i') }} WIB</td>
+                    </tr>
+
+                    <tr>
+                        <td>Nama Siswa</td>
+                        <td>: {{ $pembayaran->siswa->nama }}</td>
+                    </tr>
+                    <tr>
+                        <td>NIS</td>
+                        <td>: {{ $pembayaran->siswa->nis }}</td>
+                    </tr>
+                    <tr>
+                        <td>Kelas</td>
+                        <td>: {{ $pembayaran->siswa->kelas_siswa }}</td>
+                    </tr>
+                    <tr>
+                        <td>Jurusan</td>
+                        <td>: {{ $pembayaran->siswa->jurusan }}</td>
+                    </tr>
+                    <br>
+                    <tr>
+                        <td>Kategori</td>
+                        <td>: {{ $pembayaran->biaya->kategori }}</td>
+                    </tr>
+                    <tr>
+                        <td>Bulan</td>
+                        <td>: {{ $pembayaran->bulan ?? '-' }}</td>
+                    </tr>
+                    <tr>
+                        <td>Tahun Ajaran</td>
+                        <td>: {{ $pembayaran->tahun_ajaran }}</td>
+                    </tr>
+                    <tr>
+                        <td>Total Biaya</td>
+                        <td>: RP. {{ number_format($pembayaran->biaya->biaya, 0, ',', '.') }}</td>
+                    </tr>
+                    <tr>
+                        <td>Nominal Dibayar</td>
+                        <td class="text-green">: RP. {{ number_format($pembayaran->nominal_dibayar, 0, ',', '.') }}</td>
+                    </tr>
+                    <tr>
+                        <td>Sisa Pembayaran</td>
+                        <td class="text-red">
+                            : RP. {{ number_format($pembayaran->sisa_pembayaran, 0, ',', '.') }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Cicilan</td>
+                        <td>: {{ $pembayaran->cicilan_ke }}/{{ $pembayaran->total_cicilan }}</td>
+                    </tr>
+                    <tr>
+                        <td>Status</td>
+                        <td>
+                            <span
+                                class="status-badge {{ $pembayaran->status == 'lunas' ? 'status-lunas' : 'status-belum' }}">
+                                {{ $pembayaran->status == 'lunas' ? 'Lunas' : 'Belum Bayar' }}
+                            </span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            {{-- KOLOM KANAN: DATA TAGIHAN & KIRIM KWITANSI --}}
+            <div>
+                {{-- Data Tagihan (Preview) --}}
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-header-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24"
+                                fill="red">
+                                <path
+                                    d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z" />
+                            </svg>
+                        </span>
+                        <h2>Bukti Transfer</h2>
+                    </div>
+
+                    @php
+                        $extension = strtolower(pathinfo($pembayaran->bukti_pembayaran, PATHINFO_EXTENSION));
+                    @endphp
+
+                    <div class="preview-container">
+                        @if (in_array($extension, ['jpg', 'jpeg', 'png']))
+                            <img src="{{ asset('storage/bukti_pembayaran/' . $pembayaran->bukti_pembayaran) }}"
+                                alt="Bukti Transfer" class="preview-img">
+                        @elseif($extension == 'pdf')
+                            <embed src="{{ asset('storage/bukti_pembayaran/' . $pembayaran->bukti_pembayaran) }}"
+                                type="application/pdf" style="width: 100%; height: 400px; border-radius: 5px;">
+                        @else
+                            <div class="preview-placeholder">
+                                Image.png/jpg/jpeg/pdf
+                            </div>
+                        @endif
+                    </div>
+
+                    <div class="file-info">
+                        <small><strong>Nama File :</strong> {{ $pembayaran->bukti_pembayaran }}</small>
+                    </div>
+
+                    <a href="{{ asset('storage/bukti_pembayaran/' . $pembayaran->bukti_pembayaran) }}" download
+                        class="btn-download">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="30" height="30"
+                                fill="currentColor">
+                                <!-- Arah panah turun -->
+                                <path d="M12 3v12m0 0l-5-5m5 5l5-5" stroke="currentColor" stroke-width="2" fill="none"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+
+                                <!-- Garis bawah tempat file “mendarat” -->
+                                <path d="M4 19h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                            </svg>
+                        </span>
+                        <p>Download Bukti</p>
+                    </a>
+
+                    <a href="{{ asset('storage/bukti_pembayaran/' . $pembayaran->bukti_pembayaran) }}" target="_blank"
+                        rel="noopener noreferrer" class="btn-open">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"
+                                fill="currentColor">
+                                <!-- Kotak -->
+                                <path d="M5 4h7v2H6v11h11v-6h2v7a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z" />
+
+                                <!-- Panah keluar -->
+                                <path d="M14 4h6v6h-2V7.41l-6.29 6.3-1.42-1.42L16.59 6H14V4z" />
+                            </svg>
+                        </span>
+                        <p>Buka Di Tab Baru</p>
+                    </a>
                 </div>
-            @else
-                {{-- Format tidak dikenali --}}
-                <div style="padding: 40px; text-align: center; color: #999; border: 2px dashed #ddd; border-radius: 5px;">
-                    <div style="font-size: 48px; margin-bottom: 10px;">❌</div>
-                    <p style="font-size: 16px;">Format file tidak dapat ditampilkan</p>
-                    <p style="font-size: 14px; margin-top: 10px;">
-                        Ekstensi file: <strong>.{{ $extension }}</strong>
-                    </p>
-                </div>
-            @endif
 
-            {{-- Tombol Download --}}
+                {{-- Kirim Kwitansi --}}
+                @if ($pembayaran->status == 'belum lunas')
+                    <div class="card" style="margin-top: 30px;">
+                        <div class="card-header">
+                            <span class="card-header-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24"
+                                    fill="red">
+                                    <path
+                                        d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z" />
+                                </svg>
+                            </span>
+                            <h2>Kirim Kwitansi</h2>
+                        </div>
 
-            <a href="{{ asset('storage/bukti_pembayaran/' . $pembayaran->bukti_pembayaran) }}" download
-                style="display: block; margin-top: 20px; padding: 12px; background-color: #2196F3; color: white; text-align: center; text-decoration: none; border-radius: 5px; font-weight: bold;">
-                📥 Download Bukti Transfer
-            </a>
+                        <div class="upload-box">
+                            <div class="upload-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path d="M12 3l5 5h-3v6h-4V8H7l5-5z" />
+                                    <rect x="4" y="18" width="16" height="3" rx="1" />
+                                </svg>
+                            </div>
+                            <p class="upload-text">Pilih File Gambar (PNG, JPG) atau PDF</p>
+                            <p class="upload-hint">Maksimal 10MB</p>
+                            <div class="upload-wrapper">
+                                <button class="btn-upload">
+                                    <p>Upload</p> <span><svg xmlns="http://www.w3.org/2000/svg" width="20"
+                                            height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M12 3l5 5h-3v6h-4V8H7l5-5z" />
+                                            <rect x="4" y="18" width="16" height="3" rx="1" /></svg></span>
+                                </button>
+                            </div>
+                        </div>
 
-            {{-- Tombol Buka di Tab Baru --}}
+                        <div class="action-buttons">
+                            {{-- Form Verifikasi (Hidden) --}}
+                            <form action="{{ route('pembayaran.verifikasi', $pembayaran->id_pembayaran) }}"
+                                method="POST" id="formVerifikasi" style="display: none;">
+                                @csrf
+                                @method('PUT')
+                            </form>
 
-            <a href="{{ asset('storage/bukti_pembayaran/' . $pembayaran->bukti_pembayaran) }}" target="_blank"
-                rel="noopener noreferrer"
-                style="display: block; margin-top: 10px; padding: 12px; background-color: #ff9800; color: white; text-align: center; text-decoration: none; border-radius: 5px; font-weight: bold;">
-                🔗 Buka di Tab Baru
-            </a>
+                            {{-- Form Tolak (Hidden) --}}
+                            <form action="{{ route('pembayaran.tolak', $pembayaran->id_pembayaran) }}" method="POST"
+                                id="formTolak" style="display: none;">
+                                @csrf
+                                @method('DELETE')
+                            </form>
+
+                            {{-- Button Verifikasi --}}
+                            <button type="button" onclick="showVerificationAlert('formVerifikasi', 'verify')"
+                                class="btn-verifikasi">
+                                <svg width="40" height="40" viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
+                                    stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M5 12l4 4 10-10" />
+                                </svg>
+                                <p>Verifikasi</p>
+                            </button>
+
+                            {{-- Button Tolak --}}
+                            <button type="button" onclick="showVerificationAlert('formTolak', 'reject')"
+                                class="btn-tolak">
+                                <svg width="40" height="40" viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
+                                    stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="6" y1="6" x2="18" y2="18" />
+                                    <line x1="6" y1="18" x2="18" y2="6" />
+                                </svg>
+                                <p>Tolak Pembayaran</p>
+                            </button>
+                        </div>
+                    </div>
+                @endif
+            </div>
         </div>
     </div>
 @endsection

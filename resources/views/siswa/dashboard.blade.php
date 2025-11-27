@@ -2,11 +2,8 @@
 
 @section('title', 'Dashboard Siswa - STARS')
 
-@section('styles')
+@vite('resources/css/siswa/dashboard.css')
     <style>
-        /* ========================================= */
-        /* HERO SECTION */
-        /* ========================================= */
         .hero {
             background-image: url('{{ asset("img/SMKTELKOM.png") }}');
             background-size: cover;
@@ -16,281 +13,22 @@
             color: white;
             position: relative;
             overflow: hidden;
-            min-height: 350px;
+            min-height: 650px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
         }
 
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.4);
-            z-index: 0;
-        }
-
-        .welcome-badge {
-            display: inline-block;
-            background: rgba(220, 38, 38, 0.9);
-            padding: 0.5rem 1.5rem;
-            border-radius: 2rem;
-            font-size: 0.85rem;
-            margin-bottom: 1.5rem;
-            backdrop-filter: blur(10px);
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero h1 {
-            font-size: 3rem;
-            font-weight: 700;
-            margin: 0.5rem 0;
-            position: relative;
-            z-index: 1;
-            line-height: 1.2;
-        }
-
-        .hero p {
-            font-size: 0.95rem;
-            max-width: 650px;
-            margin: 1rem auto 0;
-            opacity: 0.95;
-            line-height: 1.6;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* ========================================= */
-        /* FITUR SECTION */
-        /* ========================================= */
-        .fitur-section {
-            max-width: 1200px;
-            margin: 3rem auto;
-            padding: 0 2rem;
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 2.5rem;
-        }
-
-        .section-title h2 {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #1F2937;
-            margin-bottom: 0.5rem;
-        }
-
-        .section-title p {
-            color: #6B7280;
-            font-size: 0.95rem;
-        }
-
-        .card-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-        }
-
-        .card {
-            background: white;
-            border-radius: 0.75rem;
-            padding: 2rem 1.5rem;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s ease;
-            border: 1px solid #f3f4f6;
-            text-align: center;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
-        }
-
-        .card-icon {
-            width: 70px;
-            height: 70px;
-            background: #DC2626;
-            border-radius: 0.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            margin: 0 auto 1.5rem;
-        }
-
-        .card h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: #1F2937;
-            margin-bottom: 1rem;
-        }
-
-        .card p {
-            color: #6B7280;
-            font-size: 0.85rem;
-            line-height: 1.6;
-            margin-bottom: 1.5rem;
-            min-height: 60px;
-        }
-
-        .btn-bayar {
-            display: inline-block;
-            background: #DC2626;
-            color: white;
-            padding: 0.7rem 2.5rem;
-            border-radius: 0.5rem;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.9rem;
-            transition: all 0.3s;
-            box-shadow: 0 2px 4px rgba(220, 38, 38, 0.2);
-        }
-
-        .btn-bayar:hover {
-            background: #B91C1C;
-            box-shadow: 0 4px 8px rgba(220, 38, 38, 0.3);
-        }
-
-        /* ========================================= */
-        /* LANGKAH PEMBAYARAN */
-        /* ========================================= */
-        .langkah-section {
-            background: #FFE5E5;
-            padding: 3rem 2rem;
-            margin: 3rem 0 0;
-        }
-
-        .langkah-container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .langkah-container h2 {
-            text-align: center;
-            font-size: 2rem;
-            font-weight: 700;
-            color: #1F2937;
-            margin-bottom: 2.5rem;
-        }
-
-        .langkah-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2.5rem;
-        }
-
-        .langkah-item {
-            text-align: center;
-        }
-
-        .langkah-number {
-            width: 70px;
-            height: 70px;
-            background: #DC2626;
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.75rem;
-            font-weight: 700;
-            margin: 0 auto 1.25rem;
-            box-shadow: 0 4px 8px rgba(220, 38, 38, 0.3);
-        }
-
-        .langkah-item h4 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #1F2937;
-            margin-bottom: 0.5rem;
-        }
-
-        .langkah-item p {
-            color: #4B5563;
-            line-height: 1.6;
-            font-size: 0.9rem;
-        }
-
-        /* Fade in animation */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .card {
-            animation: fadeInUp 0.6s ease-out;
-        }
-
-        .card:nth-child(1) {
-            animation-delay: 0.1s;
-        }
-
-        .card:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-
-        .card:nth-child(3) {
-            animation-delay: 0.3s;
-        }
-
-        .langkah-item {
-            animation: fadeInUp 0.6s ease-out;
-        }
-
-        .langkah-item:nth-child(1) {
-            animation-delay: 0.1s;
-        }
-
-        .langkah-item:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-
-        .langkah-item:nth-child(3) {
-            animation-delay: 0.3s;
-        }
-
         @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2rem;
-            }
-
-            .hero p {
-                font-size: 0.85rem;
-            }
-
-            .section-title h2,
-            .langkah-container h2 {
-                font-size: 1.5rem;
-            }
-
-            .card-grid,
-            .langkah-grid {
-                grid-template-columns: 1fr;
+            .hero {
+                min-height: 500px;
+                padding: 2rem 1rem;
             }
         }
     </style>
-@endsection
-
 @section('content')
-    {{-- ALERT SUCCESS --}}
-    @if(session('success'))
-        <div class="alert-success">
-            ✅ {{ session('success') }}
-        </div>
-    @endif
-
+    <x-login-alert />
     {{-- HERO SECTION --}}
     <section class="hero">
         <span class="welcome-badge">Halo, {{ auth()->user()->siswa->nama }} Selamat Datang ❤️</span>
@@ -380,7 +118,7 @@
 
                 <div class="langkah-item">
                     <div class="langkah-number">3</div>
-                    <h4>Tunggu verifikasi admin dan download kwitansi</h4>
+                    <h4>Tunggu verifikasi admin dan download kwitansi di <a class="histori" href="{{route('siswa.histori') }}">Histori</a></h4>
                 </div>
             </div>
         </div>

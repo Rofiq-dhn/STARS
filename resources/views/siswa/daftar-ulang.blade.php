@@ -1,436 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pembayaran Daftar Ulang - STARS</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f5f5f5;
-            padding: 0;
-            min-height: 100vh;
-        }
-
-        /* Header dengan background merah */
-        .top-header {
-            background-color: #333333;
-            padding: 15px 270px;
-            color: white;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-        }
-
-        .btn-back {
-            border: none;
-            color: white;
-            width: 80px;
-            height: 35px;
-            border-radius: 8px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            text-decoration: none;
-            transition: background 0.3s;
-            padding-bottom: 4px;
-        }
-
-        .breadcrumb {
-            color: rgba(255,255,255,0.8);
-            font-size: 14px;
-            display: flex;
-        }
-
-        .breadcrumb-separator {
-            margin: 0 8px;
-        }
-
-        /* Container */
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 25px 20px;
-        }
-
-        /* Card */
-        .card {
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-            margin-bottom: 20px;
-        }
-
-        .card-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-
-        .card-icon {
-            width: 28px;
-            height: 28px;
-            background: #FEE;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-        }
-
-        .card-title {
-            font-size: 16px;
-            font-weight: 600;
-            color: #333;
-        }
-
-        .card-description {
-            font-size: 13px;
-            color: #666;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-
-        /* Info Grid - 2 kolom */
-        .info-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-        }
-
-        .info-section-title {
-            font-size: 14px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 15px;
-            padding-bottom: 8px;
-            border-bottom: 2px solid #f5f5f5;
-        }
-
-        .info-row {
-            display: flex;
-            flex-direction: column;
-            gap: 3px;
-            padding: 10px 0;
-            border-bottom: 1px solid #f5f5f5;
-        }
-
-        .info-row:last-child {
-            border-bottom: none;
-        }
-
-        .info-label {
-            font-size: 12px;
-            color: #999;
-        }
-
-        .info-value {
-            font-size: 14px;
-            color: #333;
-            font-weight: 500;
-        }
-
-        .info-row.total .info-label {
-            font-weight: 600;
-            color: #333;
-        }
-
-        .info-row.total .info-value {
-            color: #D32F2F;
-            font-size: 16px;
-            font-weight: 700;
-        }
-
-        /* Payment Options */
-        .payment-options-title {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 15px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 15px;
-        }
-
-        .options-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .option-card {
-            border: 2px solid #e5e5e5;
-            padding: 18px;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s;
-            position: relative;
-        }
-
-        .option-card:hover {
-            border-color: #D32F2F;
-            background: #FFFBFB;
-        }
-
-        .option-card.active {
-            border-color: #D32F2F;
-            background: #FFF5F5;
-        }
-
-        .option-card input[type="radio"] {
-            position: absolute;
-            opacity: 0;
-        }
-
-        .option-title {
-            font-size: 15px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 4px;
-        }
-
-        .option-desc {
-            font-size: 12px;
-            color: #999;
-            margin-bottom: 10px;
-        }
-
-        .option-price {
-            font-size: 17px;
-            font-weight: 700;
-            color: #333;
-        }
-
-        /* Upload Section */
-        .upload-section {
-            background: #FFF5F5;
-            border: 2px solid #FFCDD2;
-            border-radius: 12px;
-            padding: 20px;
-        }
-
-        .upload-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 12px;
-        }
-
-        .upload-icon {
-            width: 32px;
-            height: 32px;
-            background: white;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-        }
-
-        .upload-title {
-            font-size: 15px;
-            font-weight: 600;
-            color: #D32F2F;
-        }
-
-        .upload-subtitle {
-            font-size: 12px;
-            color: #666;
-            margin-bottom: 15px;
-        }
-
-        .bank-info-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 18px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #FFCDD2;
-        }
-
-        .bank-item {
-            display: flex;
-            flex-direction: column;
-            gap: 3px;
-        }
-
-        .bank-label {
-            font-size: 11px;
-            color: #999;
-        }
-
-        .bank-value {
-            font-size: 13px;
-            color: #333;
-            font-weight: 600;
-        }
-
-        .upload-label-text {
-            font-size: 13px;
-            color: #666;
-            margin-bottom: 10px;
-            display: block;
-        }
-
-        .dropzone {
-            border: 2px dashed #ddd;
-            border-radius: 10px;
-            padding: 35px 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            background: white;
-        }
-
-        .dropzone:hover {
-            border-color: #D32F2F;
-            background: #FFFBFB;
-        }
-
-        .dropzone-icon {
-            font-size: 36px;
-            margin-bottom: 8px;
-        }
-
-        .dropzone-text {
-            font-size: 13px;
-            color: #666;
-            margin-bottom: 4px;
-        }
-
-        .dropzone-hint {
-            font-size: 11px;
-            color: #999;
-        }
-
-        .file-preview {
-            display: none;
-            margin-top: 12px;
-            padding: 12px 15px;
-            background: white;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .file-preview.show {
-            display: flex;
-        }
-
-        .file-name {
-            font-size: 13px;
-            color: #333;
-            flex: 1;
-        }
-
-        .btn-remove {
-            background: #f44336;
-            color: white;
-            border: none;
-            padding: 6px 14px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 11px;
-            font-weight: 500;
-        }
-
-        .btn-remove:hover {
-            background: #d32f2f;
-        }
-
-        /* Action Buttons */
-        .action-buttons {
-            display: grid;
-            grid-template-columns: 1fr 150px;
-            gap: 12px;
-            margin-top: 20px;
-        }
-
-        .btn-submit {
-            padding: 14px;
-            background: linear-gradient(135deg, #D32F2F 0%, #B71C1C 100%);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .btn-submit:hover:not(:disabled) {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(211, 47, 47, 0.3);
-        }
-
-        .btn-submit:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .btn-reset {
-            padding: 14px;
-            background: white;
-            color: #666;
-            border: 2px solid #e5e5e5;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .btn-reset:hover {
-            border-color: #D32F2F;
-            color: #D32F2F;
-        }
-
-        input[type="file"] {
-            display: none;
-        }
-
-        @media (max-width: 768px) {
-            .info-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-
-            .options-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .bank-info-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .action-buttons {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+    @vite('resources/css/siswa/daftarulang.css')
 </head>
 <body>
+    <x-payment-alert />
     {{-- Header dengan background merah --}}
     <div class="top-header">
-        <a href="{{ route('siswa.dashboard') }}" class="btn-back">←Kembali</a>
+        <a href="{{ route('siswa.dashboard') }}" class="btn-back">
+           <span><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="30" height="30">
+                    <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" fill="#FFFFFF"/>
+            </svg></span>Kembali
+        </a>
         <div>
             <div class="breadcrumb">
                 <span class="breadcrumb-separator">
@@ -450,7 +35,8 @@
                 <div class="card-title">Pembayaran Daftar Ulang</div>
             </div>
             <p class="card-description">
-                Pembayaran daftar ulang untuk melanjutkan pendidikan ke tingkat yang lebih tinggi. Siswa wajib melakukan daftar ulang sebelum tahun ajaran baru dimulai.
+                Pembayaran daftar ulang untuk melanjutkan pendidikan ke tingkat yang lebih tinggi. Siswa wajib melakukan
+                daftar ulang sebelum tahun ajaran baru dimulai.
             </p>
 
             <div class="info-grid">
@@ -472,7 +58,7 @@
                     <div class="info-row">
                         <span class="info-label">Kelas Tujuan</span>
                         @php
-                            $kelasTujuan = ((int)$siswa->kelas_siswa) + 1;
+                            $kelasTujuan = ((int) $siswa->kelas_siswa) + 1;
                         @endphp
                         <span class="info-value">{{ $kelasTujuan }} {{ $siswa->jurusan }}</span>
                     </div>
@@ -562,12 +148,17 @@
                     <label class="upload-label-text">Upload Bukti Pembayaran</label>
 
                     <div class="dropzone" id="dropzone" onclick="document.getElementById('fileInput').click()">
-                        <div class="dropzone-icon">⬇️</div>
+                        <div class="dropzone-icon"><svg xmlns="http://www.w3.org/2000/svg" width="40"
+                                            height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M12 3l5 5h-3v6h-4V8H7l5-5z" />
+                                            <rect x="4" y="18" width="16" height="3" rx="1" /></svg></div>
                         <div class="dropzone-text">Pilih File Gambar (PNG, JPG) atau PDF</div>
                         <div class="dropzone-hint">Maksimal 10MB</div>
                     </div>
 
-                    <input type="file" name="bukti_pembayaran" id="fileInput" accept="image/*,application/pdf" required onchange="handleFileSelect(this)">
+                    <input type="file" name="bukti_pembayaran" id="fileInput" accept=".jpg,.jpeg,.png,.pdf" required
+                        onchange="handleFileSelect(this)">
 
                     <div class="file-preview" id="filePreview">
                         <span class="file-name" id="fileName"></span>
@@ -672,6 +263,25 @@
                 handleFileSelect(document.getElementById('fileInput'));
             }
         });
+
+        // Override form submit untuk menampilkan alert
+        document.getElementById('formPembayaran').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // Tampilkan alert sukses
+        showPaymentAlert({
+            title: 'Pembayaran Dikirim',
+            message: 'Bukti pembayaran sedang diverifikasi admin',
+            type: 'success',
+            duration: 2000
+        });
+
+        // Submit form setelah alert ditampilkan
+        setTimeout(() => {
+            this.submit();
+        }, 500);
+    });
     </script>
 </body>
+
 </html>

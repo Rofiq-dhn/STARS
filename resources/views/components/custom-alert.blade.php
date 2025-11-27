@@ -2,26 +2,12 @@
 <div id="customAlert" class="custom-alert-overlay" style="display: none;">
     <div class="custom-alert-container">
         <div class="custom-alert-content">
-            <div class="custom-alert-icon-check" id="alertIcon">
-                <!-- Icon Success (Centang) -->
-                <svg class="icon-success" width="60" height="60" viewBox="0 0 60 60" fill="none">
+            <div class="custom-alert-icon-check">
+                <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
                     <path d="M15 30L25 40L45 20" stroke="#00ff00" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
-
-                <!-- Icon Warning (Tanda Seru) -->
-                <svg class="icon-warning" width="60" height="60" viewBox="0 0 60 60" fill="none" style="display: none;">
-                    <circle cx="30" cy="30" r="25" stroke="#ff0000" stroke-width="3" fill="none"/>
-                    <path d="M30 20V32" stroke="#ff0000" stroke-width="3" stroke-linecap="round"/>
-                    <circle cx="30" cy="40" r="2" fill="#ff0000"/>
-                </svg>
-
-                <!-- Icon Error (Silang) -->
-                <svg class="icon-error" width="60" height="60" viewBox="0 0 60 60" fill="none" style="display: none;">
-                    <circle cx="30" cy="30" r="25" stroke="#ff0000" stroke-width="3" fill="none"/>
-                    <path d="M20 20L40 40M40 20L20 40" stroke="#ff0000" stroke-width="3" stroke-linecap="round"/>
-                </svg>
             </div>
-            <h3 class="custom-alert-title" id="alertTitle">Data Berhasil Ditambah</h3>
+            <h3 class="custom-alert-title" id="alertTitle">Biaya Berhasil Ditambah</h3>
         </div>
     </div>
 </div>
@@ -79,7 +65,7 @@
     font-weight: 500;
     color: #333;
     margin: 0;
-    text-align: center;
+    text-align: left;
 }
 
 /* Variasi untuk alert error/delete */
@@ -87,9 +73,17 @@
     border-left-color: #ff0000;
 }
 
+.custom-alert-container.alert-error .custom-alert-icon-check svg path {
+    stroke: #ff0000;
+}
+
 /* Variasi untuk alert warning */
-.custom-alert-container.alert-warning {
+.custom-alert-container.alert-warning  {
     border-left-color: #ff0000;
+}
+
+.custom-alert-container.alert-warning .custom-alert-icon-check svg path {
+    stroke: #ff0000;
 }
 
 /* Untuk alert dengan tombol konfirmasi */
@@ -133,48 +127,14 @@
 </style>
 
 <script>
-// Variable untuk menyimpan callback confirm
-let currentConfirmCallback = null;
-
-// Fungsi helper untuk menampilkan icon yang sesuai
-function setAlertIcon(type) {
-    const iconSuccess = document.querySelector('.icon-success');
-    const iconWarning = document.querySelector('.icon-warning');
-    const iconError = document.querySelector('.icon-error');
-    const container = document.querySelector('.custom-alert-container');
-
-    // Sembunyikan semua icon dulu
-    if (iconSuccess) iconSuccess.style.display = 'none';
-    if (iconWarning) iconWarning.style.display = 'none';
-    if (iconError) iconError.style.display = 'none';
-
-    // Tampilkan icon sesuai type
-    if (type === 'success') {
-        if (iconSuccess) iconSuccess.style.display = 'block';
-        if (container) container.style.borderLeftColor = '#00ff00';
-    } else if (type === 'warning') {
-        if (iconWarning) iconWarning.style.display = 'block';
-        if (container) container.style.borderLeftColor = '#ff0000';
-    } else if (type === 'error') {
-        if (iconError) iconError.style.display = 'block';
-        if (container) container.style.borderLeftColor = '#ff0000';
-    }
-}
-
 // Fungsi untuk menampilkan alert sukses (auto close)
 function showSuccessAlert(title = 'Data Berhasil Ditambah', duration = 2000) {
     const alert = document.getElementById('customAlert');
     const container = alert.querySelector('.custom-alert-container');
     const alertTitle = document.getElementById('alertTitle');
 
-    // Reset callback
-    currentConfirmCallback = null;
-
     // Reset classes
     container.className = 'custom-alert-container';
-
-    // Set icon SUCCESS (centang hijau)
-    setAlertIcon('success');
 
     // Set title
     alertTitle.textContent = title;
@@ -200,14 +160,8 @@ function showErrorAlert(title = 'Data Gagal Ditambah', duration = 2000) {
     const container = alert.querySelector('.custom-alert-container');
     const alertTitle = document.getElementById('alertTitle');
 
-    // Reset callback
-    currentConfirmCallback = null;
-
     // Set error class
     container.className = 'custom-alert-container alert-error';
-
-    // Set icon ERROR (silang merah)
-    setAlertIcon('error');
 
     // Set title
     alertTitle.textContent = title;
@@ -228,19 +182,13 @@ function showErrorAlert(title = 'Data Gagal Ditambah', duration = 2000) {
 }
 
 // Fungsi untuk menampilkan alert konfirmasi (dengan tombol)
-function showConfirmAlert(title = 'Yakin Ingin Hapus Data?', onConfirm, confirmText = 'Hapus') {
+function showConfirmAlert(title = 'Yakin Ingin Hapus Data?', onConfirm) {
     const alert = document.getElementById('customAlert');
     const container = alert.querySelector('.custom-alert-container');
     const alertTitle = document.getElementById('alertTitle');
 
-    // Simpan callback ke variable global
-    currentConfirmCallback = onConfirm;
-
     // Set warning class
     container.className = 'custom-alert-container alert-warning';
-
-    // Set icon WARNING (tanda seru merah)
-    setAlertIcon('warning');
 
     // Set title
     alertTitle.textContent = title;
@@ -256,42 +204,34 @@ function showConfirmAlert(title = 'Yakin Ingin Hapus Data?', onConfirm, confirmT
     buttonsDiv.className = 'custom-alert-buttons';
     buttonsDiv.innerHTML = `
         <button type="button" class="btn-cancel" onclick="closeCustomAlert()">Tidak</button>
-        <button type="button" class="btn-confirm" id="confirmBtn">${confirmText}</button>
+        <button type="button" class="btn-confirm" id="confirmBtn">Hapus</button>
     `;
     container.appendChild(buttonsDiv);
 
     // Show alert
     alert.style.display = 'flex';
 
-    // Add confirm handler - gunakan onclick langsung
-    const confirmBtn = document.getElementById('confirmBtn');
-    confirmBtn.onclick = function() {
+    // Add confirm handler
+    document.getElementById('confirmBtn').addEventListener('click', function handler() {
         closeCustomAlert();
-        if (currentConfirmCallback && typeof currentConfirmCallback === 'function') {
-            currentConfirmCallback();
+        if (onConfirm && typeof onConfirm === 'function') {
+            onConfirm();
         }
-        currentConfirmCallback = null;
-    };
+        this.removeEventListener('click', handler);
+    });
 }
 
 // Fungsi untuk menutup alert
 function closeCustomAlert() {
-    const alert = document.getElementById('customAlert');
-    alert.style.display = 'none';
-
-    // Reset callback saat ditutup
-    currentConfirmCallback = null;
+    document.getElementById('customAlert').style.display = 'none';
 }
 
 // Close alert when clicking outside
 document.addEventListener('DOMContentLoaded', function() {
-    const alertOverlay = document.getElementById('customAlert');
-    if (alertOverlay) {
-        alertOverlay.addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeCustomAlert();
-            }
-        });
-    }
+    document.getElementById('customAlert')?.addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeCustomAlert();
+        }
+    });
 });
 </script>
