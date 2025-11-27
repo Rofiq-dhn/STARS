@@ -1,0 +1,175 @@
+
+        .tagihan-container {
+            min-height: 100vh;
+            background-color: #f3f4f6;
+            padding: 2rem;
+        }
+
+        .tagihan-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+
+        .tagihan-header a {
+            text-decoration: none;
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .tagihan-title h1 {
+            font-size: 2.25rem;
+            font-weight: bold;
+            color: #111827;
+            margin: 0;
+        }
+
+        .tagihan-title p {
+            color: #6b7280;
+            font-size: 1rem;
+            margin-top: 0.25rem;
+        }
+
+        .btn-tambah {
+            background-color: #ef4444;
+            color: white;
+            padding: 0.625rem 1.25rem;
+            border-radius: 0.375rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+            transition: background-color 0.2s;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-tambah:hover {
+            background-color: #dc2626;
+        }
+
+        .btn-tambah span:first-child {
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 1.25rem 2rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .card-header h2 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #111827;
+            margin: 0;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background-color: #808080;
+            color: white;
+        }
+
+        thead th {
+            padding: 1.25rem 2rem;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid #e5e7eb;
+            transition: background-color 0.2s;
+        }
+
+        tbody tr:hover {
+            background-color: #f9fafb;
+        }
+
+        tbody td {
+            padding: 1.5rem 2rem;
+            text-align: center;
+            color: #1f2937;
+            font-size: 1rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+
+        .btn-edit, .btn-delete {
+            padding: 0.625rem;
+            border-radius: 0.375rem;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-edit {
+            background-color: #ef4444;
+            color: white;
+            text-decoration: none;
+        }
+
+        .btn-edit:hover {
+            background-color: #dc2626;
+        }
+
+        .btn-delete {
+            background-color: #9ca3af;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background-color: #6b7280;
+        }
+
+        .btn-edit svg, .btn-delete svg {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+
+        .empty-state {
+            padding: 4rem 2rem;
+            text-align: center;
+            color: #6b7280;
+        }
+
+        .empty-state-icon {
+            width: 4rem;
+            height: 4rem;
+            color: #d1d5db;
+            margin: 0 auto 1rem;
+        }
+
+        .empty-state p {
+            font-weight: 600;
+            font-size: 1.125rem;
+            margin: 0;
+        }

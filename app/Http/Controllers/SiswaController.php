@@ -261,7 +261,7 @@ class SiswaController extends Controller
 
         return view('siswa.dashboard', compact('siswa', 'tahunAjaran', 'biayaPPDB', 'biayaSPP', 'biayaDaftarUlang'));
     }
-    
+
     /**
      * Update method ppdb() untuk pass data cicilan
      */
@@ -390,4 +390,21 @@ class SiswaController extends Controller
             'cicilanPerBulan'
         ));
     }
+
+    /**
+ * Halaman Histori Pembayaran
+ * Menampilkan semua riwayat pembayaran siswa
+ */
+public function histori()
+{
+    $siswa = auth()->user()->siswa;
+
+    // Ambil semua pembayaran siswa ini, diurutkan dari terbaru
+    $pembayaran = Pembayaran::where('id_siswa', $siswa->id_siswa)
+                            ->with(['biaya']) // Eager load relasi biaya
+                            ->orderBy('created_at', 'desc')
+                            ->get();
+
+    return view('siswa.histori', compact('siswa', 'pembayaran'));
+}
 }

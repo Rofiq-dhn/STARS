@@ -3,50 +3,98 @@
 @section('title', 'Tambah Biaya')
 
 @section('content')
-    <!DOCTYPE html>
-    <html lang="id">
+@vite(['resources/css/admin/tagihan-form.css'])
 
-    <form action="{{ route('biaya.store') }}" method="POST" style="max-width: 500px;">
-        @csrf
+<div class="container-tagihan">
+    <div class="header-tagihan">
+        <h1>Tagihan</h1>
+        <p>Tambah Data Tagihan</p>
+    </div>
 
-        <div style="margin-bottom: 15px;">
-            <label>Kategori *</label><br>
-            <select name="kategori" required style="width: 100%; padding: 8px;">
-                <option value="">-- Pilih Kategori --</option>
-                <option value="PPDB">PPDB</option>
-                <option value="SPP">SPP</option>
-                <option value="DAFTAR ULANG">DAFTAR ULANG</option>
-            </select>
-            @error('kategori')
-                <div style="color: red;">{{ $message }}</div>
-            @enderror
-        </div>
+    <div class="card-form">
+        <h2 class="card-title">Tambah Biaya</h2>
 
-        <div style="margin-bottom: 15px;">
-            <label>Tahun Ajaran *</label><br>
-            <input type="text" name="tahun" value="{{ old('tahun') }}" required style="width: 100%; padding: 8px;">
-            @error('tahun')
-                <div style="color: red;">{{ $message }}</div>
-            @enderror
-        </div>
+        <form action="{{ route('biaya.store') }}" method="POST">
+            @csrf
 
-        <div style="margin-bottom: 15px;">
-            <label>Kelas (Opsional, untuk SPP)</label><br>
-            <input type="text" name="kelas" value="{{ old('kelas') }}" placeholder="Contoh: 10, 11, 12" style="width: 100%; padding: 8px;">
-            @error('kelas')
-                <div style="color: red;">{{ $message }}</div>
-            @enderror
-        </div>
+            <div class="form-group">
+                <label class="form-label">Biaya:</label>
+                <input
+                    type="number"
+                    name="biaya"
+                    class="form-input"
+                    value="{{ old('biaya') }}"
+                    placeholder="Biaya..."
+                    required
+                >
+                @error('biaya')
+                    <div class="error-message">{{ $message }}</div>
+                @enderror
+            </div>
 
-        <div style="margin-bottom: 15px;">
-            <label>Biaya (Rp) *</label><br>
-            <input type="number" name="biaya" value="{{ old('biaya') }}" required style="width: 100%; padding: 8px;">
-            @error('biaya')
-                <div style="color: red;">{{ $message }}</div>
-            @enderror
-        </div>
+            <div class="form-group">
+                <label class="form-label">Kategori:</label>
+                <select name="kategori" class="form-select" required>
+                    <option value="">☰ Pilih Kategori...</option>
+                    <option value="PPDB" {{ old('kategori') == 'PPDB' ? 'selected' : '' }}>PPDB</option>
+                    <option value="SPP" {{ old('kategori') == 'SPP' ? 'selected' : '' }}>SPP</option>
+                    <option value="DAFTAR ULANG" {{ old('kategori') == 'DAFTAR ULANG' ? 'selected' : '' }}>DAFTAR ULANG</option>
+                </select>
+                @error('kategori')
+                    <div class="error-message">{{ $message }}</div>
+                @enderror
+            </div>
 
-        <button type="submit" style="padding: 10px 20px; background-color: green; color: white; border: none; cursor: pointer;">Simpan</button>
-        <a href="{{ route('biaya.index') }}" style="padding: 10px 20px; background-color: gray; color: white; text-decoration: none; display: inline-block;">Kembali</a>
-    </form>
+            <div class="form-group">
+                <label class="form-label">Tahun:</label>
+                <input
+                    type="text"
+                    name="tahun"
+                    class="form-input"
+                    value="{{ old('tahun') }}"
+                    placeholder="Tahun..."
+                    required
+                >
+                @error('tahun')
+                    <div class="error-message">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Kelas(Hanya Untuk SPP):</label>
+                <input
+                    type="text"
+                    name="kelas"
+                    class="form-input"
+                    value="{{ old('kelas') }}"
+                    placeholder="Kelas..."
+                >
+                @error('kelas')
+                    <div class="error-message">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="button-group">
+                <a href="{{ route('biaya.index') }}" class="btn btn-back">
+                    Kembali
+                </a>
+                <button type="submit" class="btn btn-submit">
+                    Simpan
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    // Tampilkan alert jika ada session success
+    @if(session('success'))
+        showSuccessAlert('{{ session('success') }}');
+    @endif
+
+    // Tampilkan alert jika ada session error
+    @if(session('error'))
+        showErrorAlert('{{ session('error') }}');
+    @endif
+</script>
 @endsection
