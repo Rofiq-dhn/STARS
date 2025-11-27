@@ -40,7 +40,7 @@
         .btn-back svg path {
             transition: all 0.25s ease;
         }
-        
+
         .btn-back:hover {
             transform: translateX(-3px);
             color: red; /* teks jadi merah */
@@ -86,7 +86,6 @@
         .card-icon {
             width: 28px;
             height: 28px;
-            background: #FEE;
             border-radius: 6px;
             display: flex;
             align-items: center;
@@ -236,7 +235,6 @@
         .upload-icon {
             width: 32px;
             height: 32px;
-            background: white;
             border-radius: 8px;
             display: flex;
             align-items: center;

@@ -13,7 +13,6 @@
         </div>
     </div>
 </div>
-
 <style>
 .custom-alert-overlay {
     position: fixed;
@@ -149,10 +148,10 @@ function showAlertModal(type, message, form) {
     const container = document.getElementById('alertContainer');
     const modalIcon = document.getElementById('modalIcon');
     const modalMessage = document.getElementById('modalMessage');
-    
+
     // Reset classes
     container.className = 'custom-alert-container';
-    
+
     // Set icon dan class berdasarkan type
     if (type === 'delete' || type === 'tolak') {
         container.classList.add('alert-error');
@@ -169,13 +168,13 @@ function showAlertModal(type, message, form) {
             </svg>
         `;
     }
-    
+
     // Set message
     modalMessage.textContent = message;
-    
+
     // Simpan form yang akan disubmit
     currentForm = form;
-    
+
     // Tampilkan modal
     modal.style.display = 'flex';
 }

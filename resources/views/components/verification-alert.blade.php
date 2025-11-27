@@ -149,7 +149,7 @@
 
 <script>
     let currentVerificationForm = null;
-    let verificationMode = 'verify'; // 'verify' or 'reject'
+    let verificationMode = 'verify';
 
     // Fungsi untuk menampilkan alert verifikasi
     function showVerificationAlert(formId, mode = 'verify') {
@@ -160,37 +160,44 @@
         const icon = document.getElementById('verificationIcon');
         const confirmBtn = document.getElementById('confirmVerifyBtn');
 
+        // Cari form
         currentVerificationForm = document.getElementById(formId);
+
+        // Debug: pastikan form ditemukan
+        if (!currentVerificationForm) {
+            console.error('Form tidak ditemukan dengan ID:', formId);
+            alert('Error: Form tidak ditemukan! Silakan refresh halaman.');
+            return;
+        }
+
         verificationMode = mode;
 
         if (mode === 'verify') {
             container.classList.remove('alert-danger');
             title.textContent = 'Verifikasi Pembayaran';
-            message.textContent =
-                'Yakin ingin memverifikasi pembayaran ini sebagai LUNAS? Kwitansi akan otomatis digenerate.';
+            message.textContent = 'Yakin ingin memverifikasi pembayaran ini sebagai LUNAS? Kwitansi akan otomatis digenerate.';
             confirmBtn.textContent = 'Ya, Verifikasi';
             confirmBtn.className = 'btn-confirm';
 
             icon.innerHTML = `
-            <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
-                <path d="M15 30L25 40L45 20" stroke="#00ff00" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-        `;
+                <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+                    <path d="M15 30L25 40L45 20" stroke="#00ff00" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            `;
         } else if (mode === 'reject') {
             container.classList.add('alert-danger');
             title.textContent = 'Tolak Pembayaran';
-            message.textContent =
-                'Tolak pembayaran ini? Data dan file bukti transfer akan DIHAPUS PERMANEN dan tidak bisa dikembalikan!';
+            message.textContent = 'Tolak pembayaran ini? Data dan file bukti transfer akan DIHAPUS PERMANEN dan tidak bisa dikembalikan!';
             confirmBtn.textContent = 'Ya, Tolak & Hapus';
             confirmBtn.className = 'btn-confirm';
 
             icon.innerHTML = `
-            <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
-                <circle cx="30" cy="30" r="28" stroke="#ff0000" stroke-width="2" fill="none"/>
-                <line x1="20" y1="20" x2="40" y2="40" stroke="#ff0000" stroke-width="3" stroke-linecap="round"/>
-                <line x1="40" y1="20" x2="20" y2="40" stroke="#ff0000" stroke-width="3" stroke-linecap="round"/>
-            </svg>
-        `;
+                <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+                    <circle cx="30" cy="30" r="28" stroke="#ff0000" stroke-width="2" fill="none"/>
+                    <line x1="20" y1="20" x2="40" y2="40" stroke="#ff0000" stroke-width="3" stroke-linecap="round"/>
+                    <line x1="40" y1="20" x2="20" y2="40" stroke="#ff0000" stroke-width="3" stroke-linecap="round"/>
+                </svg>
+            `;
         }
 
         alert.style.display = 'flex';
@@ -203,8 +210,20 @@
         currentVerificationForm = null;
     }
 
-    // Fungsi untuk menampilkan alert sukses
-    function showSuccessAlert(message, redirectUrl = null) {
+    // Fungsi untuk submit form verifikasi
+    function submitVerificationForm() {
+        if (!currentVerificationForm) {
+            console.error('Form tidak tersedia!');
+            alert('Error: Form tidak ditemukan! Silakan refresh halaman dan coba lagi.');
+            return;
+        }
+
+        // PERBAIKAN: SIMPAN REFERENSI FORM SEBELUM CLOSE ALERT
+        const formToSubmit = currentVerificationForm; // ← INI KUNCINYA!
+        const formId = formToSubmit.id;
+        const isVerify = formId === 'formVerifikasi';
+
+        // Dapatkan elemen alert
         const alert = document.getElementById('verificationAlert');
         const container = alert.querySelector('.verification-alert-container');
         const title = document.getElementById('verificationTitle');
@@ -212,60 +231,27 @@
         const icon = document.getElementById('verificationIcon');
         const buttons = document.querySelector('.verification-alert-buttons');
 
-        // Ubah container style
+        // Ubah ke success alert
         container.classList.remove('alert-danger');
         container.style.borderLeftColor = '#00ff00';
 
-        // Update title dan message
-        title.textContent = 'Berhasil!';
-        messageEl.textContent = message;
+        title.textContent = 'Memproses...';
+        messageEl.textContent = isVerify ? 'Sedang memverifikasi pembayaran...' : 'Sedang menolak pembayaran...';
 
-        // Update icon
         icon.innerHTML = `
             <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
-                <path d="M15 30L25 40L45 20" stroke="#00ff00" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="30" cy="30" r="25" stroke="#00ff00" stroke-width="4" fill="none" stroke-dasharray="157" stroke-dashoffset="0">
+                    <animateTransform attributeName="transform" type="rotate" from="0 30 30" to="360 30 30" dur="1s" repeatCount="indefinite"/>
+                </circle>
             </svg>
         `;
 
-        // Hide buttons
         buttons.style.display = 'none';
 
-        // Auto close dan redirect
+        // Submit form setelah delay singkat
         setTimeout(() => {
-            closeVerificationAlert();
-            if (redirectUrl) {
-                window.location.href = redirectUrl;
-            } else {
-                // Reload halaman jika tidak ada redirect URL
-                window.location.reload();
-            }
-        }, 2000); // 2 detik
-    }
-
-    // Fungsi untuk submit form verifikasi
-    function submitVerificationForm() {
-        if (currentVerificationForm) {
-            // Intercept form submission
-            const formId = currentVerificationForm.id;
-            const isVerify = formId === 'formVerifikasi';
-
-            // Close confirmation alert
-            closeVerificationAlert();
-
-            // Show loading/processing alert
-            setTimeout(() => {
-                if (isVerify) {
-                    showSuccessAlert('Pembayaran berhasil diverifikasi!');
-                } else {
-                    showSuccessAlert('Pembayaran berhasil ditolak dan data dihapus.');
-                }
-
-                // Submit form setelah alert ditampilkan sebentar
-                setTimeout(() => {
-                    currentVerificationForm.submit();
-                }, 1000);
-            }, 300);
-        }
+            formToSubmit.submit(); // ← GUNAKAN VARIABEL YANG DISIMPAN
+        }, 800);
     }
 
     // Event listener untuk tombol confirm
@@ -273,14 +259,18 @@
         const confirmBtn = document.getElementById('confirmVerifyBtn');
         const overlay = document.getElementById('verificationAlert');
 
-        confirmBtn.addEventListener('click', submitVerificationForm);
+        if (confirmBtn) {
+            confirmBtn.addEventListener('click', submitVerificationForm);
+        }
 
         // Close alert when clicking outside
-        overlay.addEventListener('click', function(e) {
-            if (e.target === overlay) {
-                closeVerificationAlert();
-            }
-        });
+        if (overlay) {
+            overlay.addEventListener('click', function(e) {
+                if (e.target === overlay) {
+                    closeVerificationAlert();
+                }
+            });
+        }
     });
 </script>
-</placeholder>
+

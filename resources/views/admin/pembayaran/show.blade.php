@@ -175,28 +175,6 @@
                             <h2>Kirim Kwitansi</h2>
                         </div>
 
-                        <div class="upload-box">
-                            <div class="upload-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round">
-                                    <path d="M12 3l5 5h-3v6h-4V8H7l5-5z" />
-                                    <rect x="4" y="18" width="16" height="3" rx="1" />
-                                </svg>
-                            </div>
-                            <p class="upload-text">Pilih File Gambar (PNG, JPG) atau PDF</p>
-                            <p class="upload-hint">Maksimal 10MB</p>
-                            <div class="upload-wrapper">
-                                <button class="btn-upload">
-                                    <p>Upload</p> <span><svg xmlns="http://www.w3.org/2000/svg" width="20"
-                                            height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M12 3l5 5h-3v6h-4V8H7l5-5z" />
-                                            <rect x="4" y="18" width="16" height="3" rx="1" /></svg></span>
-                                </button>
-                            </div>
-                        </div>
-
                         <div class="action-buttons">
                             {{-- Form Verifikasi (Hidden) --}}
                             <form action="{{ route('pembayaran.verifikasi', $pembayaran->id_pembayaran) }}"

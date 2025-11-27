@@ -40,10 +40,10 @@
         .btn-back svg path {
             transition: all 0.25s ease;
         }
-        
+
         .btn-back:hover {
             transform: translateX(-3px);
-            color: red; 
+            color: red;
         }
 
         .btn-back:hover svg path {
@@ -86,7 +86,6 @@
         .card-icon {
             width: 28px;
             height: 28px;
-            background: #FEE;
             border-radius: 6px;
             display: flex;
             align-items: center;

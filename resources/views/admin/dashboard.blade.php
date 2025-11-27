@@ -48,17 +48,6 @@
             <div class="stat-value">892</div>
             <div class="stat-change down">Dari 1,243 siswa</div>
         </div>
-
-        <div class="stat-card">
-            <div class="stat-header">
-                <div>
-                    <div class="stat-title">Pendapatan Bulanan</div>
-                </div>
-                <div class="stat-icon">📊</div>
-            </div>
-            <div class="stat-value red">Rp 58.2M</div>
-            <div class="stat-change">+8.2% dari bulan lalu</div>
-        </div>
     </div>
 
     <!-- Notifications Section -->

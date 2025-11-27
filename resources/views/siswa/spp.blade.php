@@ -29,7 +29,11 @@
         {{-- Card Info & Status --}}
         <div class="card">
             <div class="card-header">
-                <div class="card-icon">💳</div>
+                <div class="card-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="red">
+                        <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/>
+                    </svg>
+                </div>
                 <div class="card-title">Pembayaran SPP</div>
             </div>
 
@@ -89,7 +93,29 @@
             {{-- Card Pilih Bulan --}}
             <div class="card">
                 <div class="card-header">
-                    <div class="card-icon">📅</div>
+                    <div class="card-icon">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Bingkai kalender -->
+                        <rect x="3" y="4" width="18" height="17" rx="2" stroke="red" stroke-width="2"/>
+
+                        <!-- Garis pemisah header kalender -->
+                        <line x1="3" y1="9" x2="21" y2="9" stroke="red" stroke-width="2"/>
+
+                        <!-- Cincin atas kiri -->
+                        <line x1="7" y1="2" x2="7" y2="6" stroke="red" stroke-width="2" stroke-linecap="round"/>
+
+                        <!-- Cincin atas kanan -->
+                        <line x1="17" y1="2" x2="17" y2="6" stroke="red" stroke-width="2" stroke-linecap="round"/>
+
+                        <!-- Titik tanggal (opsional) -->
+                        <circle cx="8" cy="13" r="1" fill="red"/>
+                        <circle cx="12" cy="13" r="1" fill="red"/>
+                        <circle cx="16" cy="13" r="1" fill="red"/>
+                        <circle cx="8" cy="17" r="1" fill="red"/>
+                        <circle cx="12" cy="17" r="1" fill="red"/>
+                        <circle cx="16" cy="17" r="1" fill="red"/>
+                    </svg>
+                    </div>
                     <div class="card-title">Pilih Bulan Pembayaran</div>
                 </div>
 
@@ -124,7 +150,14 @@
             {{-- Card Opsi Pembayaran - Selalu Tampil --}}
             <div class="card">
     <div class="card-header">
-        <div class="card-icon">💳</div>
+        <div class="card-icon">
+            <svg width="40" height="40" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
+                            fill="none" stroke="red" stroke-width="3" stroke-linecap="round">
+                            <line x1="4" y1="6" x2="20" y2="6" />
+                            <line x1="4" y1="12" x2="20" y2="12" />
+                            <line x1="4" y1="18" x2="20" y2="18" />
+                        </svg>
+        </div>
         <div class="card-title">Opsi Pembayaran</div>
     </div>
 
@@ -150,7 +183,13 @@
             <div class="card">
                 <div class="upload-section">
                     <div class="upload-header">
-                        <div class="upload-icon">💳</div>
+                        <div class="upload-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30"
+                                viewBox="0 0 24 24" fill="red">
+                                <path
+                                    d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z" />
+                            </svg>
+                        </div>
                         <div class="upload-title">Kirim Bukti Transfer</div>
                     </div>
 
@@ -191,7 +230,11 @@
 
                 <div class="action-buttons">
                     <button type="submit" class="btn-submit" id="btnSubmit" disabled>
-                        <span>💳</span>
+                        <span><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                viewBox="0 0 24 24" fill="black">
+                                <path
+                                    d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z" />
+                            </svg></span>
                         <span>Bayar</span>
                     </button>
                     <button type="button" class="btn-reset" onclick="resetForm()">Reset</button>

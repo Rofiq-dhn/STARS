@@ -31,7 +31,7 @@
     <x-login-alert />
     {{-- HERO SECTION --}}
     <section class="hero">
-        <span class="welcome-badge">Halo, {{ auth()->user()->siswa->nama }} Selamat Datang ❤️</span>
+        <span class="welcome-badge">Halo, {{ auth()->user()->siswa->nama }} Selamat Datang !</span>
         <h1>Selamat Datang<br>{{ auth()->user()->siswa->nama }}</h1>
         <p>
             Platform pembayaran digital untuk PPDB, SPP, dan Daftar Ulang siswa.

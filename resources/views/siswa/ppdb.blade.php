@@ -31,7 +31,11 @@
         {{-- Card Info Pembayaran --}}
         <div class="card">
             <div class="card-header">
-                <div class="card-icon">🎓</div>
+                <div class="card-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="red">
+                        <path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/>
+                    </svg>
+                </div>
                 <div class="card-title">Pembayaran PPDB</div>
             </div>
             <p class="card-description">
@@ -96,7 +100,11 @@
             {{-- Card Opsi Pembayaran --}}
             <div class="card">
                 <div class="payment-options-title">
-                    <span>💳</span>
+                    <span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="red">
+                        <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/>
+                    </svg>
+                    </span>
                     <span>Opsi Pembayaran</span>
                 </div>
 
@@ -123,7 +131,11 @@
             <div class="card">
                 <div class="upload-section">
                     <div class="upload-header">
-                        <div class="upload-icon">💳</div>
+                        <div class="upload-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="red">
+                        <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/>
+                    </svg>
+                        </div>
                         <div class="upload-title">Kirim Bukti Transfer</div>
                     </div>
 
@@ -165,7 +177,11 @@
 
                 <div class="action-buttons">
                     <button type="submit" class="btn-submit" id="btnSubmit" disabled>
-                        <span>💳</span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="black">
+                        <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/>
+                    </svg>
+                        </span>
                         <span>Bayar</span>
                     </button>
                     <button type="button" class="btn-reset" onclick="resetForm()">Reset</button>

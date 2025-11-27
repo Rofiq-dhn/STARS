@@ -442,7 +442,6 @@
                 </svg>
             </button>
             <div class="navbar-brand">
-
                 <div class="navbar-brand-text">
                     <strong>STARS</strong>
                     <small>Sistem Tagihan Dan Pembayaran Sekolah</small>
@@ -459,7 +458,35 @@
     </div>
 </body>
 <script>
+    // Fungsi untuk memuat state sidebar saat halaman dimuat
+    function loadSidebarState() {
+        const sidebar = document.getElementById('sidebar');
+        const navbar = document.getElementById('navbar');
+        const content = document.getElementById('content');
+        const toggleBtn = document.getElementById('toggleBtn');
+
+        // Ambil state dari localStorage
+        const isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+
+        // Terapkan state
+        if (isCollapsed) {
+            sidebar.classList.add('collapsed');
+            navbar.classList.add('expanded');
+            content.classList.add('expanded');
+            toggleBtn.innerHTML =
+                '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="40" height="40"><rect width="256" height="256" fill="none"/><rect x="35" y="35" width="186" height="186" rx="20" ry="20" fill="#ffffff"/><rect x="110" y="50" width="96" height="156" fill="#B30000"/><rect x="50" y="50" width="46" height="156" fill="#B30000"/><polyline points="91,100 111,128 91,156" fill="none" stroke="#ffffff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+        } else {
+            sidebar.classList.remove('collapsed');
+            navbar.classList.remove('expanded');
+            content.classList.remove('expanded');
+            toggleBtn.innerHTML =
+                '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="40" height="40"><rect width="256" height="256" fill="none"/><rect x="35" y="35" width="186" height="186" rx="20" ry="20" fill="#ffffff"/><rect x="50" y="50" width="46" height="156" fill="#B30000"/><rect x="110" y="50" width="96" height="156" fill="#B30000"/><polyline points="165,100 145,128 165,156" fill="none" stroke="#ffffff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+        }
+    }
+
+    // Fungsi toggle sidebar
     function toggleSidebar() {
+        console.log('sidebar')
         const sidebar = document.getElementById('sidebar');
         const navbar = document.getElementById('navbar');
         const content = document.getElementById('content');
@@ -469,8 +496,12 @@
         navbar.classList.toggle('expanded');
         content.classList.toggle('expanded');
 
+        // Simpan state ke localStorage
+        const isCollapsed = sidebar.classList.contains('collapsed');
+        localStorage.setItem('sidebarCollapsed', isCollapsed);
+
         // Ubah icon toggle button
-        if (sidebar.classList.contains('collapsed')) {
+        if (isCollapsed) {
             toggleBtn.innerHTML =
             '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="40" height="40"><rect width="256" height="256" fill="none"/><rect x="35" y="35" width="186" height="186" rx="20" ry="20" fill="#ffffff"/><rect x="110" y="50" width="96" height="156" fill="#B30000"/><rect x="50" y="50" width="46" height="156" fill="#B30000"/><polyline points="91,100 111,128 91,156" fill="none" stroke="#ffffff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/></svg>';
         } else {
@@ -482,5 +513,8 @@
     function handleLogout() {
         showLogoutAlert();
     }
+
+    // Muat state sidebar saat halaman selesai dimuat
+    document.addEventListener('DOMContentLoaded', loadSidebarState);
 </script>
 </html>
