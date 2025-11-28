@@ -4,509 +4,204 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pembayaran PPDB - STARS</title>
-    <style>
-        /* Reset CSS */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-            padding: 20px;
-        }
-
-        /* Container */
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        /* Header dengan tombol kembali */
-        .header {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 30px;
-            padding: 15px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .btn-back {
-            width: 40px;
-            height: 40px;
-            background: #f5f5f5;
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            text-decoration: none;
-            color: #333;
-        }
-
-        .header-title {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 16px;
-            color: #D32F2F;
-            font-weight: bold;
-        }
-
-        /* Card putih */
-        .card {
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-        }
-
-        .card-title {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 18px;
-            color: #333;
-            margin-bottom: 15px;
-            font-weight: bold;
-        }
-
-        .card-description {
-            font-size: 13px;
-            color: #666;
-            line-height: 1.6;
-            margin-bottom: 25px;
-        }
-
-        /* Grid 2 kolom */
-        .info-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-        }
-
-        .info-section h3 {
-            font-size: 16px;
-            color: #333;
-            margin-bottom: 15px;
-        }
-
-        .info-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #f0f0f0;
-        }
-
-        .info-item label {
-            font-size: 14px;
-            color: #666;
-        }
-
-        .info-item strong {
-            font-size: 14px;
-            color: #333;
-        }
-
-        .info-item.total strong {
-            color: #D32F2F;
-            font-size: 16px;
-        }
-
-        /* Opsi Pembayaran */
-        .opsi-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .opsi-card {
-            border: 2px solid #e0e0e0;
-            padding: 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .opsi-card:hover {
-            border-color: #D32F2F;
-        }
-
-        .opsi-card.active {
-            border-color: #D32F2F;
-            background: #ffebee;
-        }
-
-        .opsi-card input[type="radio"] {
-            margin-bottom: 10px;
-        }
-
-        .opsi-card h4 {
-            font-size: 15px;
-            margin-bottom: 5px;
-        }
-
-        .opsi-card p {
-            font-size: 13px;
-            color: #666;
-            margin-bottom: 10px;
-        }
-
-        .opsi-card .price {
-            font-size: 18px;
-            font-weight: bold;
-            color: #333;
-        }
-
-        /* Upload Section */
-        .upload-section {
-            background: #fff5f5;
-            border: 2px solid #ffcdd2;
-            border-radius: 8px;
-            padding: 25px;
-        }
-
-        .upload-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .upload-header h4 {
-            font-size: 16px;
-            color: #D32F2F;
-        }
-
-        .bank-info {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #ffcdd2;
-        }
-
-        .bank-item {
-            font-size: 13px;
-        }
-
-        .bank-item label {
-            color: #999;
-            display: block;
-            margin-bottom: 3px;
-        }
-
-        .bank-item strong {
-            color: #333;
-        }
-
-        .upload-label {
-            font-size: 14px;
-            color: #666;
-            margin-bottom: 10px;
-            display: block;
-        }
-
-        .dropzone {
-            border: 2px dashed #ddd;
-            border-radius: 8px;
-            padding: 40px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            background: white;
-        }
-
-        .dropzone:hover {
-            border-color: #D32F2F;
-            background: #fff5f5;
-        }
-
-        .dropzone-icon {
-            font-size: 40px;
-            margin-bottom: 10px;
-        }
-
-        .dropzone-text {
-            font-size: 14px;
-            color: #666;
-        }
-
-        .dropzone-hint {
-            font-size: 12px;
-            color: #999;
-            margin-top: 5px;
-        }
-
-        .file-preview {
-            display: none;
-            margin-top: 15px;
-            padding: 15px;
-            background: white;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-        }
-
-        .file-preview.show {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .btn-remove {
-            background: #f44336;
-            color: white;
-            border: none;
-            padding: 5px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 12px;
-        }
-
-        /* Tombol Submit */
-        .btn-submit {
-            width: 100%;
-            padding: 15px;
-            background: #D32F2F;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 20px;
-        }
-
-        .btn-submit:hover {
-            background: #B71C1C;
-        }
-
-        .btn-submit:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-        }
-
-        input[type="file"] {
-            display: none;
-        }
-    </style>
+    <title>Pembayaran Daftar Ulang - STARS</title>
+    @vite('resources/css/siswa/daftarulang.css')
 </head>
-
 <body>
-    <div class="container">
-        {{-- Header dengan tombol kembali --}}
-        <div class="header">
-            <a href="{{ route('siswa.dashboard') }}" class="btn-back">←</a>
-            <div class="header-title">
-                🎓 Pembayaran PPDB
+    <x-payment-alert />
+    {{-- Header dengan background merah --}}
+    <div class="top-header">
+        <a href="{{ route('siswa.dashboard') }}" class="btn-back">←Kembali</a>
+        <div>
+            <div class="breadcrumb">
+                <span class="breadcrumb-separator">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                        fill="red">
+                        <path
+                            d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z" />
+                    </svg>
+                </span>
+                <p>Pembayaran Daftar Ulang</p>
             </div>
         </div>
+    </div>
 
+    <div class="container">
         {{-- Card Info Pembayaran --}}
         <div class="card">
-            <div class="card-title">
-                🎓 Pembayaran PPDB
+            <div class="card-header">
+                <div class="card-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"
+                        fill="red">
+                        <path
+                            d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z" />
+                    </svg>
+                </div>
+                <div class="card-title">Pembayaran Daftar Ulang</div>
             </div>
             <p class="card-description">
-                Pembayaran untuk calon siswa yang sedang tahap PPDB 2024/2025. Pastikan semua tahap telah selesai
-                melakukan pembayaran.
+                Pembayaran daftar ulang untuk melanjutkan pendidikan ke tingkat yang lebih tinggi. Siswa wajib melakukan
+                daftar ulang sebelum tahun ajaran baru dimulai.
             </p>
 
             <div class="info-grid">
-                {{-- Detail Pembayaran --}}
+                {{-- Data Siswa --}}
                 <div class="info-section">
-                    <h3>Detail Pembayaran</h3>
-                    @if ($biaya)
-                        <div class="info-item">
-                            <label>Detail Pembayaran</label>
-                            <strong>Rp {{ number_format($biaya->biaya * 0.25, 0, ',', '.') }}</strong>
-                        </div>
-                        <div class="info-item">
-                            <label>Biaya Seragam</label>
-                            <strong>Rp {{ number_format($biaya->biaya * 0.45, 0, ',', '.') }}</strong>
-                        </div>
-                        <div class="info-item">
-                            <label>Biaya Buku</label>
-                            <strong>Rp {{ number_format($biaya->biaya * 0.3, 0, ',', '.') }}</strong>
-                        </div>
-                        <div class="info-item total">
-                            <label><strong>Detail Pembayaran</strong></label>
-                            <strong>Rp {{ number_format($biaya->biaya, 0, ',', '.') }}</strong>
-                        </div>
-                    @endif
+                    <div class="info-section-title">Data Siswa</div>
+                    <div class="info-row">
+                        <span class="info-label">Nama Lengkap</span>
+                        <span class="info-value">{{ $siswa->nama }}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">NISN</span>
+                        <span class="info-value">{{ $siswa->nis }}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Kelas Saat Ini</span>
+                        <span class="info-value">{{ $siswa->kelas_siswa }} {{ $siswa->jurusan }}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Kelas Tujuan</span>
+                        @php
+                            $kelasTujuan = ((int) $siswa->kelas_siswa) + 1;
+                        @endphp
+                        <span class="info-value">{{ $kelasTujuan }} {{ $siswa->jurusan }}</span>
+                    </div>
                 </div>
 
-                {{-- Data Calon Siswa --}}
+                {{-- Detail Pembayaran --}}
                 <div class="info-section">
-                    <h3>Data Calon Siswa</h3>
-                    <div class="info-item">
-                        <label>Nama Lengkap</label>
-                        <strong>{{ $siswa->nama }}</strong>
-                    </div>
-                    <div class="info-item">
-                        <label>NIS</label>
-                        <strong>{{ $siswa->nis }}</strong>
-                    </div>
-                    <div class="info-item">
-                        <label>Kelas Tujuan</label>
-                        <strong>{{ $siswa->kelas_siswa }}</strong>
-                    </div>
-                    <div class="info-item">
-                        <label>Tahun Ajaran</label>
-                        <strong>{{ $tahunAjaran }}</strong>
-                    </div>
+                    <div class="info-section-title">Detail Pembayaran</div>
+                    @if ($biaya)
+                        <div class="info-row">
+                            <span class="info-label">Biaya Daftar ulang</span>
+                            <span class="info-value">Rp {{ number_format($biaya->biaya * 0.25, 0, ',', '.') }}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Dana pembangunan</span>
+                            <span class="info-value">Rp {{ number_format($biaya->biaya * 0.45, 0, ',', '.') }}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Biaya Kegiatan</span>
+                            <span class="info-value">Rp {{ number_format($biaya->biaya * 0.3, 0, ',', '.') }}</span>
+                        </div>
+                        <div class="info-row total">
+                            <span class="info-label">Detail Pembayaran</span>
+                            <span class="info-value">Rp {{ number_format($biaya->biaya, 0, ',', '.') }}</span>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
 
         {{-- Form Pembayaran --}}
-        <form action="{{ route('siswa.ppdb.store') }}" method="POST" enctype="multipart/form-data" id="formPembayaran">
+        <form action="{{ route('siswa.daftar-ulang.store') }}" method="POST" enctype="multipart/form-data"
+            id="formPembayaran">
             @csrf
             <input type="hidden" name="id_biaya" value="{{ $biaya->id_biaya }}">
             <input type="hidden" name="tahun_ajaran" value="{{ $tahunAjaran }}">
+            <input type="hidden" name="nominal_dibayar" id="nominalDibayar" value="">
 
             {{-- Card Opsi Pembayaran --}}
             <div class="card">
-                <div class="card-title">
-                    💳 Opsi Pembayaran
+                <div class="payment-options-title">
+                    <span>
+                        <svg width="40" height="40" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
+                            fill="none" stroke="red" stroke-width="3" stroke-linecap="round">
+                            <line x1="4" y1="6" x2="20" y2="6" />
+                            <line x1="4" y1="12" x2="20" y2="12" />
+                            <line x1="4" y1="18" x2="20" y2="18" />
+                        </svg>
+                    </span>
+                    <span>Opsi Pembayaran</span>
                 </div>
 
-                <div class="opsi-grid">
+                <div class="options-grid">
                     {{-- Lunas --}}
-                    <div class="opsi-card" onclick="pilihOpsi('lunas')" id="cardLunas">
+                    <div class="option-card" onclick="pilihOpsi('lunas')" id="cardLunas">
                         <input type="radio" name="tipe_bayar" value="lunas" id="opsiLunas" required>
-                        <h4>Lunas</h4>
-                        <p>Bayar sekaligus</p>
-                        <div class="price">Rp {{ number_format($biaya->biaya, 0, ',', '.') }}</div>
+                        <div class="option-title">Lunas</div>
+                        <div class="option-desc">Bayar Sekaligus</div>
+                        <div class="option-price">Rp {{ number_format($biaya->biaya, 0, ',', '.') }}</div>
                     </div>
 
                     {{-- Cicil --}}
-                    <div class="opsi-card" onclick="pilihOpsi('cicilan')" id="cardCicilan">
+                    <div class="option-card" onclick="pilihOpsi('cicilan')" id="cardCicilan">
                         <input type="radio" name="tipe_bayar" value="cicilan" id="opsiCicilan" required>
-                        <h4>Cicil</h4>
-                        <p>Cicil dua Kali bayar</p>
-                        <div class="price">Rp {{ number_format($biaya->biaya / 2, 0, ',', '.') }}/bulan</div>
+                        <div class="option-title">Cicil</div>
+                        <div class="option-desc">Cicil dua Kali bayar</div>
+                        <div class="option-price">Rp {{ number_format($biaya->biaya / 2, 0, ',', '.') }}/bulan</div>
                     </div>
                 </div>
-
-                {{-- Input Nominal (readonly, auto filled) --}}
-                <input type="hidden" name="nominal_dibayar" id="nominalDibayar" value="">
             </div>
 
             {{-- Card Upload Bukti --}}
             <div class="card">
                 <div class="upload-section">
                     <div class="upload-header">
-                        <span style="font-size: 24px;">💳</span>
-                        <h4>Kirim Bukti Transfer</h4>
+                        <div class="upload-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30"
+                                viewBox="0 0 24 24" fill="red">
+                                <path
+                                    d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z" />
+                            </svg>
+                        </div>
+                        <div class="upload-title">Kirim Bukti Transfer</div>
                     </div>
 
-                    <p style="font-size: 13px; color: #666; margin-bottom: 15px;">
+                    <p class="upload-subtitle">
                         Transfer ke rekening sekolah dan upload bukti
                     </p>
 
-                    <div class="bank-info">
+                    <div class="bank-info-grid">
                         <div class="bank-item">
-                            <label>Bank BNI</label>
-                            <strong>1234567890</strong>
+                            <span class="bank-label">Bank BNI</span>
+                            <span class="bank-value">1234567890</span>
                         </div>
                         <div class="bank-item">
-                            <label>Atas Nama</label>
-                            <strong>SMK Telkom Banjarbaru</strong>
+                            <span class="bank-label">Atas Nama</span>
+                            <span class="bank-value">SMK Telkom Banjarbaru</span>
                         </div>
                     </div>
 
-                    <label class="upload-label">Upload Bukti Pembayaran</label>
+                    <label class="upload-label-text">Upload Bukti Pembayaran</label>
 
                     <div class="dropzone" id="dropzone" onclick="document.getElementById('fileInput').click()">
-                        <div class="dropzone-icon">⬇️</div>
+                        <div class="dropzone-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 3l5 5h-3v6h-4V8H7l5-5z" />
+                                <rect x="4" y="18" width="16" height="3" rx="1" />
+                            </svg>
+                        </div>
                         <div class="dropzone-text">Pilih File Gambar (PNG, JPG) atau PDF</div>
                         <div class="dropzone-hint">Maksimal 10MB</div>
                     </div>
 
-                    <input type="file" name="bukti_pembayaran" id="fileInput" accept=".jpg,.jpeg,.png,.pdf" required
-                        onchange="handleFileSelect(this)">
+                    <input type="file" name="bukti_pembayaran" id="fileInput" accept=".jpg,.jpeg,.png,.pdf"
+                        required onchange="handleFileSelect(this)">
 
                     <div class="file-preview" id="filePreview">
-                        <span id="fileName"></span>
+                        <span class="file-name" id="fileName"></span>
                         <button type="button" class="btn-remove" onclick="removeFile()">Hapus</button>
                     </div>
                 </div>
 
-                <button type="submit" class="btn-submit" id="btnSubmit" disabled>
-                    Kirim Pembayaran
-                </button>
+                <div class="action-buttons">
+                    <button type="submit" class="btn-submit" id="btnSubmit" disabled>
+                        <span><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                viewBox="0 0 24 24" fill="black">
+                                <path
+                                    d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z" />
+                            </svg></span>
+                        <span>Bayar</span>
+                    </button>
+                    <button type="button" class="btn-reset" onclick="resetForm()">Reset</button>
+                </div>
             </div>
         </form>
-
-        {{-- History Pembayaran --}}
-        @if ($pembayaran->count() > 0)
-            <div class="card" style="margin-top: 20px;">
-                <h3 style="margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #ddd;">
-                    📋 History Pembayaran PPDB
-                    h3>
-
-                    <table border="1" cellpadding="10" style="width: 100%; border-collapse: collapse;">
-                        <thead>
-                            <tr style="background-color: #D32F2F; color: white;">
-                                <th>No</th>
-                                <th>Tanggal</th>
-                                <th>Nominal</th>
-                                <th>Sisa</th>
-                                <th>Cicilan</th>
-                                <th>Status</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($pembayaran as $item)
-                                <tr>
-                                    <td style="text-align: center;">{{ $loop->iteration }}</td>
-                                    <td>{{ $item->created_at->format('d/m/Y H:i') }}</td>
-                                    <td>Rp {{ number_format($item->nominal_dibayar, 0, ',', '.') }}</td>
-                                    <td>Rp {{ number_format($item->sisa_pembayaran, 0, ',', '.') }}</td>
-                                    <td style="text-align: center;">{{ $item->cicilan_ke }} /
-                                        {{ $item->total_cicilan }}</td>
-                                    <td style="text-align: center;">
-                                        <span
-                                            style="
-                                        padding: 5px 10px;
-                                        border-radius: 12px;
-                                        font-size: 12px;
-                                        color: white;
-                                        background-color: {{ $item->status == 'lunas' ? '#4caf50' : '#ff9800' }};
-                                    ">
-                                            {{ ucfirst($item->status) }}
-                                        </span>
-                                    </td>
-                                    <td style="text-align: center;">
-                                        @if ($item->status == 'lunas' && $item->kwitansi)
-                                            <a href="{{ route('pembayaran.download-kwitansi', $item->id_pembayaran) }}"
-                                                style="padding: 6px 12px; background-color: #4caf50; color: white; text-decoration: none; border-radius: 5px; display: inline-block; font-size: 12px;">
-                                                📄 Download
-                                            </a>
-                                        @else
-                                            <span style="color: #999; font-size: 12px;">Menunggu verifikasi</span>
-                                        @endif
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-            </div>
-        @endif
     </div>
-
     <script>
         const totalBiaya = {{ $biaya->biaya }};
         const nominalInput = document.getElementById('nominalDibayar');
@@ -518,7 +213,6 @@
             const radioLunas = document.getElementById('opsiLunas');
             const radioCicilan = document.getElementById('opsiCicilan');
 
-            // Reset semua card
             cardLunas.classList.remove('active');
             cardCicilan.classList.remove('active');
 
@@ -552,15 +246,20 @@
             checkFormValidity();
         }
 
+        function resetForm() {
+            document.getElementById('formPembayaran').reset();
+            document.getElementById('cardLunas').classList.remove('active');
+            document.getElementById('cardCicilan').classList.remove('active');
+            removeFile();
+            nominalInput.value = '';
+            btnSubmit.disabled = true;
+        }
+
         function checkFormValidity() {
             const opsiDipilih = document.querySelector('input[name="tipe_bayar"]:checked');
             const fileDipilih = document.getElementById('fileInput').files.length > 0;
 
-            if (opsiDipilih && fileDipilih) {
-                btnSubmit.disabled = false;
-            } else {
-                btnSubmit.disabled = true;
-            }
+            btnSubmit.disabled = !(opsiDipilih && fileDipilih);
         }
 
         // Drag and drop
@@ -569,22 +268,43 @@
         dropzone.addEventListener('dragover', (e) => {
             e.preventDefault();
             dropzone.style.borderColor = '#D32F2F';
+            dropzone.style.background = '#FFFBFB';
         });
 
         dropzone.addEventListener('dragleave', () => {
             dropzone.style.borderColor = '#ddd';
+            dropzone.style.background = 'white';
         });
 
         dropzone.addEventListener('drop', (e) => {
             e.preventDefault();
             dropzone.style.borderColor = '#ddd';
+            dropzone.style.background = 'white';
             const file = e.dataTransfer.files[0];
-            const dataTransfer = new DataTransfer();
-            dataTransfer.items.add(file);
-            document.getElementById('fileInput').files = dataTransfer.files;
-            handleFileSelect(document.getElementById('fileInput'));
+            if (file) {
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(file);
+                document.getElementById('fileInput').files = dataTransfer.files;
+                handleFileSelect(document.getElementById('fileInput'));
+            }
         });
+
+        document.getElementById('formPembayaran').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // Tampilkan alert sukses
+        showPaymentAlert({
+            title: 'Pembayaran Dikirim',
+            message: 'Bukti pembayaran sedang diverifikasi admin',
+            type: 'success',
+            duration: 2000
+        });
+
+        // Submit form setelah alert ditampilkan
+        setTimeout(() => {
+            this.submit();
+        }, 500);
+    });
     </script>
 </body>
-
 </html>

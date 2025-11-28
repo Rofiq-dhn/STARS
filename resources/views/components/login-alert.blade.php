@@ -7,10 +7,7 @@
                     <path d="M15 30L25 40L45 20" stroke="#00ff00" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
             </div>
-            <div class="login-alert-text">
-                <h3 class="login-alert-title" id="loginAlertTitle">Login Berhasil</h3>
-                <p class="login-alert-subtitle" id="loginAlertSubtitle">Selamat datang kembali!</p>
-            </div>
+            <h3 class="login-alert-title" id="loginAlertTitle">Login Berhasil</h3>
         </div>
     </div>
 </div>
@@ -26,7 +23,8 @@
     z-index: 9999;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
+    padding-top: 80px;
 }
 
 .login-alert-container {
@@ -63,50 +61,33 @@
     flex-shrink: 0;
 }
 
-.login-alert-text {
-    flex-grow: 1;
-}
-
 .login-alert-title {
     font-size: 28px;
     font-weight: 500;
     color: #333;
-    margin: 0 0 5px 0;
-    text-align: left;
-}
-
-.login-alert-subtitle {
-    font-size: 16px;
-    color: #666;
     margin: 0;
     text-align: left;
 }
 </style>
 
 <script>
-// Fungsi untuk menampilkan login alert dengan redirect
-function showLoginAlert(title = 'Login Berhasil', subtitle = 'Selamat datang kembali!', redirectUrl = '', duration = 2000) {
+// Fungsi untuk menampilkan login alert dan redirect
+function showLoginAlert(title = 'Login Berhasil', redirectUrl, duration = 1500) {
     const alert = document.getElementById('loginAlert');
     const alertTitle = document.getElementById('loginAlertTitle');
-    const alertSubtitle = document.getElementById('loginAlertSubtitle');
-
-    // Set title dan subtitle
+    
+    // Set title
     alertTitle.textContent = title;
-    alertSubtitle.textContent = subtitle;
-
+    
     // Show alert
     alert.style.display = 'flex';
-
+    
     // Auto redirect setelah duration
     setTimeout(() => {
+        alert.style.display = 'none';
         if (redirectUrl) {
             window.location.href = redirectUrl;
         }
     }, duration);
-}
-
-// Fungsi untuk menutup login alert
-function closeLoginAlert() {
-    document.getElementById('loginAlert').style.display = 'none';
 }
 </script>

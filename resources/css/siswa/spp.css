@@ -1,0 +1,617 @@
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f9fafb;
+        }
+
+        .top-header {
+            background-color:#333333;
+            padding: 15px 270px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
+        .btn-back {
+            border: none;
+            color: white;
+            width: 80px;
+            height: 35px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            text-decoration: none;
+            transition: background 0.3s;
+            padding-bottom: 4px;
+        }
+
+        .btn-back svg path {
+            transition: all 0.25s ease;
+        }
+
+        .btn-back:hover {
+            transform: translateX(-3px);
+            color: red;
+        }
+
+        .btn-back:hover svg path {
+            fill: red;
+        }
+
+        .breadcrumb {
+            color: rgba(255,255,255,0.8);
+            font-size: 14px;
+            display: flex;
+        }
+
+        .breadcrumb-separator {
+            margin: 0 10px;
+        }
+
+        /* Container */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 25px 20px;
+        }
+
+        /* Card */
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .card-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        /* Status Grid */
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .info-section-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #f5f5f5;
+        }
+
+        /* Data Siswa */
+        .info-row {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            padding: 10px 0;
+            border-bottom: 1px solid #f5f5f5;
+        }
+
+        .info-label {
+            font-size: 12px;
+            color: #999;
+        }
+
+        .info-value {
+            font-size: 14px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        /* Status Pembayaran */
+        .status-scroll {
+            max-height: 280px;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+
+        .status-scroll::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .status-scroll::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .status-scroll::-webkit-scrollbar-thumb {
+            background: #D32F2F;
+            border-radius: 10px;
+        }
+
+        .status-item {
+            padding: 12px 15px;
+            background: #FFEBEE;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .status-item.lunas {
+            background: #E8F5E9;
+        }
+
+        .status-month {
+            font-size: 13px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 3px;
+        }
+
+        .status-link {
+            display: block;
+            font-size: 11px;
+            color: #2196F3;
+            text-decoration: none;
+            margin-top: 3px;
+        }
+
+        .status-badge {
+            font-size: 11px;
+            padding: 5px 12px;
+            border-radius: 12px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .status-badge.lunas {
+            background: #4caf50;
+        }
+
+        .status-badge.belum {
+            background: #f44336;
+            color: white;
+        }
+
+        .bulan-section {
+            margin-bottom: 25px;
+        }
+
+        .bulan-section h3 {
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        /* Pilih Bulan Section */
+        .bulan-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .bulan-card {
+            border: 2px solid #e5e5e5;
+            padding: 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .bulan-card:hover:not(.disabled) {
+            border-color: #D32F2F;
+            background: #FFFBFB;
+        }
+
+        .bulan-card.active {
+            border-color: #D32F2F;
+            background: #FFF5F5;
+        }
+
+        .bulan-card.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background: #f5f5f5;
+        }
+
+        /* Hilangkan radio button */
+
+        .bulan-card h4 {
+            font-size: 15px;
+            margin-bottom: 5px;
+            padding-right: 30px;
+        }
+
+        .bulan-card p {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .bulan-card .price {
+            font-size: 16px;
+            font-weight: bold;
+            color: #D32F2F;
+            margin-top: 5px;
+        }
+
+        /* Opsi Pembayaran */
+        .opsi-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        /* Ganti semua .option- menjadi .opsi- */
+        .opsi-card {
+        border: 2px solid #e5e5e5;
+        padding: 18px;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.3s;
+        position: relative;
+        }
+
+        .opsi-card:hover:not(.disabled) {
+            border-color: #D32F2F;
+            background: #FFFBFB;
+        }
+
+        .opsi-card.active {
+            border-color: #D32F2F;
+            background: #FFF5F5;
+        }
+
+        .opsi-card.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background: #f9f9f9;
+        }
+
+        .opsi-card h4 {
+            font-size: 15px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .opsi-card p {
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 10px;
+        }
+
+        .opsi-card .price {
+            font-size: 17px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .upload-section {
+            background: #FFF5F5;
+            border: 2px solid #FFCDD2;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .upload-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .upload-icon {
+            width: 32px;
+            height: 32px;
+            background: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .upload-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #D32F2F;
+        }
+
+        .upload-subtitle {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .bank-info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 18px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #FFCDD2;
+        }
+
+        .bank-item {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .bank-label {
+            font-size: 11px;
+            color: #999;
+        }
+
+        .bank-value {
+            font-size: 13px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .upload-label-text {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .dropzone {
+            border: 2px dashed #ddd;
+            border-radius: 10px;
+            padding: 35px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .dropzone:hover {
+            border-color: #D32F2F;
+            background: #FFFBFB;
+        }
+
+        .dropzone-icon {
+            font-size: 36px;
+            margin-bottom: 8px;
+        }
+
+        .dropzone-text {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+
+        .dropzone-hint {
+            font-size: 11px;
+            color: #999;
+        }
+
+        .file-preview {
+            display: none;
+            margin-top: 12px;
+            padding: 12px 15px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .file-preview.show {
+            display: flex;
+        }
+
+        .file-name {
+            font-size: 13px;
+            color: #333;
+            flex: 1;
+        }
+
+        .btn-remove {
+            background: #f44336;
+            color: white;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .btn-remove:hover {
+            background: #d32f2f;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr 150px;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .btn-submit {
+            padding: 14px;
+            background: linear-gradient(135deg, #D32F2F 0%, #B71C1C 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-submit:hover:not(:disabled) {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(211, 47, 47, 0.3);
+        }
+
+        .btn-submit:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-reset {
+            padding: 14px;
+            background: white;
+            color: #666;
+            border: 2px solid #e5e5e5;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-reset:hover {
+            border-color: #D32F2F;
+            color: #D32F2F;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        /* History Table */
+        .history-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #f5f5f5;
+        }
+
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .history-table thead {
+            background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+            color: white;
+        }
+
+        .history-table th {
+            padding: 12px 10px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 12px;
+        }
+
+        .history-table td {
+            padding: 12px 10px;
+            border-bottom: 1px solid #f5f5f5;
+        }
+
+        .history-table tbody tr:hover {
+            background: #FFFBFB;
+        }
+
+        .history-status-badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            color: white;
+            display: inline-block;
+        }
+
+        .history-status-lunas {
+            background: #4caf50;
+        }
+
+        .history-status-pending {
+            background: #ff9800;
+        }
+
+        .btn-download {
+            padding: 6px 12px;
+            background: #4caf50;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .btn-download:hover {
+            background: #45a049;
+        }
+
+        .waiting-text {
+            color: #999;
+            font-size: 11px;
+        }
+
+        @media (max-width: 768px) {
+            .info-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .bulan-grid,
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .bank-info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .action-buttons {
+                grid-template-columns: 1fr;
+            }
+
+            .history-table {
+                font-size: 11px;
+            }
+
+            .history-table th,
+            .history-table td {
+                padding: 8px 6px;
+            }
+        }

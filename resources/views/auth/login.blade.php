@@ -20,7 +20,7 @@
     </style>
 </head>
 
-<body class="overflow-x-hidden">
+<body>
     <x-login-alert />
 
     <!-- Background Container -->
@@ -59,7 +59,7 @@
                 </p>
 
                 <!-- Login Form -->
-                <form action="{{ route('login.post') }}" method="POST" class="w-full flex flex-col items-center gap-5">
+                <form id="loginForm" action="{{ route('login.post') }}" method="POST" class="w-full flex flex-col items-center gap-5">
                     @csrf
 
                     <!-- Username Input -->
@@ -117,7 +117,8 @@
                     </button>
 
                     <!-- Register Link -->
-                    <div class="text-center mt-2">
+                    <!--HIDDEN FOR NOW-->
+                    <div class="text-center mt-2 hidden">
                         <span class="text-gray-700 text-sm md:text-base font-normal font-opensans">Tidak Memiliki akun?
                         </span>
                         <a href="#"
@@ -127,6 +128,7 @@
                     </div>
                 </form>
             </div>
+            
 
             <!-- Illustration (Hidden on mobile) -->
             <div class="illustration-image hidden lg:flex justify-center items-center">
@@ -165,7 +167,18 @@
                 togglePassword.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"></path>';
             }
         });
-    </script>
-</body>
 
+
+    </script>
+    @if(session('login_success'))
+        <script>
+    // Tampilkan alert login berhasil
+    showLoginAlert(
+        'Login Sukses!',
+        '{{ session('redirect_url') }}',
+        1500  // 1.5 detik sebelum redirect
+    );
+    </script>
+@endif
+</body>
 </html>

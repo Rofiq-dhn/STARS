@@ -59,14 +59,14 @@
         }
 
         .logo-text h2 {
-            font-size: 16px;
+            font-size: 20px;
             font-weight: 700;
             color: white;
             margin-bottom: 2px;
         }
 
         .logo-subtitle {
-            font-size: 11px;
+            font-size: 14px;
             color: rgba(255,255,255,0.7);
             line-height: 1.3;
         }
@@ -82,7 +82,7 @@
         }
 
         .sidebar ul li {
-            margin-bottom: 4px;
+            margin-bottom: 8px;
         }
 
         .sidebar ul li a {
@@ -91,10 +91,10 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 12px 16px;
+            padding: 15px 18px;
             border-radius: 8px;
             transition: all 0.3s ease;
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 500;
         }
 
@@ -376,19 +376,36 @@
             <ul>
                 <li>
                     <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
-                        <span class="nav-icon">🏠</span>
+                        <span class="nav-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="30" height="30" fill="white">
+                                <path d="M12 3l9 8h-3v9H6v-9H3l9-8z"/>
+                            </svg>
+                        </span>
                         <span>Beranda</span>
                     </a>
                 </li>
                 <li>
                     <a href="{{ route('biaya.index') }}" class="{{ request()->routeIs('biaya.*') ? 'active' : '' }}">
-                        <span class="nav-icon">📋</span>
+                        <span class="nav-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="30" height="30" fill="white">
+                            <!-- Kepala -->
+                            <circle cx="12" cy="8" r="4"/>
+                            <!-- Badan -->
+                            <path d="M4 20c0-4 4-6 8-6s8 2 8 6v1H4v-1z"/>
+                            <!-- Tanda plus -->
+                            <path d="M19 7h-2V5h-2V3h2V1h2v2h2v2h-2v2z"/>
+                            </svg>
+                        </span>
                         <span>Data Tagihan</span>
                     </a>
                 </li>
                 <li>
                     <a href="{{ route('pembayaran.index') }}" class="{{ request()->routeIs('pembayaran.*') ? 'active' : '' }}">
-                        <span class="nav-icon">💳</span>
+                        <span class="nav-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="white">
+                                <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/>
+                            </svg>
+                        </span>
                         <span>Data Pembayaran</span>
                     </a>
                 </li>
@@ -399,7 +416,13 @@
             <form id="logout-form" action="{{ route('logout') }}" method="POST">
                 @csrf
                 <button type="button" onclick="handleLogout()">
-                    <span>🚪</span>
+                    <span>
+                    <svg width="30" height="30" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                        <polyline points="16 17 21 12 16 7" />
+                        <line x1="21" y1="12" x2="9" y2="12" />
+                    </svg>
+                    </span>
                     <span>Keluar</span>
                 </button>
             </form>
@@ -419,7 +442,6 @@
                 </svg>
             </button>
             <div class="navbar-brand">
-
                 <div class="navbar-brand-text">
                     <strong>STARS</strong>
                     <small>Sistem Tagihan Dan Pembayaran Sekolah</small>
@@ -436,7 +458,35 @@
     </div>
 </body>
 <script>
+    // Fungsi untuk memuat state sidebar saat halaman dimuat
+    function loadSidebarState() {
+        const sidebar = document.getElementById('sidebar');
+        const navbar = document.getElementById('navbar');
+        const content = document.getElementById('content');
+        const toggleBtn = document.getElementById('toggleBtn');
+
+        // Ambil state dari localStorage
+        const isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+
+        // Terapkan state
+        if (isCollapsed) {
+            sidebar.classList.add('collapsed');
+            navbar.classList.add('expanded');
+            content.classList.add('expanded');
+            toggleBtn.innerHTML =
+                '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="40" height="40"><rect width="256" height="256" fill="none"/><rect x="35" y="35" width="186" height="186" rx="20" ry="20" fill="#ffffff"/><rect x="110" y="50" width="96" height="156" fill="#B30000"/><rect x="50" y="50" width="46" height="156" fill="#B30000"/><polyline points="91,100 111,128 91,156" fill="none" stroke="#ffffff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+        } else {
+            sidebar.classList.remove('collapsed');
+            navbar.classList.remove('expanded');
+            content.classList.remove('expanded');
+            toggleBtn.innerHTML =
+                '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="40" height="40"><rect width="256" height="256" fill="none"/><rect x="35" y="35" width="186" height="186" rx="20" ry="20" fill="#ffffff"/><rect x="50" y="50" width="46" height="156" fill="#B30000"/><rect x="110" y="50" width="96" height="156" fill="#B30000"/><polyline points="165,100 145,128 165,156" fill="none" stroke="#ffffff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+        }
+    }
+
+    // Fungsi toggle sidebar
     function toggleSidebar() {
+        console.log('sidebar')
         const sidebar = document.getElementById('sidebar');
         const navbar = document.getElementById('navbar');
         const content = document.getElementById('content');
@@ -446,8 +496,12 @@
         navbar.classList.toggle('expanded');
         content.classList.toggle('expanded');
 
+        // Simpan state ke localStorage
+        const isCollapsed = sidebar.classList.contains('collapsed');
+        localStorage.setItem('sidebarCollapsed', isCollapsed);
+
         // Ubah icon toggle button
-        if (sidebar.classList.contains('collapsed')) {
+        if (isCollapsed) {
             toggleBtn.innerHTML =
             '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="40" height="40"><rect width="256" height="256" fill="none"/><rect x="35" y="35" width="186" height="186" rx="20" ry="20" fill="#ffffff"/><rect x="110" y="50" width="96" height="156" fill="#B30000"/><rect x="50" y="50" width="46" height="156" fill="#B30000"/><polyline points="91,100 111,128 91,156" fill="none" stroke="#ffffff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/></svg>';
         } else {
@@ -459,5 +513,8 @@
     function handleLogout() {
         showLogoutAlert();
     }
+
+    // Muat state sidebar saat halaman selesai dimuat
+    document.addEventListener('DOMContentLoaded', loadSidebarState);
 </script>
 </html>

@@ -129,6 +129,9 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/pembayaran/{id}/tolak', [PembayaranController::class, 'tolak'])->name('pembayaran.tolak');
     });
 
+    Route::delete('/pembayaran/{id}', [PembayaranController::class, 'destroy'])
+    ->name('pembayaran.destroy');
+
     // ============================================
     // SISWA ROUTES
     // ============================================
