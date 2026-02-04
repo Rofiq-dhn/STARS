@@ -164,6 +164,8 @@
             background: #2d2d2d;
             color: white;
             padding: 30px 20px;
+            margin-top: 130px;
+            bottom: 0;
         }
 
         .footer-container {

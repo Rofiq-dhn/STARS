@@ -216,4 +216,8 @@ Route::middleware(['auth'])->group(function () {
 
     // Tambahkan setelah route siswa.dashboard
     Route::get('/siswa/histori', [SiswaController::class, 'histori'])->name('siswa.histori');
+
+    Route ::get('/token', function() {
+    return csrf_token();
+});
 });

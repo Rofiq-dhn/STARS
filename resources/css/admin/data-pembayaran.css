@@ -84,6 +84,7 @@
             padding: 1.25rem 1.5rem;
             color: #1f2937;
             font-size: 0.95rem;
+            text-align: center;
         }
 
         .status-badge {
@@ -168,10 +169,10 @@
         }
 
         .btn-delete {
-    background-color: #dc3545;
-    color: white;
-}
+        background-color: #dc3545;
+        color: white;
+        }
 
-.btn-delete:hover {
-    background-color: #c82333;
-}
+        .btn-delete:hover {
+        background-color: #c82333;
+        }

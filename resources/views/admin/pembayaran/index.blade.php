@@ -62,7 +62,7 @@
                                 <td>{{ $item->biaya->kategori }}</td>
 
                                 {{-- Bulan pembayaran --}}
-                                <td>{{ $item->bulan }}</td>
+                               <td>{{ $item->bulan ?? '-' }}</td>
 
                                 {{-- Tahun pembayaran --}}
                                 <td>{{ $item->tahun_ajaran }}</td>
