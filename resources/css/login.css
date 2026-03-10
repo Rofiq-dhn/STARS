@@ -1,0 +1,42 @@
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Open+Sans:wght@400;600;700&family=Poppins:wght@400;600;700&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .font-opensans {
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        .font-poppins {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Dissolve/Fade-in Animation */
+        @keyframes dissolveIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .dissolve-in {
+            animation: dissolveIn 1s ease-in-out forwards;
+        }
+
+        /* Background decoration animation */
+        .bg-decoration {
+            animation: dissolveIn 1.5s ease-in-out forwards;
+        }
+
+        /* Content animation */
+        .login-content {
+            animation: dissolveIn 1.2s ease-in-out forwards;
+        }
+
+        .illustration-image {
+            animation: dissolveIn 1.3s ease-in-out forwards;
+        }

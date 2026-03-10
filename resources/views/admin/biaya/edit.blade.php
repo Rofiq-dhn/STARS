@@ -3,90 +3,99 @@
 @section('title', 'Edit Biaya')
 
 @section('content')
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-     <div class="container">
-        <!-- Main Content -->
-        <main class="main-content">
-            <!-- Content Section -->
-            <section class="content-section">
-                <div class="page-header">
-                    <h2>Tagihan</h2>
-                    <p class="breadcrumb">Edit Data Tagihan</p>
-                </div>
+@vite(['resources/css/admin/tagihan-form.css'])
 
-                <!-- Form Container -->
-                <div class="form-container">
-                    <div class="form-header">
-                        <h3>Edit Biaya</h3>
-                        <a href="{{ route('biaya.index') }}" class="btn-back">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
-                                <line x1="19" y1="12" x2="5" y2="12" />
-                                <polyline points="12 19 5 12 12 5" />
-                            </svg>
-                            Kembali
-                        </a>
-                    </div>
-
-                    <form action="{{ route('biaya.update', $biaya->id_biaya) }}" method="POST" class="form-biaya">
-                        @csrf
-                        @method('PUT')
-
-                        <!-- Biaya Field -->
-                        <div class="form-group">
-                            <label for="biaya">Biaya:</label>
-                            <input type="number" id="biaya" name="biaya" value="{{ $biaya->biaya }}"
-                                class="form-input" required>
-                        </div>
-
-                        <!-- Kategori Field -->
-                        <div class="form-group">
-                            <label for="kategori">Kategori:</label>
-                            <div class="select-wrapper">
-                                <select id="kategori" name="kategori" class="form-select" required>
-                                    <option value="">Pilih Kategori..</option>
-                                    <option value="PPDB" {{ $biaya->kategori == 'PPDB' ? 'selected' : '' }}>PPDB</option>
-                                    <option value="SPP" {{ $biaya->kategori == 'SPP' ? 'selected' : '' }}>SPP</option>
-                                    <option value="DAFTAR ULANG" {{ $biaya->kategori == 'DAFTAR ULANG' ? 'selected' : '' }}>
-                                        Daftar Ulang</option>
-                                </select>
-                                <svg class="select-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                                    stroke="currentColor" stroke-width="2">
-                                    <polyline points="6 9 12 15 18 9" />
-                                </svg>
-                            </div>
-                        </div>
-
-                        <!-- Tahun Field -->
-                        <div class="form-group">
-                            <label for="tahun">Tahun:</label>
-                            <input type="text" id="tahun" name="tahun" value="{{ $biaya->tahun }}"
-                                class="form-input" required>
-                        </div>
-
-                        <!-- Kelas Field -->
-                        <div class="form-group">
-                            <label for="kelas">Kelas:</label>
-                            <input type="text" id="kelas" name="kelas" value="{{ $biaya->kelas }}"
-                                placeholder="Kelas.." class="form-input">
-                        </div>
-
-                        <!-- Submit Button -->
-                        <div class="form-actions">
-                            <button type="submit" class="btn-submit">Update</button>
-                        </div>
-                    </form>
-                </div>
-            </section>
-        </main>
+<div class="container-tagihan">
+    <div class="header-tagihan">
+        <h1>Tagihan</h1>
+        <p>Edit Data Tagihan</p>
     </div>
+
+    <div class="card-form">
+        <h2 class="card-title">Edit Biaya</h2>
+
+        <form action="{{ route('biaya.update', $biaya->id_biaya) }}" method="POST">
+            @csrf
+            @method('PUT')
+
+            <div class="form-group">
+                <label class="form-label">Biaya:</label>
+                <input
+                    type="number"
+                    name="biaya"
+                    class="form-input"
+                    value="{{ old('biaya', $biaya->biaya) }}"
+                    placeholder="Biaya..."
+                    required
+                >
+                @error('biaya')
+                    <div class="error-message">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Kategori:</label>
+                <select name="kategori" class="form-select" required>
+                    <option value="">☰ Pilih Kategori...</option>
+                    <option value="PPDB" {{ old('kategori', $biaya->kategori) == 'PPDB' ? 'selected' : '' }}>PPDB</option>
+                    <option value="SPP" {{ old('kategori', $biaya->kategori) == 'SPP' ? 'selected' : '' }}>SPP</option>
+                    <option value="DAFTAR ULANG" {{ old('kategori', $biaya->kategori) == 'DAFTAR ULANG' ? 'selected' : '' }}>DAFTAR ULANG</option>
+                </select>
+                @error('kategori')
+                    <div class="error-message">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Tahun:</label>
+                <input
+                    type="text"
+                    name="tahun"
+                    class="form-input"
+                    value="{{ old('tahun', $biaya->tahun) }}"
+                    placeholder="Tahun..."
+                    required
+                >
+                @error('tahun')
+                    <div class="error-message">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Kelas:</label>
+                <input
+                    type="text"
+                    name="kelas"
+                    class="form-input"
+                    value="{{ old('kelas', $biaya->kelas) }}"
+                    placeholder="Kelas(Opsional jika PPDB)..."
+                >
+                @error('kelas')
+                    <div class="error-message">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="button-group">
+                <a href="{{ route('biaya.index') }}" class="btn btn-back">
+                    Kembali
+                </a>
+                <button type="submit" class="btn btn-submit">
+                    Update
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    // Tampilkan alert jika ada session success
+    @if(session('success'))
+        showSuccessAlert('{{ session('success') }}');
+    @endif
+
+    // Tampilkan alert jika ada session error
+    @if(session('error'))
+        showErrorAlert('{{ session('error') }}');
+    @endif
+</script>
 @endsection
-</body>
-</html>

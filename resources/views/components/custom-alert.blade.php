@@ -1,16 +1,13 @@
 <!-- resources/views/components/custom-alert.blade.php -->
 <div id="customAlert" class="custom-alert-overlay" style="display: none;">
     <div class="custom-alert-container">
-        <div class="custom-alert-icon">
-            <svg width="50" height="50" viewBox="0 0 24 24" fill="none">
-                <path d="M12 2L2 20h20L12 2z" fill="#ff0000" stroke="#cc0000" stroke-width="1"/>
-                <text x="12" y="17" text-anchor="middle" fill="white" font-size="12" font-weight="bold">!</text>
-            </svg>
-        </div>
-        <h3 class="custom-alert-title" id="alertTitle">Yakin Ingin Hapus Data?</h3>
-        <div class="custom-alert-buttons">
-            <button type="button" class="btn-cancel" onclick="closeCustomAlert()">Tidak</button>
-            <button type="button" class="btn-confirm" id="confirmBtn">Hapus</button>
+        <div class="custom-alert-content">
+            <div class="custom-alert-icon-check">
+                <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+                    <path d="M15 30L25 40L45 20" stroke="#00ff00" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <h3 class="custom-alert-title" id="alertTitle">Biaya Berhasil Ditambah</h3>
         </div>
     </div>
 </div>
@@ -32,11 +29,13 @@
 .custom-alert-container {
     background: white;
     border-radius: 12px;
-    padding: 30px 40px;
-    text-align: center;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-    max-width: 400px;
+    padding: 0;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    max-width: 600px;
+    width: 90%;
     animation: slideDown 0.3s ease;
+    overflow: hidden;
+    border-left: 8px solid #00ff00;
 }
 
 @keyframes slideDown {
@@ -50,26 +49,54 @@
     }
 }
 
-.custom-alert-icon {
-    margin-bottom: 20px;
+.custom-alert-content {
+    display: flex;
+    align-items: center;
+    padding: 30px 40px;
+    gap: 25px;
+}
+
+.custom-alert-icon-check {
+    flex-shrink: 0;
 }
 
 .custom-alert-title {
-    font-size: 20px;
-    font-weight: 600;
+    font-size: 28px;
+    font-weight: 500;
     color: #333;
-    margin-bottom: 30px;
+    margin: 0;
+    text-align: left;
 }
 
+/* Variasi untuk alert error/delete */
+.custom-alert-container.alert-error {
+    border-left-color: #ff0000;
+}
+
+.custom-alert-container.alert-error .custom-alert-icon-check svg path {
+    stroke: #ff0000;
+}
+
+/* Variasi untuk alert warning */
+.custom-alert-container.alert-warning  {
+    border-left-color: #ff0000;
+}
+
+.custom-alert-container.alert-warning .custom-alert-icon-check svg path {
+    stroke: #ff0000;
+}
+
+/* Untuk alert dengan tombol konfirmasi */
 .custom-alert-buttons {
     display: flex;
     gap: 15px;
     justify-content: center;
+    padding: 0 40px 30px 40px;
 }
 
 .btn-cancel,
 .btn-confirm {
-    padding: 10px 30px;
+    padding: 12px 35px;
     border: none;
     border-radius: 6px;
     font-size: 16px;
@@ -100,27 +127,101 @@
 </style>
 
 <script>
-function showCustomAlert(title, onConfirm) {
+// Fungsi untuk menampilkan alert sukses (auto close)
+function showSuccessAlert(title = 'Data Berhasil Ditambah', duration = 2000) {
     const alert = document.getElementById('customAlert');
+    const container = alert.querySelector('.custom-alert-container');
     const alertTitle = document.getElementById('alertTitle');
-    const confirmBtn = document.getElementById('confirmBtn');
 
-    alertTitle.textContent = title || 'Yakin Ingin Hapus Data?';
+    // Reset classes
+    container.className = 'custom-alert-container';
+
+    // Set title
+    alertTitle.textContent = title;
+
+    // Remove buttons if exists
+    const existingButtons = alert.querySelector('.custom-alert-buttons');
+    if (existingButtons) {
+        existingButtons.remove();
+    }
+
+    // Show alert
     alert.style.display = 'flex';
 
-    // Remove previous event listeners
-    const newConfirmBtn = confirmBtn.cloneNode(true);
-    confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
+    // Auto close
+    setTimeout(() => {
+        closeCustomAlert();
+    }, duration);
+}
 
-    // Add new event listener
-    document.getElementById('confirmBtn').addEventListener('click', function() {
+// Fungsi untuk menampilkan alert error (auto close)
+function showErrorAlert(title = 'Data Gagal Ditambah', duration = 2000) {
+    const alert = document.getElementById('customAlert');
+    const container = alert.querySelector('.custom-alert-container');
+    const alertTitle = document.getElementById('alertTitle');
+
+    // Set error class
+    container.className = 'custom-alert-container alert-error';
+
+    // Set title
+    alertTitle.textContent = title;
+
+    // Remove buttons if exists
+    const existingButtons = alert.querySelector('.custom-alert-buttons');
+    if (existingButtons) {
+        existingButtons.remove();
+    }
+
+    // Show alert
+    alert.style.display = 'flex';
+
+    // Auto close
+    setTimeout(() => {
+        closeCustomAlert();
+    }, duration);
+}
+
+// Fungsi untuk menampilkan alert konfirmasi (dengan tombol)
+function showConfirmAlert(title = 'Yakin Ingin Hapus Data?', onConfirm) {
+    const alert = document.getElementById('customAlert');
+    const container = alert.querySelector('.custom-alert-container');
+    const alertTitle = document.getElementById('alertTitle');
+
+    // Set warning class
+    container.className = 'custom-alert-container alert-warning';
+
+    // Set title
+    alertTitle.textContent = title;
+
+    // Remove existing buttons
+    const existingButtons = alert.querySelector('.custom-alert-buttons');
+    if (existingButtons) {
+        existingButtons.remove();
+    }
+
+    // Add buttons
+    const buttonsDiv = document.createElement('div');
+    buttonsDiv.className = 'custom-alert-buttons';
+    buttonsDiv.innerHTML = `
+        <button type="button" class="btn-cancel" onclick="closeCustomAlert()">Tidak</button>
+        <button type="button" class="btn-confirm" id="confirmBtn">Hapus</button>
+    `;
+    container.appendChild(buttonsDiv);
+
+    // Show alert
+    alert.style.display = 'flex';
+
+    // Add confirm handler
+    document.getElementById('confirmBtn').addEventListener('click', function handler() {
         closeCustomAlert();
         if (onConfirm && typeof onConfirm === 'function') {
             onConfirm();
         }
+        this.removeEventListener('click', handler);
     });
 }
 
+// Fungsi untuk menutup alert
 function closeCustomAlert() {
     document.getElementById('customAlert').style.display = 'none';
 }

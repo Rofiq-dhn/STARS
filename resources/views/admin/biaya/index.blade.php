@@ -3,77 +3,103 @@
 @section('title', 'Data Biaya')
 
 @section('content')
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-    <section class="tagihan-section">
-        <div class="section-header">
-            <h2>Data Biaya</h2>
-            <a href="{{ route('biaya.create') }}" class="btn-primary">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <line x1="12" y1="5" x2="12" y2="19" />
-                    <line x1="5" y1="12" x2="19" y2="12" />
-                </svg>
-                Tambah Biaya
+@vite(['resources/css/admin/tagihan-list.css'])
+    <div class="tagihan-container">
+        <!-- Header Section -->
+        <div class="tagihan-header">
+            <div class="tagihan-title">
+                <h1>Tagihan</h1>
+                <p>Tambah Data Tagihan</p>
+            </div>
+            <a href="{{ route('biaya.create') }}" class="btn-tambah">
+                <span>+</span>
+                <span>Tambah Tagihan</span>
             </a>
         </div>
 
-        <div class="data-table-container">
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Biaya</th>
-                        <th>Kategori</th>
-                        <th>Tahun</th>
-                        <th>Kelas</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($biaya as $s)
+        <!-- Card Container -->
+        <div class="card">
+            <!-- Card Header -->
+            <div class="card-header">
+                <h2>Data Tagihan</h2>
+            </div>
+
+            <!-- Table -->
+            <div class="table-container">
+                <table>
+                    <thead>
                         <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td>Rp {{ number_format($s->biaya, 0, ',', '.') }}</td>
-                            <td>{{ $s->kategori }}</td>
-                            <td>{{ $s->tahun }}</td>
-                            <td>{{ $s->kelas ?? '-' }}</td>
-                            <td class="action-buttons">
-                                <a href="{{ route('biaya.edit', $s->id_biaya) }}" class="btn-edit">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                                        stroke="currentColor" stroke-width="2">
-                                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-                                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
-                                    </svg>
-                                </a>
-                                <form action="{{ route('biaya.destroy', $s->id_biaya) }}" method="POST"
-                                    style="display:inline;">  
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" onclick="showCustomAlert('Yakin Ingin Hapus Data?', function() {
-                                    // Aksi yang dijalankan saat klik 'Hapus'
-                                    document.getElementById('delete-form-1').submit();
-                                    })" class="btn-delete">
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                                            stroke="currentColor" stroke-width="2">
-                                            <polyline points="3 6 5 6 21 6" />
-                                            <path
-                                                d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-                                        </svg>
-                                    </button>
-                                </form>
-                            </td>
+                            <th>No</th>
+                            <th>Biaya</th>
+                            <th>Kategori</th>
+                            <th>Tahun</th>
+                            <th>Aksi</th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @forelse ($biaya as $item)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>Rp {{ number_format($item->biaya, 0, ',', '.') }}</td>
+                                <td>{{ $item->kategori }}</td>
+                                <td>{{ $item->tahun }}</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <!-- Edit Button -->
+                                        <a href="{{ route('biaya.edit', $item->id_biaya) }}"
+                                           class="btn-edit"
+                                           title="Edit">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                            </svg>
+                                        </a>
+                                        <!-- Delete Button -->
+                                        <form id="delete-form-{{ $item->id_biaya }}" action="{{ route('biaya.destroy', $item->id_biaya) }}" method="POST" style="display: inline; margin: 0;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="button" onclick="handleDelete({{ $item->id_biaya }})" class="btn-delete" title="Hapus">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4" />
+                                                </svg>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="5">
+                                    <div class="empty-state">
+                                        <svg class="empty-state-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+                                        </svg>
+                                        <p>Belum ada data tagihan.</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </section>
+    </div>
+
+    <script>
+        // Fungsi untuk handle delete dengan custom alert
+        function handleDelete(id) {
+            showConfirmAlert('Yakin Ingin Hapus Data?', function() {
+                document.getElementById('delete-form-' + id).submit();
+            });
+        }
+
+        // Tampilkan alert jika ada session success
+        @if(session('success'))
+            showSuccessAlert('{{ session('success') }}');
+        @endif
+
+        // Tampilkan alert jika ada session error
+        @if(session('error'))
+            showErrorAlert('{{ session('error') }}');
+        @endif
+    </script>
 @endsection
-</body>
-</html>
